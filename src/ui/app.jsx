@@ -23,13 +23,6 @@ function RenderTracker({ loadProgress }) {
 RenderTracker.propTypes = {
   loadProgress: PropTypes.bool.isRequired,
 };
-/** This is for permalinks. But because AP does not support them, they will not be put in use for now.
-<Route
-          exact
-          path="/tracker/load/:permalink"
-          element={<RenderTracker loadProgress />}
-        />
-**/
 export default function App() {
   return (
     <HashRouter>
