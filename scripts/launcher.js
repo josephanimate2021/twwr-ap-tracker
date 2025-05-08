@@ -211,7 +211,7 @@ let connected2archipelago = false;
 function APConnection(obj) { // Connects to an Archipelago server
     if (connected2archipelago) { // disconnects from the archipelago server when the user clicks on the Disconnect From Archipelago button.
         if (jQuery(obj).find('button[type="submit"]').data("connected")) jQuery(obj).trigger("archipelagoDisconnect");
-        else jQuery(obj).find('div[class="label-text"]').css("color", "red").text('Please wait for the archipelago server to be fully connected before you disconnect.')
+        else jQuery("#serverAPMessage").css("color", "red").text('Please wait for the archipelago server to be fully connected before you disconnect.')
     } else { // Starts the connection to the Archipelago server.
         let connectionSuccessful = false;
         connected2archipelago = true;
@@ -221,8 +221,8 @@ function APConnection(obj) { // Connects to an Archipelago server
             jQuery(obj).find('button[type="submit"]').removeAttr("disabled").text(originalText);
             connected2archipelago = false;
             console.error(e);
-            jQuery(obj).find('div[class="label-text"]').css("color", "red")
-            jQuery(obj).find('div[class="label-text"]').html(`Failed to connect to Archipelago's WebSockets.<br>${e.toString()}`);
+            jQuery("#serverAPMessage").css("color", "red")
+            jQuery("#serverAPMessage").html(`Failed to connect to Archipelago's WebSockets.<br>${e.toString()}`);
         }
         try {
             const info = Object.fromEntries(new URLSearchParams(jQuery(obj).serialize()));
@@ -286,14 +286,14 @@ function APConnection(obj) { // Connects to an Archipelago server
                                 jQuery(obj).find('button[type="submit"]').text(originalText);
                                 connected2archipelago = false;
                                 connectionSuccessful = false;
-                                jQuery(obj).find('div[class="label-text"]').text('Successfully disconnected from the Archipelago Server')
+                                jQuery("#serverAPMessage").text('Successfully disconnected from the Archipelago Server')
                             })
                             connectionSuccessful = true;
-                            jQuery(obj).find('div[class="label-text"]').css("color", "lime");
+                            jQuery("#serverAPMessage").css("color", "lime");
                             jQuery(obj).find('button[type="submit"]').attr("data-connected", true);
                             jQuery(obj).find('button[type="submit"]').removeAttr("disabled");
                             jQuery(obj).find('button[type="submit"]').text("Disconnect From Archipelago");
-                            jQuery(obj).find('div[class="label-text"]').text(`Successfully connected to the Archipelago server!`);
+                            jQuery("#serverAPMessage").text(`Successfully connected to the Archipelago server!`);
                             break;
                         } case "ReceivedItems": {
                             /*for (const archipelagoItemInfo of info2.items) {
