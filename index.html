@@ -32,7 +32,7 @@
           <div>
             <button type="submit">Attempt Server Connection</button>
           </div>
-        </form><!-- Commented for now since AP does not support Permalinks yet.
+        </form><!---
         <fieldset>
           <legend>Progress Item Locations</legend>
           <table>
@@ -262,97 +262,16 @@
               </tr>
             </tbody>
           </table>
-        </fieldset>
-        <fieldset>
-          <legend>Additional Randomization Options</legend>
+        </fieldset>-->
+        <fieldset id="connectionInfomation" style="display: none;">
+          <legend>User Infomation</legend>
           <table>
-            <colgroup>
-              <col class="text-col">
-              <col class="slider-col">
-              <col class="text-col">
-              <col class="slider-col">
-            </colgroup>
+            <colgroup id="userGroup"></colgroup>
             <tbody>
-              <tr>
-                <td class="label-text">
-                  Sword Mode
-                </td>
-                <td class="slider-container">
-                  <div class="select-container">
-                    <select id="sword_mode">
-                      <option>Start with Sword</option>
-                      <option selected="selected">Randomized Sword</option>
-                      <option>Swordless</option>
-                    </select>
-                  </div>
-                </td>
-                <td class="label-text">
-                  Key-Lunacy
-                </td>
-                <td class="slider-container">
-                  <label class="switch">
-                    <input id="key_lunacy" type="checkbox" checked>
-                    <span class="slider"></span>
-                  </label>
-                </td>
-              </tr>
-              <tr>
-                <td class="label-text">
-                  Triforce Shards to Start With
-                </td>
-                <td class="slider-container">
-                  <div class="select-container">
-                    <select id="num_starting_triforce_shards">
-                      <option selected="selected">0</option>
-                      <option>1</option>
-                      <option>2</option>
-                      <option>3</option>
-                      <option>4</option>
-                      <option>5</option>
-                      <option>6</option>
-                      <option>7</option>
-                      <option>8</option>
-                    </select>
-                  </div>
-                </td>
-                <td class="label-text">
-                  Race Mode
-                </td>
-                <td class="slider-container">
-                  <label class="switch">
-                    <input id="race_mode" type="checkbox">
-                    <span class="slider"></span>
-                  </label>
-                </td>
-              </tr>
-              <tr>
-                <td class="label-text">
-                  Randomize Entrances
-                </td>
-                <td class="slider-container">
-                  <div class="select-container">
-                    <select id="randomize_entrances">
-                      <option>Disabled</option>
-                      <option>Dungeons</option>
-                      <option>Secret Caves</option>
-                      <option>Dungeons & Secret Caves (Separately)</option>
-                      <option>Dungeons & Secret Caves (Together)</option>
-                    </select>
-                  </div>
-                </td>
-                <td class="label-text">
-                  Randomize Charts
-                </td>
-                <td class="slider-container">
-                  <label class="switch">
-                    <input id="randomize_charts" type="checkbox" checked>
-                    <span class="slider"></span>
-                  </label>
-                </td>
-              </tr>
+              <tr id="userInfomation"></tr>
             </tbody>
           </table>
-        </fieldset>
+        </fieldset><!--
         <fieldset>
           <legend>Convenience Tweaks</legend>
           <table>
