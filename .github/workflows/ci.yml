@@ -46,7 +46,7 @@ jobs:
           mv ./docs ./dist/
 
       - name: Deploy
-        if: github.repository == 'wooferzfg/tww-rando-tracker' && github.ref == 'refs/heads/main'
+        if: github.repository == 'josephanimate2021/twwr-ap-tracker' && github.ref == 'refs/heads/main'
         uses: peaceiris/actions-gh-pages@v4.0.0
         with:
           personal_token: ${{ secrets.GH_PAGES_DEPLOY }}
