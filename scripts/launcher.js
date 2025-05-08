@@ -207,3 +207,4 @@ function loadFromFile() {
   loadProgressElement.click();
 }
 */
+console.log(document.querySelector('.permalink-container'))
