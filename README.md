@@ -11,16 +11,8 @@ Clone the repository by running the following in a command prompt:
 git clone https://github.com/josephanimate2021/twwr-ap-tracker.git
 ```
 
-Navigate to the `twwr-ap-tracker` folder and install dependencies:
-```bash
-cd twwr-ap-tracker && npm install
-```
-You can then build and serve the tracker application:
-```bash
-npm start
-```
-After the server starts, you can go to [127.0.0.1:8080](http://127.0.0.1:8080/) to open the tracker.
+Navigate to the index.html file and open it in your browser of choice to open the tracker.
 
-## Documentation
+## NOTE
 
-Original code documentation is available at [wooferzfg.me/tww-rando-tracker/docs](https://www.wooferzfg.me/tww-rando-tracker/docs).
+This branch contains code that isn't up to date with the current documentation. This is why no code documentation will be listed here.
