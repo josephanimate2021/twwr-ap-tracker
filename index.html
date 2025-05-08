@@ -24,15 +24,15 @@
         <img src="./images/header.png">
       </div>
       <div class="settings">
-        <div class="permalink-container">
-          <div class="permalink-label">Paste Permalink:</div>
+        <form class="permalink-container" action="javascript:;">
+          <div class="permalink-label">Archipelago Server URL</div>
           <div class="permalink-input">
-            <input placeholder="Permalink" id="flags" />
+            <input placeholder="http://localhost:38281" name="serverUrl" />
           </div>
           <div>
-            <button type="button" onclick="applyflags(this)">Apply Settings</button>
+            <button type="submit">Attempt Server Connection</button>
           </div>
-        </div>
+        </form><!-- Commented for now since AP does not support Permalinks yet.
         <fieldset>
           <legend>Progress Item Locations</legend>
           <table>
@@ -385,7 +385,7 @@
               </tr>
             </tbody>
           </table>
-        </fieldset>
+        </fieldset>-->
         <div class="launcher-button-container">
           <button class="launcher-button" type="button" onclick="launch()">Launch New Tracker</button>
           <button class="launcher-button" type="button" onclick="loadMostRecent()">Load From Autosave</button>
