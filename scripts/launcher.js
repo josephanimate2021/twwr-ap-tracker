@@ -91,15 +91,15 @@ function applyflags(element) {
       parseFlags(bits, ['free_gifts', 'mail', 'platforms_rafts', 'submarines', 'eye_reef_chests', 'big_octos_gunboats', 'triforce_charts', 'treasure_charts']);
       parseFlags(bits, ['expensive_purchases', 'misc', 'tingle_chests', 'battlesquid', 'savage_labyrinth', 'island_puzzles', 'key_lunacy']);
       parseComboBox(bits, 'randomize_entrances');
-      parseFlags(bits, ['randomize_charts', '' /* randomize_starting_island */, '' /* swift_sail */, '' /* instant_text_boxes */, '' /* reveal_full_sea_chart */]);/*
+      parseFlags(bits, ['randomize_charts', '' /* randomize_starting_island *//*, '' /* swift_sail *//*, '' /* instant_text_boxes *//*, '' /* reveal_full_sea_chart *//*]);/*
       parseComboBox(bits, 'num_starting_triforce_shards');
-      parseFlags(bits, ['' /* add_shortcut_warps_between_dungeons */, '' /* generate_spoiler_log */]);/*
+      parseFlags(bits, ['' /* add_shortcut_warps_between_dungeons *//*, '' /* generate_spoiler_log *//*]);/*
       parseComboBox(bits, 'sword_mode');
       parseFlags(bits, ['skip_rematch_bosses', 'race_mode']);
-      parseFlags(bits, ['' /* randomize_bgm */, '' /* disable_tingle_chests_with_tingle_bombs */, '' /* randomize_enemy_palettes */, '' /* remove_title_and_ending_videos */]);/*
+      parseFlags(bits, ['' /* randomize_bgm *//*, '' /* disable_tingle_chests_with_tingle_bombs *//*, '' /* randomize_enemy_palettes *//*, '' /* remove_title_and_ending_videos *//*]);/*
       setStartingGear(bits);
-      parseSpinBox(bits, '' /* starting_pohs */, 0, 44);/*
-      parseSpinBox(bits, '' /* starting_hcs */, 0, 6);/*
+      parseSpinBox(bits, '' /* starting_pohs *//*, 0, 44);/*
+      parseSpinBox(bits, '' /* starting_hcs *//*, 0, 6);/*
 
       $(element).notify('Settings applied from the Permalink.', {
         autoHideDelay: 5000,
