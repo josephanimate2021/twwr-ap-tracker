@@ -207,4 +207,111 @@ function loadFromFile() {
   loadProgressElement.click();
 }
 */
-console.log(document.querySelector('.permalink-container'))
+let connected2archipelago = false;
+function APConnection(obj) { // Connects to an Archipelago server
+    if (connected2archipelago) { // disconnects from the archipelago server when the user clicks on the Disconnect From Archipelago button.
+        if (jQuery(obj).find('button[type="submit"]').data("connected")) jQuery(obj).trigger("archipelagoDisconnect");
+        else jQuery(obj).find("p").css("color", "red").text('Please wait for the archipelago server to be fully connected before you disconnect.')
+    } else { // Starts the connection to the Archipelago server.
+        let connectionSuccessful = false;
+        connected2archipelago = true;
+        const originalText = jQuery(obj).find('button[type="submit"]').text();
+        jQuery(obj).find('button[type="submit"]').text('Awaiting Server Connection...').attr("disabled", "");
+        function handleError(e) { /// handles an error of one occurs during connection.
+            jQuery(obj).find('button[type="submit"]').removeAttr("disabled").text(originalText);
+            connected2archipelago = false;
+            console.error(e);
+            jQuery(obj).find("p").css("color", "red")
+            jQuery(obj).find("p").html(`Failed to connect to Archipelago's WebSockets.<br>${e.toString()}`);
+        }
+        try {
+            const info = Object.fromEntries(new URLSearchParams(jQuery(obj).serialize()));
+            const socket = new WebSocket(`${info.host.startsWith("localhost") || info.host.startsWith("127.0.0.1") ? 'ws' : 'wss'}://${info.host}`);
+            setTimeout(() => { // added this in case archipelago tries to take forever to connect. You are better off having a fast internet connection.
+                if (!connectionSuccessful) {
+                    socket.close();
+                    handleError("Timeout occured. Please try again later.")
+                }
+            }, 35042)
+            let roomInfo;
+            socket.addEventListener("message", async e => {
+                const array = JSON.parse(e.data);
+                for (const info2 of array) {
+                    switch (info2.cmd) {
+                        case "RoomInfo": {
+                            if (info2.password == false || info.password) {
+                                roomInfo = info2;
+                                roomInfo.tags.push("Tracker");
+                                if (info.password) roomInfo.password = info.password;
+                                info2.cmd = "GetDataPackage";
+                            } else {
+                                handleError("Please enter in the password");
+                                //$(obj).append(`<label for="password">Password</label><input class="form-control" type="password" id="password" name="password" required/>`);
+                            }
+                            break;
+                        } case "DataPackage": {
+                            const games = info2.data.games;
+                            function uuidGenV4() { // generates a v4 UUID for archipelago
+                                const G = [];
+                                for (let Q = 0; Q < 36; Q++) G.push(Math.floor(Math.random() * 16));
+                                return G[14] = 4, G[19] = G[19] &= -5, G[19] = G[19] |= 8, G[8] = G[13] = G[18] = G[23] = "-", G.map((Q) => Q.toString(16)).join("")
+                            }
+                            for (const game in games) {
+                                if (game == "Archipelago") continue;
+                                Object.assign(info2, {
+                                    cmd: "Connect",
+                                    password: roomInfo.password || '',
+                                    name: info.user,
+                                    game,
+                                    slot_data: true,
+                                    items_handling: 7,
+                                    uuid: uuidGenV4(),
+                                    tags: roomInfo.tags,
+                                    version: roomInfo.version,
+                                });
+                                for (const location in games[game].location_name_to_id) {
+                                    const locationInfo = trackerStuff.layout.searchFor(location);
+                                    if (locationInfo.cat && locationInfo.realLocationName) trackerStuff.layout[locationInfo.cat][locationInfo.realLocationName][location].id = games[game].location_name_to_id[location];
+                                }
+                                for (const item in games[game].item_name_to_id) {
+                                    const itemInfo = trackerStuff.itemLayout.searchFor(item);
+                                    if (itemInfo.cat) trackerStuff.itemLayout[itemInfo.cat][itemInfo.realItemName || item].id = games[game].item_name_to_id[item]
+                                }
+                            }
+                            break;
+                        } case "Connected": {
+                            jQuery(obj).bind("archipelagoDisconnect", () => {
+                                jQuery(obj).find('button[type="submit"]').attr("data-connected", false);
+                                socket.close();
+                                jQuery(obj).find('button[type="submit"]').text(originalText);
+                                connected2archipelago = false;
+                                connectionSuccessful = false;
+                                jQuery(obj).find("p").text('Successfully disconnected from the Archipelago Server')
+                            })
+                            connectionSuccessful = true;
+                            jQuery(obj).find("p").css("color", "lime");
+                            jQuery(obj).find('button[type="submit"]').attr("data-connected", true);
+                            jQuery(obj).find('button[type="submit"]').removeAttr("disabled");
+                            jQuery(obj).find('button[type="submit"]').text("Disconnect From Archipelago");
+                            jQuery(obj).find("p").text(`Successfully connected to the Archipelago server!`);
+                            break;
+                        } case "ReceivedItems": {
+                            /*for (const archipelagoItemInfo of info2.items) {
+                                const itemInfo = trackerStuff.itemLayout.searchFor(archipelagoItemInfo.item);
+                                Object.assign(itemInfo, retrievedItem(itemInfo.realItemName, itemInfo.cat, false));
+                                if (itemInfo.data.buyOnRandoDetection) Object.assign(itemInfo, retrievedItem(itemInfo.realItemName, itemInfo.cat, false));
+                                const locationInfo = trackerStuff.layout.searchFor(archipelagoItemInfo.location);
+                                checkCompleted(`${locationInfo.cat}@${locationInfo.realLocationName}@${locationInfo.realCheckName}`, itemInfo)
+                                switchTrackerMode(document.getElementById('tracker').getAttribute("data-mode"), itemInfo.cat);
+                            }*/
+                            break;
+                        }
+                    }
+                }
+                if (!connectionSuccessful) socket.send(JSON.stringify(array));
+            })
+        } catch (e) {
+            handleError(e);
+        }
+    }
+}
