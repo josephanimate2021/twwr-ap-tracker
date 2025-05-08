@@ -2,16 +2,11 @@
 
 This is an AP tracker for [The Wind Waker Randomizer](https://archipelago.gg/games/The%20Wind%20Waker). The original tracker was made by [wooferzfg](https://github.com/wooferzfg/tww-rando-tracker) with the AP version of this being modified by me.
 
-## Build Instructions
+## Running Locally
 
-Building and running the tracker locally requires you to install [Node.JS version 20 or later](https://nodejs.org/en/download/) and [Git](https://git-scm.com/downloads).
-
-Clone the repository by running the following in a command prompt:
-```bash
-git clone https://github.com/josephanimate2021/twwr-ap-tracker.git
-```
-
-Navigate to the index.html file and open it in your browser of choice to open the tracker.
+* Download the ZIP file for this source code by clicking on Code > Download ZIP
+* Extract the ZIP file like you normally would to any folder of your choice.
+* Open the index.html file in your browser to run the tracker
 
 ## NOTE
 
