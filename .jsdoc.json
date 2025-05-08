@@ -1,0 +1,10 @@
+{
+    "source": {
+        "include": ["src/services"]
+    },
+    "opts": {
+        "destination": "docs",
+        "readme": "./README.md",
+        "recurse": true
+    }
+}
