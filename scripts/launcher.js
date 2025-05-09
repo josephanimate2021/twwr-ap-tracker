@@ -85,7 +85,7 @@ function checkConnection(submutBtn) {
     connector.addEventListener("message", g => {
       connected = true;
       try {
-        const info = JSON.parse(g);
+        console.log(g);
       } catch (e) {
         handleError(e, connector);
       }
