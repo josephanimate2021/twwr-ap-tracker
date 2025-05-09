@@ -3,6 +3,9 @@ const gearParam = getParameterByName('g');
 const versionParam = getParameterByName('v');
 var loadingProgress = getParameterByName('p') == '1';
 const isCurrentVersionParam = getParameterByName('c');
+const APUser = getParameterByName('username');
+const APPass = getParameterByName('password');
+const APHost = getParameterByName('host');
 
 var loadingErrorShown = false;
 var autoSaveInterval;
@@ -24,20 +27,39 @@ function showLoadingError() {
     } else {
       var notificationMessage = 'Logic could not be loaded. Version not specified.';
     }
-    $.notify(notificationMessage, {
-      autoHideDelay: 5000,
-      className: 'error',
-      position: 'top left'
-    });
+    displayMessage(notificationMessage, '', {
+      className: 'error'
+    })
     loadingErrorShown = true;
   }
+}
+
+function displayMessage(msg, element, options = {}) {
+  const je = element ? $(element) : $;
+  je.notify(msg, Object.assign(options, {
+    autoHideDelay: 5000,
+    position: 'top left'
+  }));
 }
 
 function loadFlags() {
   if (loadingProgress) {
     return;
   }
-
+  if (APHost) {
+    const connector = new WebSocket(`${APHost.startsWith("localhost") || APHost.startsWith("127.0.0.1") ? 'ws' : 'wss'}://${APHost}`);
+    connector.addEventListener("error", () => {
+      displayMessage('Connection to AP has failed.', '', {
+        className: 'error'
+      })
+    });
+    connector.addEventListener("message", g => {
+      
+    })
+  } else displayMessage('Please provide a host for AP Server Connection.', '', {
+    className: 'error'
+  })
+/* Commented out because this is for the permalink support that currently isn't in AP.
   options.key_lunacy = getParamBool('KL', options.key_lunacy);
   options.randomize_charts = getParamBool('RCH', options.randomize_charts);
   options.skip_rematch_bosses = getParamBool('SRB', options.skip_rematch_bosses);
@@ -105,7 +127,7 @@ function loadFlags() {
   checkAddFlags('TIN', ['Tingle Chest']);
   checkAddFlags('SAV', ['Savage Labyrinth']);
   checkAddFlags('BSM', ['Battlesquid']);
-  checkAddFlags('IP', ['Island Puzzle']);
+  checkAddFlags('IP', ['Island Puzzle']);*/
 }
 
 function getParamBool(param, defaultVal) {
@@ -158,18 +180,14 @@ function loadProgress() {
       } else {
         var notificationMessage = 'Progress loaded for Wind Waker Randomizer ' + versionParam + '.'
       }
-      $.notify(notificationMessage, {
-        autoHideDelay: 5000,
+      displayMessage(notificationMessage, '', {
         className: 'success',
-        position: 'top left'
-      });
+      })
     } catch (err) {
       loadingProgress = false;
-      $.notify('Progress could not be loaded.', {
-        autoHideDelay: 5000,
+      displayMessage('Progress could not be loaded.', '', {
         className: 'error',
-        position: 'top left'
-      });
+      })
     }
   }
 }

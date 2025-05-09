@@ -24,7 +24,9 @@
         <img src="./images/header.png">
         <img src="./images/apLogo.min.svg" style="width: 200px; height: 18px; margin-left: -444px;">
       </div>
-      <form class="settings" action="javascript:;" onsubmit="window.open(`./tracker?${$(this).serialize()}&host=${document.getElementById('apHost').value}`, '_blank')">
+      <form class="settings" action="javascript:;" onsubmit="window.open(
+        `./tracker?${$(this).serialize()}&host=${document.getElementById('apHost').value}&v=1.8.0&c=1`, '_blank'
+      )">
         <div class="permalink-container">
           <div class="permalink-label">
             AP Server Address:
