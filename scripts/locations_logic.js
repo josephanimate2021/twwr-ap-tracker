@@ -4,7 +4,7 @@ function getDetailedLocations(generalLocation, isDungeon) {
   Object.keys(allDetailedLocations).forEach(function (detailedLocation) {
     if ((isValidForLocation(generalLocation, detailedLocation, isDungeon))
       && (showNonProgressLocations || locationsAreProgress[generalLocation][detailedLocation])) {
-      result.push("[" + spheres[generalLocation][detailedLocation] + "] " + detailedLocation);
+      result.push(detailedLocation);
     }
   })
   return result;
@@ -19,17 +19,13 @@ function setLocationsAreAvailable() {
     locationsAreAvailable = setLocations(() => true);
   } else {
     transferKeys();
-    locationsAreAvailable = setLocations(isLocationAvailable, items);
-    setGuaranteedKeys(items, keys, false);
+    locationsAreAvailable = setLocations(isLocationAvailable);
+    setGuaranteedKeys();
   }
 }
 
 function initializeLocationsChecked() {
   locationsChecked = setLocations(() => false);
-}
-
-function initializeItemsForLocations() {
-  itemsForLocations = setLocations(() => "");
 }
 
 function isValidForLocation(generalLocation, detailedLocation, isDungeon) {
@@ -89,7 +85,7 @@ function getChestCountsForLocation(generalLocation, isDungeon) {
   };
 }
 
-function setLocations(valueCallback, itemSet) {
+function setLocations(valueCallback) {
   result = {};
   Object.keys(itemLocations).forEach(function (locationName) {
     var splitName = getSplitLocationName(locationName);
@@ -98,29 +94,32 @@ function setLocations(valueCallback, itemSet) {
     if (!(generalLocation in result)) {
       result[generalLocation] = {};
     }
-    var locationValue = valueCallback(locationName, itemSet);
+    var locationValue = valueCallback(locationName);
     result[generalLocation][detailedLocation] = locationValue;
   });
   return result;
 }
 
-function checkRequirementMet(reqName, itemSet) {
+function checkRequirementMet(reqName) {
   if (isProgressiveRequirement(reqName)) {
-    return checkProgressiveItemRequirementRemaining(reqName, itemSet) <= 0;
+    return checkProgressiveItemRequirementRemaining(reqName, items) <= 0;
   }
   if (reqName.startsWith('Can Access Other Location "')) {
-    return checkOtherLocationReq(reqName, itemSet);
+    return checkOtherLocationReq(reqName);
+  }
+  if (reqName.startsWith('Has Accessed Other Location "')) {
+    return checkHasAccessedOtherLocationReq(reqName);
   }
   if (reqName.startsWith('Option "')) {
     return checkOptionEnabledRequirement(reqName);
   }
-  if (reqName in itemSet) {
-    return itemSet[reqName] > 0;
+  if (reqName in items) {
+    return items[reqName] > 0;
   }
   if (reqName in macros) {
     var macro = macros[reqName];
     var splitExpression = getSplitExpression(macro);
-    return checkLogicalExpressionReq(splitExpression, itemSet);
+    return checkLogicalExpressionReq(splitExpression);
   }
   if (reqName == 'Nothing') {
     return true;
@@ -156,10 +155,14 @@ function getProgressiveRequirementName(itemName, numRequired) {
   return `${itemName} x${numRequired}`;
 }
 
-function checkOtherLocationReq(reqName, itemSet) {
-  var otherLocation = reqName.substring('Can Access Other Location "'.length, reqName.length - 1);
+function getOtherLocationName(reqName) {
+  return reqName.match(/(?:Can Access|Has Accessed) Other Location "([^"]+)"/)[1];
+}
+
+function checkOtherLocationReq(reqName) {
+  var otherLocation = getOtherLocationName(reqName);
   var requirements = getLocationRequirements(otherLocation);
-  return checkLogicalExpressionReq(requirements, itemSet);
+  return checkLogicalExpressionReq(requirements);
 }
 
 function checkHasAccessedOtherLocationReq(reqName) {
@@ -209,7 +212,7 @@ function getSplitExpression(expression) {
   return expression.split(/\s*([(&\|)])\s*/g);
 }
 
-function checkLogicalExpressionReq(splitExpression, itemSet) {
+function checkLogicalExpressionReq(splitExpression) {
   var expressionType = '';
   var subexpressionResults = [];
   while (splitExpression.length > 0) {
@@ -221,12 +224,12 @@ function checkLogicalExpressionReq(splitExpression, itemSet) {
       } else if (cur == '&') {
         expressionType = 'AND';
       } else if (cur == '(') {
-        var result = checkLogicalExpressionReq(splitExpression, itemSet);
+        var result = checkLogicalExpressionReq(splitExpression);
         subexpressionResults.push(result);
       } else if (cur == ')') {
         break;
       } else {
-        result = checkRequirementMet(cur, itemSet);
+        result = checkRequirementMet(cur);
         subexpressionResults.push(result);
       }
     }
@@ -237,9 +240,9 @@ function checkLogicalExpressionReq(splitExpression, itemSet) {
   return subexpressionResults.every(element => element);
 }
 
-function isLocationAvailable(locationName, itemSet) {
+function isLocationAvailable(locationName) {
   var requirements = getLocationRequirements(locationName);
-  return checkLogicalExpressionReq(requirements, itemSet);
+  return checkLogicalExpressionReq(requirements);
 }
 
 function isLocationProgress(locationName) {

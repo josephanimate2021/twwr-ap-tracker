@@ -42,14 +42,13 @@ function loadItemLocations() {
 }
 
 function getLogicFilesUrl() {
-  return 'https://raw.githubusercontent.com/Dev5ter/custom_logic/main/glitchless/';
+  return 'https://raw.githubusercontent.com/LagoLunatic/wwrando/' + versionParam + '/logic/';
 }
 
 function afterLoad() {
   if (macrosLoaded && itemLocationsLoaded) {
     updateLocations();
     initializeLocationsChecked();
-    initializeItemsForLocations();
     loadProgress();
     loadFlags();
     loadStartingItems();
@@ -67,24 +66,24 @@ function dataChanged() {
   refreshEntranceColors();
   recreateTooltips();
   updateStatistics();
-  calculateSpheres();
   saveProgress();
 }
 
 function loadStartingItems() {
-
-  startingItems["Bait Bag"] = 0;
+  startingItems["Hero's Shield"] = 1;
+  startingItems['Wind Waker'] = 1;
   startingItems["Boat's Sail"] = 1;
+  startingItems["Wind's Requiem"] = 1;
+  startingItems['Ballad of Gales'] = 1;
+  startingItems['Song of Passing'] = 1;
   startingItems['Triforce Shard'] = options.num_starting_triforce_shards;
 
   var gearRemaining = options.starting_gear;
-
   for (var i = 0; i < regularItems.length; i++) {
     var itemName = regularItems[i];
     startingItems[itemName] = gearRemaining % 2;
     gearRemaining = Math.floor(gearRemaining / 2);
   }
-
   for (var i = 0; i < progressiveItems.length; i++) {
     var itemName = progressiveItems[i];
     startingItems[itemName] = gearRemaining % 4;
@@ -100,12 +99,10 @@ function loadStartingItems() {
     impossibleItems.push('Progressive Sword x4');
     impossibleItems.push('Hurricane Spin');
   }
-    startingItems["Bait Bag"] = 0;
 
- if (!loadingProgress) {
+  if (!loadingProgress) {
     Object.keys(startingItems).forEach(function (item) {
       items[item] = startingItems[item];
-
     });
   }
 }
@@ -189,7 +186,6 @@ function incrementShield() {
     items["Hero's Shield"] = 1;
   } else if (items['Mirror Shield'] == 0) {
     items['Mirror Shield'] = 1;
-    setItemToLocation('Mirror Shield');
   } else {
     items["Hero's Shield"] = 0;
     items['Mirror Shield'] = 0;

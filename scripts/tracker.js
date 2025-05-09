@@ -4,7 +4,6 @@ const totalDetailedLocations = 39;
 
 var disableMap = false;
 var currentGeneralLocation = '';
-var currentDetailedLocation = '';
 var currentLocationIsDungeon = false;
 var currentExit = ''; // The full name of the exit; for example, 'Dragon Roost Cavern'
 var currentEntryName = ''; // The name of the entry item; for example, 'Entered DRC'
@@ -82,7 +81,7 @@ function refreshAllImagesAndCounts() {
     var l = 'item' + i.toString();
     var itemName = document.getElementById(l).name;
     var itemCount = items[itemName];
-//    items['Bait Bag'] = 0;
+
     if (itemCount === 0) {
       setImage(l, 'item' + i + '.png');
     } else if (itemCount === 1) {
@@ -90,8 +89,6 @@ function refreshAllImagesAndCounts() {
     } else {
       setImage(l, 'item' + i + '_' + itemCount + '_a.png');
     }
- 
-    
   }
 
   // sword mode
@@ -111,7 +108,6 @@ function refreshAllImagesAndCounts() {
   } else {
     setImage(l, 'noshield.png');
   }
-
 
   // songs
   for (var i = 0; i < 6; i++) {
@@ -172,28 +168,6 @@ function refreshAllImagesAndCounts() {
         setBackgroundUrl(l, 'bosskey_a.png');
       }
     }
-
-    if (dungeons[i] != "Ganon's Tower") {
-      // maps
-      var l = 'dungeonmap' + i.toString();
-      var mapName = document.getElementById(l).innerText;
-      var mapCount = items[mapName];
-      if (mapCount === 0) {
-          document.getElementById(l).style.backgroundImage = 'url(\'' + imageDir + 'map.png\')';
-      } else {
-          document.getElementById(l).style.backgroundImage = 'url(\'' + imageDir + 'map_a.png\')';
-      }
-
-       // compasses
-      var l = 'compass' + i.toString();
-      var compassName = document.getElementById(l).innerText;
-      var compassCount = items[compassName];
-      if (compassCount === 0) {
-          document.getElementById(l).style.backgroundImage = 'url(\'' + imageDir + 'compass.png\')';
-      } else {
-          document.getElementById(l).style.backgroundImage = 'url(\'' + imageDir + 'compass_a.png\')';
-      }
-  }
   }
 
   // charts
@@ -340,27 +314,7 @@ function toggleItem(itemName, maxItems) {
     curCount = 0;
   }
   items[itemName] = curCount;
-  if (curCount > 0) {
-    setItemToLocation(itemName);
-  }
   dataChanged();
-}
-
-function setItemToLocation(itemName) {
-  if (currentGeneralLocation && currentDetailedLocation) {
-      itemsForLocations[currentGeneralLocation][currentDetailedLocation] = itemName;
-      $.notify(itemName + " at " + currentDetailedLocation, {
-          autoHideDelay: 5000,
-          className: 'success',
-          position: 'bottom left'
-      });
-  } else {
-      $.notify("Could not set " + itemName, {
-          autoHideDelay: 5000,
-          className: 'error',
-          position: 'bottom left'
-      });
-  }
 }
 
 function toggleKey(element, maxKeys, dungeonIndex) {
@@ -372,9 +326,6 @@ function toggleKey(element, maxKeys, dungeonIndex) {
     keyCount = 0;
   }
   keys[keyName] = keyCount;
-  if (keyCount > 0) {
-    setItemToLocation(keyName);
-  }
   dataChanged();
   if (keyName.includes('Small')) {
     smallKeyInfo(element, maxKeys);
@@ -382,20 +333,11 @@ function toggleKey(element, maxKeys, dungeonIndex) {
   dungeonMapInfo(dungeonIndex);
 }
 
-function toggleDungeonItem(element, dungeonIndex) {
-  disableMap = true;
-  var itemName = element.innerText;
-  var itemCount = items[itemName];
-  items[itemName] = 1 - itemCount;
-  dataChanged();
-  dungeonMapInfo(dungeonIndex);
-}
-
 function shrinkMap() {
   removeVisibleTooltips();
   document.getElementById('chartmap').style.display = 'block';
   document.getElementById('zoommap').style.display = 'none';
-//  currentGeneralLocation = '';
+  currentGeneralLocation = '';
   currentExit = '';
   currentEntryName = '';
   recreateTooltips();
@@ -442,7 +384,7 @@ function getTextForExpression(expression, isParentExprTrue) {
 }
 
 function setTooltipTextForLocation(locationRequirements) {
-  var itemsRequiredExpr = itemsRequiredForExpression(items, locationRequirements);
+  var itemsRequiredExpr = itemsRequiredForExpression(locationRequirements);
   if (!itemsRequiredExpr || !itemsRequiredExpr.items || itemsRequiredExpr.items == 'None') {
     var element = document.createElement('span');
     element.innerText = 'None';
@@ -473,31 +415,13 @@ function setTooltipTextForLocation(locationRequirements) {
   $('.tool-tip-text').html(list.outerHTML);
 }
 
-function getLocationName(text) {
-  return text.substring(text.indexOf(" ") + 1)
-}
-
 function addTooltipToLocationElement(element) {
-  var detailedLocation = getLocationName(element.innerText);
+  var detailedLocation = element.innerText;
   if (!locationsChecked[currentGeneralLocation][detailedLocation]) {
     var fullLocationName = getFullLocationName(currentGeneralLocation, detailedLocation);
     var locationRequirements = getLocationRequirements(fullLocationName);
     setTooltipTextForLocation(locationRequirements);
     createTooltip(element, $('.tool-tip-text').clone(), 'Items Required');
-  } else if (itemsForLocations[currentGeneralLocation][detailedLocation]) {
-    $('.tool-tip-text').html('');
-    $(element).qtip({
-        content: {
-            text: $('.tool-tip-text').clone(),
-            title: itemsForLocations[currentGeneralLocation][detailedLocation]
-        },
-        position: {
-            target: 'mouse',
-            adjust: {
-                x: 15
-            }
-        }
-    });
   }
 }
 
@@ -734,7 +658,7 @@ function refreshLocationColors() {
   for (var i = 0; i < totalDetailedLocations; i++) {
     var element = getDetailedLocationElement(i);
     if (element.parentElement.style.display == 'table-cell') {
-      var detailedLocation = getLocationName(element.innerText);
+      var detailedLocation = element.innerText;
       if (locationsChecked[currentGeneralLocation][detailedLocation]) {
         setElementColor(element, 'black-text-strikethrough');
       } else {
@@ -767,7 +691,7 @@ function refreshEntranceColors() {
       } else {
         var macroName = getMacroForEntranceName(entranceName);
         var requirements = getSplitExpression(macroName);
-        if (hideLocationLogic || checkLogicalExpressionReq(requirements, items)) {
+        if (hideLocationLogic || checkLogicalExpressionReq(requirements)) {
           setElementColor(element, 'blue-text');
         } else {
           setElementColor(element, 'red-text');
@@ -779,13 +703,8 @@ function refreshEntranceColors() {
 
 function toggleLocation(element) {
   if (currentGeneralLocation.length > 0) {
-    var detailedLocation = getLocationName(element.innerText);
+    var detailedLocation = element.innerText;
     var newLocationChecked = !locationsChecked[currentGeneralLocation][detailedLocation];
-    if (newLocationChecked) {
-      currentDetailedLocation = detailedLocation;
-    } else {
-      itemsForLocations[currentGeneralLocation][detailedLocation] = "";
-    } 
     locationsChecked[currentGeneralLocation][detailedLocation] = newLocationChecked;
   } else if (currentEntryName.length > 0) {
     var entranceName = element.innerText;
@@ -914,7 +833,7 @@ function caveEntryInfo(index) {
 function fullClear() {
   var detailedLocations = getDetailedLocations(currentGeneralLocation, true);
   for (var i = 0; i < detailedLocations.length; i++) {
-    var detailedLocation = getLocationName(detailedLocations[i]);
+    var detailedLocation = detailedLocations[i];
     locationsChecked[currentGeneralLocation][detailedLocation] = true;
   }
   clearRaceModeBannedLocations();

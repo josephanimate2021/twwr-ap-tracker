@@ -165,7 +165,6 @@ const regularItems = [
   "Maggie's Letter",
   'Magic Armor',
   'Magic Meter Upgrade',
-  "Hero's Shield",
   'Mirror Shield',
   "Moblin's Letter",
   "Nayru's Pearl",
@@ -235,19 +234,6 @@ var items = {
   'Progressive Picto Box': 0,
   'Empty Bottle': 0,
 
-  'DRC Dungeon Map': 0,
-  'DRC Compass': 0,
-  'FW Dungeon Map': 0,
-  'FW Compass': 0,
-  'TotG Dungeon Map': 0,
-  'TotG Compass': 0,
-  'FF Dungeon Map': 0,
-  'FF Compass': 0,
-  'ET Dungeon Map': 0,
-  'ET Compass': 0,
-  'WT Dungeon Map': 0,
-  'WT Compass': 0,
-
   'Telescope': 0,
   'Magic Armor': 0,
   "Hero's Charm": 0,
@@ -277,7 +263,6 @@ var options = {
   randomize_entrances: 'Disabled',
   randomize_charts: false,
   sword_mode: 'Start with Sword',
-  swift_sail: true,
   skip_rematch_bosses: false,
   num_starting_triforce_shards: 0,
   race_mode: false,
@@ -286,5 +271,3 @@ var options = {
 
 var locationsAreProgress = {};
 var locationsAreAvailable = {};
-var itemsForLocations = {};
-var spheres = {};

@@ -16,6 +16,7 @@ const hasAccessedLocationTweaks = {
 function updateLocations() {
   addDefeatGanondorf();
   updateTingleStatueReward();
+  applyHasAccessedLocationTweaksForLocations();
 }
 
 function updateMacros() {
@@ -24,6 +25,7 @@ function updateMacros() {
     updateCaveEntranceMacros();
     updateChartMacros();
     updateTriforceMacro();
+    applyHasAccessedLocationTweaksForMacros();
   }
 }
 
@@ -81,6 +83,28 @@ function updateTingleStatueReward() {
   var tingleStatueReward = itemLocations['Tingle Island - Ankle - Reward for All Tingle Statues'];
   if (tingleStatueReward) {
     tingleStatueReward.Need = 'Tingle Statue x5';
+  }
+}
+
+function replaceCanAccessOtherLocation(requirements) {
+  return requirements.replace(/Can Access Other Location/g, 'Has Accessed Other Location');
+}
+
+function applyHasAccessedLocationTweaksForLocations() {
+  var itemLocationTweaks = hasAccessedLocationTweaks.itemLocations;
+  for (var i = 0; i < itemLocationTweaks.length; i++) {
+    var locationName = itemLocationTweaks[i];
+    var newNeeds = replaceCanAccessOtherLocation(itemLocations[locationName].Need);
+    itemLocations[locationName].Need = newNeeds;
+  }
+}
+
+function applyHasAccessedLocationTweaksForMacros() {
+  var macrosTweaks = hasAccessedLocationTweaks.macros;
+  for (var i = 0; i < macrosTweaks.length; i++) {
+    var macroName = macrosTweaks[i];
+    var newMacro = replaceCanAccessOtherLocation(macros[macroName]);
+    macros[macroName] = newMacro;
   }
 }
 
