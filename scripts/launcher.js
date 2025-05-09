@@ -66,6 +66,7 @@ function checkConnection(submutBtn) {
   let connected = false;
   jQuery("#apMessage").html('')
   const host = document.getElementById('apHost').value;
+  document.getElementById('apHost').setAttribute("disabled", "");
   submutBtn.attr("disabled", "");
   const origText = submutBtn.text();
   submutBtn.text("Connecting To The AP Server...");
@@ -85,7 +86,9 @@ function checkConnection(submutBtn) {
     connector.addEventListener("message", g => {
       connected = true;
       try {
-        console.log(g);
+        const array = JSON.parse(g.data);
+        jQuery("#apMessage").css("color", "lime").text(`AP Server Connection is verified! Please enter in the user infomation below.`);
+        submutBtn.text("AP Server Connection is Verified");
       } catch (e) {
         handleError(e, connector);
       }
