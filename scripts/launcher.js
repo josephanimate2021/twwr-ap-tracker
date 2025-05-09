@@ -166,11 +166,16 @@ function showBrokenPermalink(element, wrongVersion) {
   } else {
     var notificationMessage = 'Settings could not be applied from the Permalink.';
   }
-  $(element).notify(notificationMessage, {
+  displayMessage(notificationMessage, element);
+}
+
+function displayMessage(msg, element, options = {}) {
+  options = Object.assign(options, {
     autoHideDelay: 5000,
     className: 'error',
     position: 'top center'
   });
+  $(element).notify(msg, options);
 }
 
 function getFlagString() {
