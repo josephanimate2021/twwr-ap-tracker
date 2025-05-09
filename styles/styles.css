@@ -182,8 +182,7 @@ input:checked + .slider:before {
 }
 
 button,
-#apHost,
-#flags {
+.permalinkText {
   padding: 6px;
   border-radius: 5px;
   font-weight: bold;

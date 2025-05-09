@@ -24,15 +24,48 @@
         <img src="./images/header.png">
         <img src="./images/apLogo.min.svg" style="width: 200px; height: 18px; margin-left: -444px;">
       </div>
-      <form class="settings" action="/tracker">
+      <form class="settings" action="./tracker">
         <div class="permalink-container">
           <div class="permalink-label">
             AP Server Address:
           </div>
           <div class="permalink-input">
-            <input id="apHost"/>
+            <input id="apHost" type="text" name="host" class="permalinkText"/>
           </div>
         </div>
+        <fieldset id="userInfomation" style="display: none;">
+          <legend>User Infomation</legend>
+          <table>
+            <colgroup>
+              <col class="text-col">
+              <col class="slider-col">
+              <col class="text-col">
+              <col class="slider-col">
+            </colgroup>
+            <tbody>
+              <tr>
+                <td class="label-text">
+                  Username
+                </td>
+                <td class="slider-container">
+                  <div class="select-container">
+                    <input type="text" name="username" required/>
+                  </div>
+                </td>
+              </tr>
+              <tr>
+                <td class="label-text">
+                  Password
+                </td>
+                <td class="slider-container">
+                  <div class="select-container">
+                    <input type="password" name="password"/>
+                  </div>
+                </td>
+              </tr>
+            </tbody>
+          </table>
+        </fieldset>
         <!-- Commented out because permalinks are not supported in AP right now.
         <div class="permalink-container">
           <div class="permalink-label">Paste Permalink:</div>
@@ -406,7 +439,7 @@
       </form>
       <div class="attribution">
         AP Tracker is made by josephanimate2021. Current tracker is maintained by wooferzfg.<br>
-        <a href="https://github.com/josephanimate2021/twwr-ap-tracker">AP Tracker Source Code</a><br>
+        <a href="https://github.com/josephanimate2021/twwr-ap-tracker/tree/old">AP Tracker Source Code</a><br>
         <a href="https://github.com/wooferzfg/tww-rando-tracker">Current Tracker Source Code</a>
       </div>
     </div>
