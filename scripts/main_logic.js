@@ -3,10 +3,89 @@ var itemLocations; // contents of item_locations.txt
 var macrosLoaded = false;
 var itemLocationsLoaded = false;
 var dataHasChanged = false;
+var connectionSuccessful = false;
+var roomInfo;
 
 $(document).ready(function () {
-  loadMacros();
-  loadItemLocations();
+  if (APHost) {
+    const connector = new WebSocket(`${APHost.startsWith("localhost") || APHost.startsWith("127.0.0.1") ? 'ws' : 'wss'}://${APHost}`);
+    connector.addEventListener("error", () => {
+      connectionSuccessful = true;
+      displayMessage('Connection to AP has failed.', '', {
+        className: 'error'
+      })
+    });
+    connector.addEventListener("message", async e => {
+      const array = JSON.parse(e.data);
+      for (const info2 of array) {
+        switch (info2.cmd) {
+          case "RoomInfo": {
+            info2.tags.push("Tracker");
+            info2.cmd = "GetDataPackage";
+            roomInfo = info2;
+            break;
+          } case "DataPackage": {
+            const games = info2.data.games;
+
+            /**
+             * generates a v4 UUID for archipelago
+             * @returns {string}
+             */
+            function uuidGenV4() {
+              const G = [];
+              for (let Q = 0; Q < 36; Q++) G.push(Math.floor(Math.random() * 16));
+              return G[14] = 4, G[19] = G[19] &= -5, G[19] = G[19] |= 8, G[8] = G[13] = G[18] = G[23] = "-", G.map((Q) => Q.toString(16)).join("")
+            }
+
+            for (const game in games) {
+              if (game == "Archipelago") continue;
+              Object.assign(info2, {
+                cmd: "Connect",
+                password: APPass,
+                name: APUser,
+                game,
+                slot_data: true,
+                items_handling: 7,
+                uuid: uuidGenV4(),
+                tags: roomInfo.tags,
+                version: roomInfo.version,
+              });
+              for (const location in games[game].location_name_to_id) {
+                /*const locationInfo = trackerStuff.layout.searchFor(location);
+                if (locationInfo.cat && locationInfo.realLocationName) trackerStuff.layout[locationInfo.cat][locationInfo.realLocationName][location].id = games[game].location_name_to_id[location];*/
+              }
+              for (const item in games[game].item_name_to_id) {
+                /*const itemInfo = trackerStuff.itemLayout.searchFor(item);
+                if (itemInfo.cat) trackerStuff.itemLayout[itemInfo.cat][itemInfo.realItemName || item].id = games[game].item_name_to_id[item]*/
+              }
+            }
+            break;
+          } case "Connected": {
+            connectionSuccessful = true;
+            break;
+          } case "ReceivedItems": {
+            for (const archipelagoItemInfo of info2.items) {
+
+            }
+            break;
+          }
+        }
+      }
+      if (!connectionSuccessful) socket.send(JSON.stringify(array));
+    })
+    setTimeout(() => {
+      if (!connectionSuccessful) {
+        displayMessage("Connection to AP was timed out.", '', {
+          className: "error"
+        });
+        connector.close();
+      }
+    }, 35042);
+  } else displayMessage('Please provide a host for AP Server Connection.', '', {
+    className: 'error'
+  })
+  /*loadMacros();
+  loadItemLocations();*/
 });
 
 function loadMacros() {

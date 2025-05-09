@@ -46,19 +46,6 @@ function loadFlags() {
   if (loadingProgress) {
     return;
   }
-  if (APHost) {
-    const connector = new WebSocket(`${APHost.startsWith("localhost") || APHost.startsWith("127.0.0.1") ? 'ws' : 'wss'}://${APHost}`);
-    connector.addEventListener("error", () => {
-      displayMessage('Connection to AP has failed.', '', {
-        className: 'error'
-      })
-    });
-    connector.addEventListener("message", g => {
-      
-    })
-  } else displayMessage('Please provide a host for AP Server Connection.', '', {
-    className: 'error'
-  })
 /* Commented out because this is for the permalink support that currently isn't in AP.
   options.key_lunacy = getParamBool('KL', options.key_lunacy);
   options.randomize_charts = getParamBool('RCH', options.randomize_charts);
