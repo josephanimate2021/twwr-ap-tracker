@@ -182,6 +182,7 @@ input:checked + .slider:before {
 }
 
 button,
+#apHost,
 #flags {
   padding: 6px;
   border-radius: 5px;
