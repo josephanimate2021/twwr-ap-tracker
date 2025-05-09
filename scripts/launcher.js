@@ -90,7 +90,8 @@ function checkConnection(submutBtn) {
         handleError(e, connector);
       }
     })
-    connector.addEventListener("error", () => {
+    connector.addEventListener("error", g => {
+      console.log(g);
       connected = true;
       handleError('Connection failed', connector)
     })
