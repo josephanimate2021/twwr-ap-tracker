@@ -184,6 +184,7 @@ function displayMessage(msg, element, options = {}) {
   const je = element ? $(element) : $;
   je.notify(msg, Object.assign(options, {
     autoHideDelay: 5000,
+    className: "success",
     position: 'top center'
   }));
 }
