@@ -50,6 +50,8 @@ $(document).ready(function () {
                 tags: roomInfo.tags,
                 version: roomInfo.version,
               });
+              const itemLocations = await loadItemLocations();
+              console.log(itemLocations);
               for (const location in games[game].location_name_to_id) {
                 /*const locationInfo = trackerStuff.layout.searchFor(location);
                 if (locationInfo.cat && locationInfo.realLocationName) trackerStuff.layout[locationInfo.cat][locationInfo.realLocationName][location].id = games[game].location_name_to_id[location];*/
@@ -62,6 +64,7 @@ $(document).ready(function () {
             break;
           } case "Connected": {
             connectionSuccessful = true;
+            loadMacros();
             break;
           } case "ReceivedItems": {
             for (const archipelagoItemInfo of info2.items) {
@@ -83,9 +86,7 @@ $(document).ready(function () {
     }, 35042);
   } else displayMessage('Please provide a host for AP Server Connection.', '', {
     className: 'error'
-  })
-  /*loadMacros();
-  loadItemLocations();*/
+  });
 });
 
 function loadMacros() {
@@ -105,19 +106,19 @@ function loadMacros() {
 }
 
 function loadItemLocations() {
-  $.ajax(
-    {
+  return new Promise((res, rej) => {
+    $.ajax({
       url: getLogicFilesUrl() + 'item_locations.txt',
       success: function (data) {
         itemLocations = jsyaml.load(data);
         itemLocationsLoaded = true;
-        afterLoad();
+        res(itemLocations);
       },
       error: function () {
-        showLoadingError();
+        rej(showLoadingError);
       }
-    }
-  )
+    });
+  });
 }
 
 function getLogicFilesUrl() {
