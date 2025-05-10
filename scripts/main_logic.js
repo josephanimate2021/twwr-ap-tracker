@@ -74,7 +74,7 @@ $(document).ready(function () {
           }
         }
       }
-      if (!connectionSuccessful) socket.send(JSON.stringify(array));
+      if (!connectionSuccessful) connector.send(JSON.stringify(array));
     })
     setTimeout(() => {
       if (!connectionSuccessful) {
