@@ -53,8 +53,7 @@ $(document).ready(function () {
               const itemLocations = await loadItemLocations();
               console.log(itemLocations);
               for (const location in games[game].location_name_to_id) {
-                /*const locationInfo = trackerStuff.layout.searchFor(location);
-                if (locationInfo.cat && locationInfo.realLocationName) trackerStuff.layout[locationInfo.cat][locationInfo.realLocationName][location].id = games[game].location_name_to_id[location];*/
+                console.log(location, itemLocations[location])
               }
               for (const item in games[game].item_name_to_id) {
                 /*const itemInfo = trackerStuff.itemLayout.searchFor(item);
