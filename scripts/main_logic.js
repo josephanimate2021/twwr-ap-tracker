@@ -135,6 +135,8 @@ function afterLoad() {
     updateMacros();
     setLocationsAreProgress();
     dataChanged();
+    $(".loading-spinner").hide();
+    $(".tracker-container").show();
   }
 }
 
