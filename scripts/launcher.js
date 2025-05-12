@@ -267,3 +267,10 @@ function loadFromFile() {
   loadProgressElement.addEventListener('input', loadFromFileClicked);
   loadProgressElement.click();
 }
+
+$(document).ready(() => {
+  jQuery.get(`./settings.yaml`, f => {
+    const info = jsyaml.load(f);
+    console.log(f);
+  })
+})

@@ -51,10 +51,10 @@ $(document).ready(function () {
                 version: roomInfo.version,
               });
               const itemLocations = await loadItemLocations();
-              console.log(itemLocations);
               for (const location in games[game].location_name_to_id) {
-                console.log(location, itemLocations[location])
+                if (itemLocations[location]) itemLocations[location].id = games[game].location_name_to_id[location];
               }
+              console.log(itemLocations);
               for (const item in games[game].item_name_to_id) {
                 /*const itemInfo = trackerStuff.itemLayout.searchFor(item);
                 if (itemInfo.cat) trackerStuff.itemLayout[itemInfo.cat][itemInfo.realItemName || item].id = games[game].item_name_to_id[item]*/
@@ -121,7 +121,7 @@ function loadItemLocations() {
 }
 
 function getLogicFilesUrl() {
-  return 'https://raw.githubusercontent.com/LagoLunatic/wwrando/' + versionParam + '/logic/';
+  return 'https://raw.githubusercontent.com/tanjo3/wwrando/' + versionParam + '/logic/';
 }
 
 function afterLoad() {

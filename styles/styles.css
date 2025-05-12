@@ -191,7 +191,9 @@ input:checked + .slider:before {
 }
 
 button,
-.permalinkText {
+input[type="file"],
+input[type="password"],
+input[type="text"] {
   padding: 6px;
   border-radius: 5px;
   font-weight: bold;
@@ -201,11 +203,14 @@ button,
 }
 
 .settings button,
-#flags {
+input[type="password"],
+.settings input[type="file"],
+input[type="text"] {
   font-size: 1em;
 }
 
-#flags {
+input[type="password"],
+input[type="text"] {
   margin-left: 4px;
   width: 450px;
 }
