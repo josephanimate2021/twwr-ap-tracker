@@ -130,6 +130,11 @@ Additional Randomization Options:
     randomized_sword: 0
     swordless: 0
 
+  key_lunacy:
+    # Not sure what this does, but If i remember correctly, this setting does not keep keys inside their own dungeons
+    false: 50
+    true: 0
+
   triforce_shards_to_start_with:
     # Tells the tracker how many triforce shards the user plans on starting with.
     0: 50
@@ -142,6 +147,11 @@ Additional Randomization Options:
     7: 0
     8: 0
 
+  race_mode:
+    # Tells the tracker whatever or not the rando is being done in race mode.
+    'false': 50
+    'true': 0
+
   randomize_entrances:
     # When any settings of this type are configured in AP, The tracker will know that and configure this setting for you. This allows you to track entrances that are randomized.
     disabled: 50
@@ -150,16 +160,6 @@ Additional Randomization Options:
     "Dungeons & Secret Caves (Separately)": 0
     "Dungeons & Secret Caves (Together)": 0
     keylunacy: 0
-
-  key_lunacy:
-    # Not sure what this does, but If i remember correctly, this setting does not keep keys inside their own dungeons
-    false: 50
-    true: 0
-
-  race_mode:
-    # Tells the tracker whatever or not the rando is being done in race mode.
-    'false': 50
-    'true': 0
 
   randomize_charts:
     # Randomizes which sector is drawn on each Triforce/Treasure Chart.
