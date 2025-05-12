@@ -154,12 +154,8 @@ Additional Randomization Options:
 
   randomize_entrances:
     # When any settings of this type are configured in AP, The tracker will know that and configure this setting for you. This allows you to track entrances that are randomized.
-    disabled: 50
-    dungeons: 0
-    secret_caves: 0
-    "Dungeons & Secret Caves (Separately)": 0
-    "Dungeons & Secret Caves (Together)": 0
-    keylunacy: 0
+    false: 50
+    true: 0
 
   randomize_charts:
     # Randomizes which sector is drawn on each Triforce/Treasure Chart.
