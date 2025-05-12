@@ -271,6 +271,6 @@ function loadFromFile() {
 $(document).ready(() => {
   jQuery.get(`./settings.yaml`, f => {
     const info = jsyaml.load(f);
-    console.log(f);
+    console.log(info);
   })
 })
