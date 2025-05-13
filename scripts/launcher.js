@@ -78,7 +78,10 @@ function applyAPSettings(form) {
                 console.log(btn);
               }
               break;
-            } 
+            } case "ConnectionRefused": {
+              handleError(`Unable to connect to AP due to the following errors: ${info2.errors.join(', ')}`, connector);
+              break;
+            }
           }
         }
         if (!success) connector.send(JSON.stringify(array));
@@ -89,10 +92,10 @@ function applyAPSettings(form) {
     connector.addEventListener("error", g => {
       console.log(g);
       connected = true;
-      handleError('Connection failed', connector)
+      handleError('AP Connection failed', connector)
     })
     setTimeout(() => {
-      if (!connected) handleError('Connection timed out', connector);
+      if (!connected) handleError('AP Connection timed out', connector);
     }, 38281)
   } else handleError('Please type in a valid AP Server Address');
 }
