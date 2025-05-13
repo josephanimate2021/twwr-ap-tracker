@@ -126,7 +126,7 @@ function getFlagString() {
   var buttonNames = ['dungeons', 'great_fairies', 'puzzle_secret_caves', 'combat_secret_caves', 'short_sidequests', 'long_sidequests', 'spoils_trading', 'minigames',
     'free_gifts', 'mail', 'lookout_platforms_and_rafts', 'submarines', 'eye_reef_chests', 'big_octos_and_gunboats', 'Sunken Treasure (From Triforce Charts)', 'Sunken Treasure (From Treasure Charts)',
     'expensive_purchases', 'miscellaneous', 'tingle_chests', 'key_lunacy', 'randomize_entrances', 'randomize_charts', 'sword_mode',
-    'skip_rematch_bosses', 'triforce_shards_to_start_with', 'race_mode', 'savage_labyrinth', 'battlesquid', 'island_puzzles'];
+    'skip_boss_rematches', 'triforce_shards_to_start_with', 'race_mode', 'savage_labyrinth', 'battlesquid', 'island_puzzles'];
 
   var result = '';
   for (var i = 0; i < buttonNames.length; i++) {
