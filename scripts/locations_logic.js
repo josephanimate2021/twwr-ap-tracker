@@ -110,6 +110,12 @@ function checkRequirementMet(reqName) {
   if (reqName.startsWith('Has Accessed Other Location "')) {
     return checkHasAccessedOtherLocationReq(reqName);
   }
+  if (reqName.startsWith('Can Access Item Location "')) {
+    return checkItemLocationReq(reqName);
+  }
+  if (reqName.startsWith('Has Accessed Item Location "')) {
+    return checkHasAccessedItemLocationReq(reqName);
+  }
   if (reqName.startsWith('Option "')) {
     return checkOptionEnabledRequirement(reqName);
   }
@@ -126,9 +132,6 @@ function checkRequirementMet(reqName) {
   }
   if (reqName == 'Impossible') {
     return false;
-  }
-  if (reqName.startsWith('Can Access Item Location "')) {
-    return checkItemLocationReq(reqName);
   }
   throw Error("Unrecognized reqName: " + reqName);
 }
@@ -182,6 +185,12 @@ function checkHasAccessedOtherLocationReq(reqName) {
   var otherLocation = getOtherLocationName(reqName);
   var split = getSplitLocationName(otherLocation);
   return locationsChecked[split.general][split.detailed] || checkOtherLocationReq(reqName);
+}
+
+function checkHasAccessedItemLocationReq(reqName) {
+  var itemLocation = getItemLocationName(reqName);
+  var split = getSplitLocationName(itemLocation);
+  return locationsChecked[split.general][split.detailed] || checkItemLocationReq(reqName);
 }
 
 function checkOptionEnabledRequirement(reqName) {
