@@ -71,7 +71,9 @@ function applyAPSettings(form) {
               break;
             } case "Connected": {
               success = true;
-              displayMessage(`Successfuly connected to AP and modified the settings from there. You are safe to either Launch the Tracker for copy the Tracker Link which can be used for a variety of things.`);
+              displayMessage(`Successfuly connected to AP and modified the settings from there. You are safe to either Launch the Tracker for copy the Tracker Link which can be used for a variety of things.`, '', {
+                position: 'top left'
+              });
               submutBtn.text(origText);
               submutBtn.removeAttr("disabled");
               for (const btn of document.getElementById('launcherButtons').children) {
