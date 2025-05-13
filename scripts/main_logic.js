@@ -28,22 +28,6 @@ function findAPItemElement(itemId) {
   return elem;
 }
 
-/**
- * Converts info about AP items to normal item info
- * @param {JSON} items
- * @returns {JSON}
- */
-function apItems2NormalItems(apItems) {
-  const info = {};
-  const together = Object.assign({}, items, keys)
-  const itemImages = $("#tracker").find("img");
-  console.log(itemImages);
-  for (const item in apItems) {
-    if (together[item]) info[item] = apItems[item];
-  }
-  return info;
-}
-
 $(document).ready(function () { // loads the tracker with AP when the page has loaded.
   if (APHost) {
     const connector = new WebSocket(`${APHost.startsWith("localhost") || APHost.startsWith("127.0.0.1") ? 'ws' : 'wss'}://${APHost}`);
@@ -123,7 +107,6 @@ $(document).ready(function () { // loads the tracker with AP when the page has l
             break;
           } case "Connected": {
             connectionSuccessful = true;
-            loadStartingItems(info2.slot_data)
             loadMacros();
             break;
           } case "ReceivedItems": {
@@ -192,6 +175,7 @@ function afterLoad() {
     initializeLocationsChecked();
     loadProgress();
     loadFlags();
+    loadStartingItems();
     updateMacros();
     setLocationsAreProgress();
     dataChanged();
@@ -222,7 +206,6 @@ function loadStartingItems(slotData) {
     impossibleItems.push('Progressive Sword x4');
     impossibleItems.push('Hurricane Spin');
   }
-  Object.assign(startingItems, apItems2NormalItems(slotData.start_inventory_from_pool))
   if (!loadingProgress) {
     Object.keys(startingItems).forEach(function (item) {
       items[item] = startingItems[item];
