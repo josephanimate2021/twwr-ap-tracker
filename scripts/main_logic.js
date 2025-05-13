@@ -1,12 +1,12 @@
 var macros; // contents of macros.txt
-var itemLocations; // contents of item_locations.txt
+var itemLocations; // contents of itemLocationsAP.yaml
 var macrosLoaded = false;
 var itemLocationsLoaded = false;
 var dataHasChanged = false;
 var connectionSuccessful = false;
 var roomInfo;
 
-$(document).ready(function () {
+$(document).ready(function () { // loads the tracker with AP when the page has loaded.
   if (APHost) {
     const connector = new WebSocket(`${APHost.startsWith("localhost") || APHost.startsWith("127.0.0.1") ? 'ws' : 'wss'}://${APHost}`);
     connector.addEventListener("error", () => {
@@ -55,7 +55,12 @@ $(document).ready(function () {
               }
               console.log(itemLocations);
               for (const item in games[game].item_name_to_id) {
-                console.log(item, $("#tracker").find(`img[name="${item}"]`));
+                let itemElem = $("#tracker").find(`img[name="${item}"]`)[0];
+                if (!itemElem) {
+                  if (item.endsWith(" Tingle Statue")) itemElem = $("#tracker").find(`img[name="Tingle Statue"]`)[0];
+                  else if (item.startsWith("Triforce Shard")) itemElem = $("#tracker").find(`img[name="Triforce Shard"]`)[0];
+                }
+                console.log(itemElem);
                 /*const itemInfo = trackerStuff.itemLayout.searchFor(item);
                 if (itemInfo.cat) trackerStuff.itemLayout[itemInfo.cat][itemInfo.realItemName || item].id = games[game].item_name_to_id[item]*/
               }
