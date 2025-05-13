@@ -12,7 +12,7 @@ function capWord(g) {
 }
 
 /**
- * Checks for an existant AP server connection before redirecting the user to the actual tracker.
+ * Connects to AP and applys the settings from there.
  * @param {HTMLButtonElement} submutBtn 
  */
 function applyAPSettings(form) {
