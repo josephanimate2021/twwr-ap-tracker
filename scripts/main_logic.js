@@ -55,6 +55,7 @@ $(document).ready(function () {
               }
               console.log(itemLocations);
               for (const item in games[game].item_name_to_id) {
+                console.log(item, $("#tracker").find(`img[name="${item}"]`));
                 /*const itemInfo = trackerStuff.itemLayout.searchFor(item);
                 if (itemInfo.cat) trackerStuff.itemLayout[itemInfo.cat][itemInfo.realItemName || item].id = games[game].item_name_to_id[item]*/
               }
