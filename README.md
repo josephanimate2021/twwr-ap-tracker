@@ -8,6 +8,7 @@ This is an AP tracker for [The Wind Waker Randomizer](https://archipelago.gg/gam
 * Extract the ZIP file like you normally would to any folder of your choice.
 * Open the index.html file in your browser to run the tracker
 
-## NOTE
+## NOTES
 
-This branch contains code that isn't up to date with the current documentation. This is why no code documentation will be listed here.
+* This branch contains code that isn't up to date with the current documentation. This is why no code documentation will be listed here.
+* This tracker can also go up to version 1.9.0 of The Wind Waker Randomizer created by [LagoLunatic](https://github.com/LagoLunatic/wwrando).
