@@ -20,7 +20,6 @@ $(document).ready(function () {
       for (const info2 of array) {
         switch (info2.cmd) {
           case "RoomInfo": {
-            info2.tags.push("Tracker");
             info2.cmd = "GetDataPackage";
             roomInfo = info2;
             break;
@@ -44,10 +43,10 @@ $(document).ready(function () {
                 password: APPass,
                 name: APUser,
                 game,
-                slot_data: true,
+                slot_data: false,
                 items_handling: 7,
                 uuid: uuidGenV4(),
-                tags: roomInfo.tags,
+                tags: ["Tracker"],
                 version: roomInfo.version,
               });
               const itemLocations = await loadItemLocations();
