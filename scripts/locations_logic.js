@@ -110,12 +110,6 @@ function checkRequirementMet(reqName) {
   if (reqName.startsWith('Has Accessed Other Location "')) {
     return checkHasAccessedOtherLocationReq(reqName);
   }
-  if (reqName.startsWith('Can Access Item Location "')) {
-    return checkItemLocationReq(reqName);
-  }
-  if (reqName.startsWith('Has Accessed Item Location "')) {
-    return checkHasAccessedItemLocationReq(reqName);
-  }
   if (reqName.startsWith('Option "')) {
     return checkOptionEnabledRequirement(reqName);
   }
@@ -165,19 +159,9 @@ function getOtherLocationName(reqName) {
   return reqName.match(/(?:Can Access|Has Accessed) Other Location "([^"]+)"/)[1];
 }
 
-function getItemLocationName(reqName) {
-  return reqName.match(/(?:Can Access|Has Accessed) Item Location "([^"]+)"/)[1];
-}
-
 function checkOtherLocationReq(reqName) {
   var otherLocation = getOtherLocationName(reqName);
   var requirements = getLocationRequirements(otherLocation);
-  return checkLogicalExpressionReq(requirements);
-}
-
-function checkItemLocationReq(reqName) {
-  var itemLocation = getItemLocationName(reqName);
-  var requirements = getLocationRequirements(itemLocation);
   return checkLogicalExpressionReq(requirements);
 }
 
@@ -185,12 +169,6 @@ function checkHasAccessedOtherLocationReq(reqName) {
   var otherLocation = getOtherLocationName(reqName);
   var split = getSplitLocationName(otherLocation);
   return locationsChecked[split.general][split.detailed] || checkOtherLocationReq(reqName);
-}
-
-function checkHasAccessedItemLocationReq(reqName) {
-  var itemLocation = getItemLocationName(reqName);
-  var split = getSplitLocationName(itemLocation);
-  return locationsChecked[split.general][split.detailed] || checkItemLocationReq(reqName);
 }
 
 function checkOptionEnabledRequirement(reqName) {
