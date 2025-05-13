@@ -61,7 +61,7 @@ $(document).ready(function () { // loads the tracker with AP when the page has l
                   else if (item.startsWith("Triforce Shard")) itemElem = $("#tracker").find(`img[name="Triforce Shard"]`)[0];
                   else if (item.endsWith("Capacity Upgrade")) {
                     console.log(`Progressive${item.split("Capacity Upgrade")[0]}`);
-                    itemElem = $("#tracker").find(`img[name="Progressive${item.split("Capacity Upgrade")[0]}"]`)[0];
+                    itemElem = $("#tracker").find(`img[name="Progressive ${item.split("Capacity Upgrade")[0]}"]`)[0];
                   }
                   else if (item.startsWith("Progressive")) switch (item.substring(12)) {
                     case "Magic Meter": {
