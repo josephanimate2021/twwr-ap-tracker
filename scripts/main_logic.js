@@ -60,7 +60,7 @@ $(document).ready(function () { // loads the tracker with AP when the page has l
                   if (item.endsWith(" Tingle Statue")) itemElem = $("#tracker").find(`img[name="Tingle Statue"]`)[0];
                   else if (item.startsWith("Triforce Shard")) itemElem = $("#tracker").find(`img[name="Triforce Shard"]`)[0];
                   else if (item.startsWith("Progressive")) {
-                    itemElem = $("#tracker").find(`img[name="${item.substring(12)} Capacity Upgrade"]`)[0];
+                    itemElem = $("#tracker").find(`img[name="${item.substring(12)} Upgrade"]`)[0];
                     if (!itemElem) continue;
                   } else continue;
                 }
