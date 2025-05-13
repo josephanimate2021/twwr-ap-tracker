@@ -21,7 +21,7 @@ function applyAPSettings(form) {
   const submutBtn = $(form).find('button[type="submit"]');
   submutBtn.attr("disabled", "");
   const origText = submutBtn.text();
-  submutBtn.text("Grabbing Settings from AP Server...");
+  submutBtn.text("Connecting to the AP Server...");
   function handleError(e, connector) {
     displayMessage(`${connector ? `Failed to connect to Archipelago's WebSockets. ` : ''}${e.toString()}`, '', {
       className: 'error',
