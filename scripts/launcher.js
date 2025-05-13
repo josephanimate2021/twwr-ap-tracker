@@ -17,7 +17,7 @@ function capWord(g) {
  */
 function applyAPSettings(form) {
   const info = Object.fromEntries(new URLSearchParams($(form).serialize()));
-  let connected = false;
+  let connected = false, roomInfo, success = false;
   const submutBtn = $(form).find('button[type="submit"]');
   submutBtn.attr("disabled", "");
   const origText = submutBtn.text();
@@ -41,10 +41,46 @@ function applyAPSettings(form) {
       connected = true;
       try {
         const array = JSON.parse(g.data);
-        /*displayMessage(`AP Server Connection is valid! Please enter in the user infomation below.`);
-        submutBtn.text("Connected to the AP Server");
-        $("#userInfomation").show();
-        $("#btnTrackerLaunch").removeAttr("disabled");*/
+        for (const info2 of array) {
+          switch (info2.cmd) {
+            case "RoomInfo": {
+              roomInfo = info2;
+              info2.cmd = "GetDataPackage";
+              break;
+            } case "DataPackage": {
+              const games = info2.data.games;
+              function uuidGenV4() { // generates a v4 UUID for archipelago
+                const G = [];
+                for (let Q = 0; Q < 36; Q++) G.push(Math.floor(Math.random() * 16));
+                return G[14] = 4, G[19] = G[19] &= -5, G[19] = G[19] |= 8, G[8] = G[13] = G[18] = G[23] = "-", G.map((Q) => Q.toString(16)).join("")
+              }
+              for (const game in games) {
+                if (game == "Archipelago") continue;
+                Object.assign(info2, {
+                  cmd: "Connect",
+                  password: info.pass || '',
+                  name: info.user,
+                  game,
+                  slot_data: true,
+                  items_handling: 7,
+                  uuid: uuidGenV4(),
+                  tags: ["Tracker"],
+                  version: roomInfo.version,
+                });
+              }
+              break;
+            } case "Connected": {
+              success = true;
+              displayMessage(`Successfuly modified settings from AP!`);
+              submutBtn.text("Connected to the AP Server");
+              for (const btn of document.getElementById('launcherButtons').children) {
+                console.log(btn);
+              }
+              break;
+            } 
+          }
+        }
+        if (!success) socket.send(JSON.stringify(array));
       } catch (e) {
         handleError(e, connector);
       }
