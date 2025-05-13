@@ -32,6 +32,7 @@ function findAPItemElement(itemId) {
 function jQueryElements2Array(elems) {
   const array = [];
   for (const elem in elems) if (typeof elem == "number") array.push(elems[elem]);
+  console.log(elems, array)
   return array;
 }
 
