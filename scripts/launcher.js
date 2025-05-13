@@ -64,7 +64,7 @@ function applyAPSettings(form) {
                   slot_data: true,
                   items_handling: 7,
                   uuid: uuidGenV4(),
-                  tags: ["Tracker"],
+                  tags: ["NoText"],
                   version: roomInfo.version,
                 });
               }
