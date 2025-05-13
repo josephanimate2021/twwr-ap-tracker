@@ -107,7 +107,7 @@ function loadMacros() {
 function loadItemLocations() {
   return new Promise((res, rej) => {
     $.ajax({
-      url: getLogicFilesUrl() + 'item_locations.txt',
+      url: window.location.href + './itemLocationsAP.yaml',
       success: function (data) {
         itemLocations = jsyaml.load(data);
         itemLocationsLoaded = true;
