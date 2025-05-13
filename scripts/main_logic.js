@@ -73,8 +73,11 @@ $(document).ready(function () { // loads the tracker with AP when the page has l
                     }
                   } else if (item.endsWith("Small Key") || item.endsWith("Big Key")) {
                     console.log('Confirmed', item, 'as a dungeon key')
-                  }
-                  //else continue;
+                  } else if (item.startsWith("Treasure Chart") || item.startsWith("Triforce Chart")) {
+                    const chartType = item.split("Chart")[0].slice(0, -1).toLowerCase();
+                    const allElements = document.getElementsByClassName(`${chartType}-chart`);
+                    console.log(item, chartType, allElements);
+                  } else continue;
                 }
                 console.log(item, itemElem)
                 /*const itemIds = itemElem.getAttribute("data-itemIds") ? JSON.parse(itemElem.getAttribute("data-itemIds")) : [];
