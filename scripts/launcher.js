@@ -79,7 +79,7 @@ function applyAPSettings(form) {
               }
               break;
             } case "ConnectionRefused": {
-              handleError(`Unable to connect to AP due to the following errors: ${info2.errors.join(', ')}`, connector);
+              handleError(`Errors: ${info2.errors.join(', ')}`, connector);
               break;
             }
           }
