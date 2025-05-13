@@ -81,7 +81,7 @@ function applyAPSettings(form) {
             } 
           }
         }
-        if (!success) socket.send(JSON.stringify(array));
+        if (!success) connector.send(JSON.stringify(array));
       } catch (e) {
         handleError(e, connector);
       }
@@ -105,11 +105,11 @@ function applyAPSettings(form) {
  */
 function displayMessage(msg, element, options = {}) {
   const je = element ? $(element) : $;
-  je.notify(msg, Object.assign(options, {
+  je.notify(msg, Object.assign({
     autoHideDelay: 5000,
     className: "success",
     position: 'top center'
-  }));
+  }, options));
 }
 
 /**
