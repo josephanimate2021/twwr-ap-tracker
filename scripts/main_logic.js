@@ -72,7 +72,7 @@ $(document).ready(function () { // loads the tracker with AP when the page has l
                       break;
                     }
                   } else if (item.endsWith("Small Key") || item.endsWith("Big Key")) {
-                    const allElements = document.getElementByClassName(item.endsWith('Big Key') ? 'boss-key' : 'small-key');
+                    const allElements = document.getElementsByClassName(item.endsWith('Big Key') ? 'boss-key' : 'small-key');
                     for (const elem of allElements) {
                       if (elem.innerText != item) continue;
                       itemElem = elem;
