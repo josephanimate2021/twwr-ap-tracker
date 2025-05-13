@@ -131,6 +131,7 @@ function getFlagString() {
   var result = '';
   for (var i = 0; i < buttonNames.length; i++) {
     var curButton = document.getElementById(buttonNames[i]);
+    console.log(curButton, buttonNames[i])
     var curFlag = flagNames[i];
     if (curButton.checked) {
       result += curFlag + '1';
