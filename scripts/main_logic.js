@@ -59,8 +59,8 @@ $(document).ready(function () { // loads the tracker with AP when the page has l
                 if (!itemElem) {
                   if (item.endsWith(" Tingle Statue")) itemElem = $("#tracker").find(`img[name="Tingle Statue"]`)[0];
                   else if (item.startsWith("Triforce Shard")) itemElem = $("#tracker").find(`img[name="Triforce Shard"]`)[0];
+                  else continue;
                 }
-                if (!itemElem) continue;
                 const itemIds = itemElem.getAttribute("data-itemIds") ? JSON.parse(itemElem.getAttribute("data-itemIds")) : [];
                 itemIds.push(games[game].item_name_to_id[item]);
                 itemElem.setAttribute("data-itemIds", JSON.stringify(itemIds));
