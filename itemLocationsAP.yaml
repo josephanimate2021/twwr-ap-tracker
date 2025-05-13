@@ -442,7 +442,7 @@ Dragon Roost Cavern - Chest Across Lava Pit:
   Need:
     Can Access Dragon Roost Cavern
     & DRC Small Key x2
-    & (Grappling Hook | Can Fly With Deku Leaf Indoors)
+    & (Grappling Hook | Deku Leaf)
   # Note: It's also possible to throw a burning stick across the pit, then stand at the very very edge of the cliff and hookshot the chest to get across. But this is pretty precise, so this is not required. (Maybe for a higher difficulty level in the future it can be.)
   # Note: In swordless, you can throw a burning stick across the lava pit, then grapple across.
   Original item: Treasure Chart 11
@@ -498,7 +498,7 @@ Dragon Roost Cavern - Pot Room Chest:
   Types: Dungeon
   Paths:
     - M_NewD2/Stage.arc/Chest003
-Dragon Roost Cavern - :
+Dragon Roost Cavern - Miniboss:
   Need:
     Can Access Dragon Roost Cavern
     & DRC Small Key x4
@@ -524,7 +524,7 @@ Dragon Roost Cavern - Tingle Statue Chest:
     & DRC Small Key x1
     & (
       (DRC Small Key x4 & Can Cut Down Hanging DRC Platform)
-      | Can Fly With Deku Leaf Indoors
+      | Deku Leaf
       | Ice Arrows
     )
     & Grappling Hook
@@ -539,7 +539,7 @@ Dragon Roost Cavern - Big Key Chest:
     & DRC Small Key x1
     & (
       (DRC Small Key x4 & Can Cut Down Hanging DRC Platform)
-      | Can Fly With Deku Leaf Indoors
+      | Deku Leaf
       | Ice Arrows
     )
     & Grappling Hook
@@ -555,7 +555,7 @@ Dragon Roost Cavern - Boss Stairs Right Chest:
   Need:
     Can Access Dragon Roost Cavern
     & DRC Small Key x4
-    & (Grappling Hook | Can Fly With Deku Leaf Indoors | Hookshot | Ice Arrows)
+    & (Grappling Hook | Deku Leaf | Hookshot | Ice Arrows)
     # Hookshot can reach the torches on the other side of the lava.
     # Ice Arrows can create a platform in the lava.
   Original item: Knight's Crest
@@ -566,7 +566,7 @@ Dragon Roost Cavern - Boss Stairs Left Chest:
   Need:
     Can Access Dragon Roost Cavern
     & DRC Small Key x4
-    & (Grappling Hook | Can Fly With Deku Leaf Indoors | Hookshot | Ice Arrows)
+    & (Grappling Hook | Deku Leaf | Hookshot | Ice Arrows)
     # Hookshot can reach the torches on the other side of the lava.
     # Ice Arrows can create a platform in the lava.
   Original item: Yellow Rupee
@@ -627,7 +627,7 @@ Forbidden Woods - Inside Hollow Tree's Mouth:
 Forbidden Woods - Climb to Top Using Boko Baba Bulbs:
   Need:
     Can Access Forbidden Woods
-    & Can Fly With Deku Leaf Indoors
+    & Deku Leaf
     & Can Defeat Door Flowers
   Original item: Treasure Chart 1
   Types: Dungeon
@@ -636,7 +636,7 @@ Forbidden Woods - Climb to Top Using Boko Baba Bulbs:
 Forbidden Woods - Hole in Tree:
   Need:
     Can Access Forbidden Woods
-    & Can Fly With Deku Leaf Indoors
+    & Deku Leaf
     & Can Defeat Boko Babas
   Original item: Red Rupee
   Types: Dungeon
@@ -645,7 +645,7 @@ Forbidden Woods - Hole in Tree:
 Forbidden Woods - Morth Pit:
   Need:
     Can Access Forbidden Woods
-    & Can Fly With Deku Leaf Indoors
+    & Deku Leaf
     & Can Defeat Boko Babas
     & Grappling Hook
   Original item: Yellow Rupee
@@ -655,7 +655,7 @@ Forbidden Woods - Morth Pit:
 Forbidden Woods - Vine Maze Left Chest:
   Need:
     Can Access Forbidden Woods
-    & Can Fly With Deku Leaf Indoors
+    & Deku Leaf
     & Can Defeat Boko Babas
     & Grappling Hook
   Original item: Compass
@@ -665,17 +665,17 @@ Forbidden Woods - Vine Maze Left Chest:
 Forbidden Woods - Vine Maze Right Chest:
   Need:
     Can Access Forbidden Woods
-    & Can Fly With Deku Leaf Indoors
+    & Deku Leaf
     & Can Defeat Boko Babas
     & Grappling Hook
   Original item: Small Key
   Types: Dungeon
   Paths:
     - kindan/Stage.arc/Chest003
-Forbidden Woods - Tall Room Before :
+Forbidden Woods - Tall Room Before Miniboss:
   Need:
     Can Access Forbidden Woods
-    & Can Fly With Deku Leaf Indoors
+    & Deku Leaf
     & Can Defeat Boko Babas
     & Grappling Hook
     & FW Small Key x1
@@ -685,10 +685,10 @@ Forbidden Woods - Tall Room Before :
   Types: Dungeon
   Paths:
     - kindan/Stage.arc/Chest009
-Forbidden Woods - Mothula  Room:
+Forbidden Woods - Mothula Miniboss Room:
   Need:
     Can Access Forbidden Woods
-    & Can Fly With Deku Leaf Indoors
+    & Deku Leaf
     & Can Defeat Boko Babas
     & Grappling Hook
     & FW Small Key x1
@@ -701,7 +701,7 @@ Forbidden Woods - Mothula  Room:
 Forbidden Woods - Past Seeds Hanging by Vines:
   Need:
     Can Access Forbidden Woods
-    & Can Fly With Deku Leaf Indoors
+    & Deku Leaf
     & Can Defeat Boko Babas
     & Grappling Hook
     & FW Small Key x1
@@ -715,7 +715,7 @@ Forbidden Woods - Past Seeds Hanging by Vines:
 Forbidden Woods - Chest Across Red Hanging Flower:
   Need:
     Can Access Forbidden Woods
-    & Can Fly With Deku Leaf Indoors
+    & Deku Leaf
     & Can Defeat Boko Babas
     & Grappling Hook
     & Boomerang
@@ -726,7 +726,7 @@ Forbidden Woods - Chest Across Red Hanging Flower:
 Forbidden Woods - Tingle Statue Chest:
   Need:
     Can Access Forbidden Woods
-    & Can Fly With Deku Leaf Indoors
+    & Deku Leaf
     & Grappling Hook
     & Boomerang
     & Tingle Tuner Bombs
@@ -737,7 +737,7 @@ Forbidden Woods - Tingle Statue Chest:
 Forbidden Woods - Chest in Locked Tree Trunk:
   Need:
     Can Access Forbidden Woods
-    & Can Fly With Deku Leaf Indoors
+    & Deku Leaf
     & Can Defeat Boko Babas
     & Grappling Hook
     & Boomerang
@@ -748,7 +748,7 @@ Forbidden Woods - Chest in Locked Tree Trunk:
 Forbidden Woods - Big Key Chest:
   Need:
     Can Access Forbidden Woods
-    & Can Fly With Deku Leaf Indoors
+    & Deku Leaf
     & Can Defeat Boko Babas
     & Grappling Hook
     & Boomerang
@@ -759,7 +759,7 @@ Forbidden Woods - Big Key Chest:
 Forbidden Woods - Double Mothula Room:
   Need:
     Can Access Forbidden Woods
-    & Can Fly With Deku Leaf Indoors
+    & Deku Leaf
     & Can Defeat Boko Babas
     & (Can Defeat Door Flowers | Grappling Hook)
     & Can Defeat Mothulas
@@ -771,7 +771,7 @@ Forbidden Woods - Double Mothula Room:
 Forbidden Woods - Kalle Demos Heart Container:
   Need:
     Can Access Forbidden Woods
-    & Can Fly With Deku Leaf Indoors
+    & Deku Leaf
     & Can Defeat Boko Babas
     & (Can Defeat Door Flowers | Grappling Hook)
     & Can Defeat Mothulas
@@ -864,14 +864,14 @@ Tower of the Gods - Stone Tablet:
   Types: Dungeon
   Paths:
     - Siren/Stage.arc/Event060:hsehi1_tact/Actor003/Action004
-Tower of the Gods - Darknut  Room:
+Tower of the Gods - Darknut Miniboss Room:
   Need:
     Can Access Tower of the Gods
     & Bombs
     & TotG Small Key x1
     & Can Defeat Yellow ChuChus
     & Wind Waker
-    & (Grappling Hook | Can Fly With Deku Leaf Indoors)
+    & (Grappling Hook | Deku Leaf)
     & (Can Play Command Melody | Hero's Bow)
     & Can Defeat Darknuts
     # Note: If you already have the bow you can get the statue guy across the previous room without getting this item, which might appear to make this chest permanently missable, but in reality you can use the deactivated Armos from across the pit to keep the button pressed.
@@ -888,7 +888,7 @@ Tower of the Gods - Second Chest Guarded by Armos Knights:
     & TotG Small Key x1
     & Can Defeat Yellow ChuChus
     & Wind Waker
-    & (Grappling Hook | Can Fly With Deku Leaf Indoors)
+    & (Grappling Hook | Deku Leaf)
     & Can Play Command Melody
     & Hero's Bow
     & Can Play Wind's Requiem
@@ -904,7 +904,7 @@ Tower of the Gods - Floating Platforms Room:
     & TotG Small Key x1
     & Can Defeat Yellow ChuChus
     & Wind Waker
-    & (Grappling Hook | Can Fly With Deku Leaf Indoors)
+    & (Grappling Hook | Deku Leaf)
     & Can Play Command Melody
     & Hero's Bow
   Original item: Small Key
@@ -918,7 +918,7 @@ Tower of the Gods - Top of Floating Platforms Room:
     & TotG Small Key x1
     & Can Defeat Yellow ChuChus
     & Wind Waker
-    & (Grappling Hook | Can Fly With Deku Leaf Indoors)
+    & (Grappling Hook | Deku Leaf)
     & Can Play Command Melody
     & Hero's Bow
   Original item: Joy Pendant
@@ -931,11 +931,11 @@ Tower of the Gods - Big Key Chest:
     & Bombs
     & Can Defeat Yellow ChuChus
     & Wind Waker
-    & (Grappling Hook | Can Fly With Deku Leaf Indoors)
+    & (Grappling Hook | Deku Leaf)
     & Can Play Command Melody
     & Hero's Bow
     & TotG Small Key x2
-    & Can Fly With Deku Leaf Indoors
+    & Deku Leaf
     # Note: Deku Leaf is not strictly necessary in the 3rd statue guy room because you can jump on two decorative pillars near the side of the room, and then jump onto the wall protrusion above where the lasers are coming out of to reach the statue guy. But since it's not clear the wall protrusion is something you can jump to and stand on, this is not currently required by the logic.
   Original item: Big Key
   Types: Dungeon
@@ -947,11 +947,11 @@ Tower of the Gods - Gohdan Heart Container:
     & Bombs
     & Can Defeat Yellow ChuChus
     & Wind Waker
-    & (Grappling Hook | Can Fly With Deku Leaf Indoors)
+    & (Grappling Hook | Deku Leaf)
     & Can Play Command Melody
     & Hero's Bow
     & TotG Small Key x2
-    & Can Fly With Deku Leaf Indoors
+    & Deku Leaf
     & Can Defeat Armos
     & TotG Big Key
     & Can Defeat Gohdan
@@ -981,7 +981,7 @@ Forsaken Fortress - Phantom Ganon:
 Forsaken Fortress - Chest Outside Upper Jail Cell:
   Need:
     Can Get Inside Forsaken Fortress
-    & (Can Fly With Deku Leaf Indoors | Hookshot)
+    & (Deku Leaf | Hookshot)
     # Instead of using Deku Leaf to fly over to the chest, you can also use the Hookshot on the chest.
     # Note: You could also intentionally get caught by the Floormaster so that it takes you to jail, then escape and access this chest without needing either Deku Leaf or Hookshot. But since this one Floormaster behaving differently from all others in the game is obscure, this is not currently required by the logic.
   Original item: Dungeon Map
@@ -1018,7 +1018,7 @@ Forsaken Fortress - Helmaroc King Heart Container:
   Need:
     Can Get Inside Forsaken Fortress
     & Skull Hammer
-    & (Can Fly With Deku Leaf Indoors | Hookshot)
+    & (Deku Leaf | Hookshot)
     & Can Defeat Helmaroc King
     # You can make it up there with either Deku Leaf, or Hookshotting a torch to cross a gap.
     # Note: It is possible to get up there without either Deku Leaf or Hookshot.
@@ -1109,7 +1109,6 @@ Headstone Island - Submarine:
   Paths:
     - Abship/Room3.arc/Chest000
     - Abship/Room5.arc/Chest000
-
 Earth Temple - Transparent Chest In Warp Pot Room:
   Need:
     Can Access Earth Temple
@@ -1333,7 +1332,7 @@ Wind Temple - Tingle Statue Chest:
     Can Access Wind Temple
     & Can Play Command Melody
     & Iron Boots
-    & Can Fly With Deku Leaf Indoors
+    & Deku Leaf
     & Tingle Tuner Bombs
   Original item: Wind Tingle Statue
   Types: Tingle Chest, Dungeon
@@ -1344,7 +1343,7 @@ Wind Temple - Chest Behind Stone Head:
     Can Access Wind Temple
     & Can Play Command Melody
     & Iron Boots
-    & Can Fly With Deku Leaf Indoors
+    & Deku Leaf
     & Hookshot
   Original item: Joy Pendant
   Types: Dungeon
@@ -1355,7 +1354,7 @@ Wind Temple - Chest in Left Alcove:
     Can Access Wind Temple
     & Can Play Command Melody
     & Iron Boots
-    & Can Fly With Deku Leaf Indoors
+    & Deku Leaf
   Original item: Joy Pendant
   Types: Dungeon
   Paths:
@@ -1365,7 +1364,7 @@ Wind Temple - Big Key Chest:
     Can Access Wind Temple
     & Can Play Command Melody
     & Iron Boots
-    & Can Fly With Deku Leaf Indoors
+    & Deku Leaf
     & Can Play Wind God's Aria
     & Can Defeat Darknuts
   Original item: Big Key
@@ -1377,7 +1376,7 @@ Wind Temple - Chest In Many Cyclones Room:
     Can Access Wind Temple
     & Can Play Command Melody
     & Iron Boots
-    & Can Fly With Deku Leaf Indoors
+    & Deku Leaf
     & (
       (Can Cut Grass | Magic Meter Upgrade)
       | (Hookshot & Can Defeat Blue Bubbles)
@@ -1394,7 +1393,7 @@ Wind Temple - Chest In Middle Of Hub Room:
     Can Access Wind Temple
     & Can Play Command Melody
     & Iron Boots
-    & Can Fly With Deku Leaf Indoors
+    & Deku Leaf
     & (
       Can Cut Grass
       | (Hookshot & Can Defeat Blue Bubbles)
@@ -1409,7 +1408,7 @@ Wind Temple - Spike Wall Room - First Chest:
     Can Access Wind Temple
     & Can Play Command Melody
     & Iron Boots
-    & Can Fly With Deku Leaf Indoors
+    & Deku Leaf
     & (
       Can Cut Grass
       | (Hookshot & Can Defeat Blue Bubbles)
@@ -1423,7 +1422,7 @@ Wind Temple - Spike Wall Room - Destroy All Cracked Floors:
     Can Access Wind Temple
     & Can Play Command Melody
     & Iron Boots
-    & Can Fly With Deku Leaf Indoors
+    & Deku Leaf
     & (
       Can Cut Grass
       | (Hookshot & Can Defeat Blue Bubbles)
@@ -1438,7 +1437,7 @@ Wind Temple - Wizzrobe Miniboss Room:
     Can Access Wind Temple
     & Can Play Command Melody
     & Iron Boots
-    & Can Fly With Deku Leaf Indoors
+    & Deku Leaf
     & (
       Can Cut Grass
       | (Hookshot & Can Defeat Blue Bubbles)
@@ -1459,7 +1458,7 @@ Wind Temple - Chest at Top of Hub Room:
     Can Access Wind Temple
     & Can Play Command Melody
     & Iron Boots
-    & Can Fly With Deku Leaf Indoors
+    & Deku Leaf
     & (
       Can Cut Grass
       | (Hookshot & Can Defeat Blue Bubbles)
@@ -1473,7 +1472,7 @@ Wind Temple - Chest Behind Seven Armos:
     Can Access Wind Temple
     & Can Play Command Melody
     & Iron Boots
-    & Can Fly With Deku Leaf Indoors
+    & Deku Leaf
     & (
       Can Cut Grass
       | (Hookshot & Can Defeat Blue Bubbles)
@@ -1488,7 +1487,7 @@ Wind Temple - Kill All Enemies in Tall Basement Room:
     Can Access Wind Temple
     & Can Play Command Melody
     & Iron Boots
-    & Can Fly With Deku Leaf Indoors
+    & Deku Leaf
     & Hookshot
     & Can Defeat Blue Bubbles
     & WT Small Key x2
@@ -1506,7 +1505,7 @@ Wind Temple - Molgera Heart Container:
     Can Access Wind Temple
     & Can Play Command Melody
     & Iron Boots
-    & Can Fly With Deku Leaf Indoors
+    & Deku Leaf
     & Hookshot
     & Can Defeat Blue Bubbles
     & WT Small Key x2
@@ -1692,7 +1691,6 @@ The Great Sea - Ghost Ship:
     - PShip/Stage.arc/Chest002
     - PShip2/Stage.arc/Chest000
     - PShip3/Stage.arc/Chest000
-
 Private Oasis - Chest at Top of Waterfall:
   Need: Hookshot | Can Fly With Deku Leaf Outdoors
   Original item: Treasure Chart 27
@@ -1770,7 +1768,7 @@ Angular Isles - Cave:
     # Either Deku Leaf or Hookshot are needed to reach the chest in the cave.
     Can Access Angular Isles Secret Cave
     & Can Aim Mirror Shield
-    & (Can Fly With Deku Leaf Indoors | Hookshot)
+    & (Deku Leaf | Hookshot)
   Original item: Silver Rupee
   Types: Puzzle Secret Cave
   Paths:
@@ -2151,7 +2149,7 @@ Cliff Plateau Isles - Highest Isle:
   Need:
     Can Access Cliff Plateau Isles Secret Cave
     & Can Defeat Boko Babas
-    & Can Fly With Deku Leaf Indoors
+    & Deku Leaf
   Original item: Treasure Chart 25
   Types: Puzzle Secret Cave
   Paths:
@@ -2179,7 +2177,7 @@ Crescent Moon Island - Submarine:
 
 Horseshoe Island - Play Golf:
   Need:
-    Can Fan With Deku Leaf
+    Deku Leaf
     & (Can Fly With Deku Leaf Outdoors | Hookshot)
     # Need Deku Leaf to play golf, and then need a way to reach the chest.
   Original item: Treasure Chart 28
