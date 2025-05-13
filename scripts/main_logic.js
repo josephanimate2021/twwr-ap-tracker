@@ -23,6 +23,7 @@ function findAPItemElement(itemId) {
   }
   let elem = lookInElements([document.getElementById("triforce"),document.getElementById("shield")]);
   elem ||= lookInElements(document.getElementsByClassName("pearls"));
+  elem ||= lookInElements($("#tracker").find("img"))
   if (!elem) {
   }
   return elem;
