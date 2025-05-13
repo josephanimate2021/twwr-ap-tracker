@@ -46,7 +46,6 @@ function loadFlags() {
   if (loadingProgress) {
     return;
   }
-/* Commented out because this is for the permalink support that currently isn't in AP.
   options.key_lunacy = getParamBool('KL', options.key_lunacy);
   options.randomize_charts = getParamBool('RCH', options.randomize_charts);
   options.skip_rematch_bosses = getParamBool('SRB', options.skip_rematch_bosses);
@@ -79,9 +78,10 @@ function loadFlags() {
       options.sword_mode = 'Start with Sword';
       break;
     case 1:
+    case 2:
       options.sword_mode = 'Randomized Sword';
       break;
-    case 2:
+    case 3:
       options.sword_mode = 'Swordless';
       break;
   }
@@ -114,7 +114,7 @@ function loadFlags() {
   checkAddFlags('TIN', ['Tingle Chest']);
   checkAddFlags('SAV', ['Savage Labyrinth']);
   checkAddFlags('BSM', ['Battlesquid']);
-  checkAddFlags('IP', ['Island Puzzle']);*/
+  checkAddFlags('IP', ['Island Puzzle']);
 }
 
 function getParamBool(param, defaultVal) {
