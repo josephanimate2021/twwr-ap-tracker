@@ -21,7 +21,7 @@ function applyAPSettings(form) {
   const submutBtn = $(form).find('button[type="submit"]');
   submutBtn.attr("disabled", "");
   const origText = submutBtn.text();
-  submutBtn.text("Connecting to the AP Server...");
+  submutBtn.text("Grabbing Settings from AP Server...");
   function handleError(e, connector) {
     displayMessage(`${connector ? `Failed to connect to Archipelago's WebSockets. ` : ''}${e.toString()}`, '', {
       className: 'error',
@@ -72,7 +72,8 @@ function applyAPSettings(form) {
             } case "Connected": {
               success = true;
               displayMessage(`Successfuly modified settings from AP!`);
-              submutBtn.text("Connected to the AP Server");
+              submutBtn.text(origText);
+              submutBtn.removeAttr("disabled");
               for (const btn of document.getElementById('launcherButtons').children) {
                 console.log(btn);
               }
