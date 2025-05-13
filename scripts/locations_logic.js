@@ -127,6 +127,9 @@ function checkRequirementMet(reqName) {
   if (reqName == 'Impossible') {
     return false;
   }
+  if (reqName.startsWith('Can Access Item Location "')) {
+    return checkItemLocationReq(reqName);
+  }
   throw Error("Unrecognized reqName: " + reqName);
 }
 
@@ -159,9 +162,19 @@ function getOtherLocationName(reqName) {
   return reqName.match(/(?:Can Access|Has Accessed) Other Location "([^"]+)"/)[1];
 }
 
+function getItemLocationName(reqName) {
+  return reqName.match(/(?:Can Access|Has Accessed) Item Location "([^"]+)"/)[1];
+}
+
 function checkOtherLocationReq(reqName) {
   var otherLocation = getOtherLocationName(reqName);
   var requirements = getLocationRequirements(otherLocation);
+  return checkLogicalExpressionReq(requirements);
+}
+
+function checkItemLocationReq(reqName) {
+  var itemLocation = getItemLocationName(reqName);
+  var requirements = getLocationRequirements(itemLocation);
   return checkLogicalExpressionReq(requirements);
 }
 
