@@ -135,18 +135,6 @@ Additional Randomization Options:
     false: 50
     true: 0
 
-  triforce_shards_to_start_with:
-    # Tells the tracker how many triforce shards the user plans on starting with.
-    0: 50
-    1: 0
-    2: 0
-    3: 0
-    4: 0
-    5: 0
-    6: 0
-    7: 0
-    8: 0
-
   race_mode:
     # Tells the tracker whatever or not the rando is being done in race mode.
     'false': 50
