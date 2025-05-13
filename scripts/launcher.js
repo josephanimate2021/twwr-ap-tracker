@@ -124,7 +124,7 @@ function displayMessage(msg, element, options = {}) {
 function getFlagString() {
   var flagNames = ['D', 'GF', 'PSC', 'CSC', 'SSQ', 'LSQ', 'ST', 'MG', 'FG', 'MAI', 'PR', 'SUB', 'ERC', 'BOG', 'TRI', 'TRE', 'EP', 'MIS', 'TIN', 'KL', 'REN', 'RCH', 'SWO', 'SRB', 'STS', 'RM', 'SAV', 'BSM', 'IP'];
   var buttonNames = ['dungeons', 'great_fairies', 'puzzle_secret_caves', 'combat_secret_caves', 'short_sidequests', 'long_sidequests', 'spoils_trading', 'minigames',
-    'free_gifts', 'mail', 'lookout_platforms-and_rafts', 'submarines', 'eye_reef_chests', 'big_octos_and_gunboats', 'Sunken Treasure (From Triforce Charts)', 'Sunken Treasure (From Treasure Charts)',
+    'free_gifts', 'mail', 'lookout_platforms_and_rafts', 'submarines', 'eye_reef_chests', 'big_octos_and_gunboats', 'Sunken Treasure (From Triforce Charts)', 'Sunken Treasure (From Treasure Charts)',
     'expensive_purchases', 'miscellaneous', 'tingle_chests', 'key_lunacy', 'randomize_entrances', 'randomize_charts', 'sword_mode',
     'skip_rematch_bosses', 'triforce_shards_to_start_with', 'race_mode', 'savage_labyrinth', 'battlesquid', 'island_puzzles'];
 
