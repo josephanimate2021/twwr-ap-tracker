@@ -1,6 +1,6 @@
 # TWW Randomizer Tracker for Archipelago (AP)
 
-This is an AP tracker for [The Wind Waker Randomizer](https://archipelago.gg/games/The%20Wind%20Waker). The original tracker was made by [wooferzfg](https://github.com/wooferzfg/tww-rando-tracker) with the AP version of this being modified by me.
+This is an AP tracker for [The Wind Waker Randomizer](https://archipelago.gg/games/The%20Wind%20Waker/info/en). The original tracker was made by [wooferzfg](https://github.com/wooferzfg/tww-rando-tracker) with the AP version being modified by me.
 
 ## Running Locally
 
