@@ -77,10 +77,9 @@ $(document).ready(function () { // loads the tracker with AP when the page has l
                   } else if (item.startsWith("Treasure Chart") || item.startsWith("Triforce Chart")) itemElem = document.getElementById(`chart${charts.findIndex(i => i == item)}`)
                   else continue;
                 }
-                console.log(item, itemElem)
-                /*const itemIds = itemElem.getAttribute("data-itemIds") ? JSON.parse(itemElem.getAttribute("data-itemIds")) : [];
+                const itemIds = itemElem.getAttribute("data-itemIds") ? JSON.parse(itemElem.getAttribute("data-itemIds")) : [];
                 itemIds.push(games[game].item_name_to_id[item]);
-                itemElem.setAttribute("data-itemIds", JSON.stringify(itemIds));*/
+                itemElem.setAttribute("data-itemIds", JSON.stringify(itemIds));
               }
             }
             break;
