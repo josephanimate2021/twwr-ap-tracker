@@ -14,6 +14,7 @@ var roomInfo;
 function findAPItemElement(itemId) {
   function lookInElements(elemArray) {
     for (const elem of elemArray) {
+      if (!elem.getAttribute("data-itemids")) continue;
       const itemIds = JSON.parse(elem.getAttribute("data-itemids"));
       if (!itemIds.find(i => i == itemId)) continue;
       return elem;
