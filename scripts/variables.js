@@ -264,7 +264,6 @@ var options = {
   randomize_charts: false,
   sword_mode: 'Start with Sword',
   skip_rematch_bosses: false,
-  num_starting_triforce_shards: 0,
   race_mode: false,
   starting_gear: 0
 };
