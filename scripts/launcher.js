@@ -75,7 +75,7 @@ function applyAPSettings(form) {
               submutBtn.text(origText);
               submutBtn.removeAttr("disabled");
               for (const btn of document.getElementById('launcherButtons').children) {
-                console.log(btn);
+                $(btn).removeAttr("disabled")
               }
               break;
             } case "ConnectionRefused": {
