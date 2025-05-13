@@ -64,9 +64,9 @@ $(document).ready(function () { // loads the tracker with AP when the page has l
                     //if (!itemElem) continue;
                   } //else continue;
                 }
-                const itemIds = itemElem.getAttribute("data-itemIds") ? JSON.parse(itemElem.getAttribute("data-itemIds")) : [];
                 console.log(item, itemElem)
-                /*itemIds.push(games[game].item_name_to_id[item]);
+                /*const itemIds = itemElem.getAttribute("data-itemIds") ? JSON.parse(itemElem.getAttribute("data-itemIds")) : [];
+                itemIds.push(games[game].item_name_to_id[item]);
                 itemElem.setAttribute("data-itemIds", JSON.stringify(itemIds));*/
               }
             }
