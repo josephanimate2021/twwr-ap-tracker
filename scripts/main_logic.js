@@ -25,7 +25,6 @@ function findAPItemElement(itemId) {
   elem ||= lookInElements(document.getElementsByClassName("pearls"));
   if (!elem) {
   }
-  console.log(elem);
   return elem;
 }
 
@@ -110,9 +109,9 @@ $(document).ready(function () { // loads the tracker with AP when the page has l
             loadMacros();
             break;
           } case "ReceivedItems": {
-            console.log($("#tracker").find(''))
             for (const APItemInfo of info2.items) {
               const elem = findAPItemElement(APItemInfo.item);
+              console.log(APItemInfo.item, elem);
             }
             break;
           }
