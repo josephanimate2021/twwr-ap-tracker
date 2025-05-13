@@ -15,10 +15,10 @@ function capWord(g) {
  * Checks for an existant AP server connection before redirecting the user to the actual tracker.
  * @param {HTMLButtonElement} submutBtn 
  */
-function checkConnection(submutBtn) {
+function applyAPSettings(form) {
+  const info = Object.fromEntries(new URLSearchParams($(form).serialize()));
   let connected = false;
-  const host = document.getElementById('apHost').value;
-  document.getElementById('apHost').setAttribute("disabled", "");
+  const submutBtn = $(form).find('button[type="submit"]');
   submutBtn.attr("disabled", "");
   const origText = submutBtn.text();
   submutBtn.text("Connecting to the AP Server...");
@@ -31,21 +31,20 @@ function checkConnection(submutBtn) {
       connector.close();
     }
     submutBtn.removeAttr("disabled");
-    document.getElementById('apHost').removeAttribute("disabled");
     submutBtn.text(origText);
   }
-  if (host) {
+  if (info.host) {
     const connector = new WebSocket(`${
-      host.startsWith('localhost') || host.startsWith('127.0.0.1') ? 'ws' : 'wss'
-    }://${host}`);
+      info.host.startsWith('localhost') || info.host.startsWith('127.0.0.1') ? 'ws' : 'wss'
+    }://${info.host}`);
     connector.addEventListener("message", g => {
       connected = true;
       try {
         const array = JSON.parse(g.data);
-        displayMessage(`AP Server Connection is valid! Please enter in the user infomation below.`);
+        /*displayMessage(`AP Server Connection is valid! Please enter in the user infomation below.`);
         submutBtn.text("Connected to the AP Server");
         $("#userInfomation").show();
-        $("#btnTrackerLaunch").removeAttr("disabled");
+        $("#btnTrackerLaunch").removeAttr("disabled");*/
       } catch (e) {
         handleError(e, connector);
       }
@@ -107,7 +106,7 @@ function getFlagString() {
  * @returns {string}
  */
 function trackerLink() {
-  return `./tracker.html?f=${getFlagString()}&g=0&p=0&v=master&c=1`
+  return `./tracker.html?f=${getFlagString()}&g=${$("#apConfig").data("startingGear") || 0}&p=0&v=master&c=1&${$("#apConfig").serialize()}`
 }
 
 /**
