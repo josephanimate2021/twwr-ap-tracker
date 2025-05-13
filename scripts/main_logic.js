@@ -28,6 +28,22 @@ function findAPItemElement(itemId) {
   return elem;
 }
 
+/**
+ * Converts info about AP items to normal item info
+ * @param {JSON} items
+ * @returns {JSON}
+ */
+function apItems2NormalItems(apItems) {
+  const info = {};
+  const together = Object.assign({}, items, keys)
+  const itemImages = $("#tracker").find("img");
+  console.log(itemImages);
+  for (const item in apItems) {
+    if (together[item]) info[item] = apItems[item];
+  }
+  return info;
+}
+
 $(document).ready(function () { // loads the tracker with AP when the page has loaded.
   if (APHost) {
     const connector = new WebSocket(`${APHost.startsWith("localhost") || APHost.startsWith("127.0.0.1") ? 'ws' : 'wss'}://${APHost}`);
@@ -65,7 +81,7 @@ $(document).ready(function () { // loads the tracker with AP when the page has l
                 password: APPass,
                 name: APUser,
                 game,
-                slot_data: false,
+                slot_data: true,
                 items_handling: 7,
                 uuid: uuidGenV4(),
                 tags: ["Tracker"],
@@ -107,6 +123,7 @@ $(document).ready(function () { // loads the tracker with AP when the page has l
             break;
           } case "Connected": {
             connectionSuccessful = true;
+            loadStartingItems(info2.slot_data)
             loadMacros();
             break;
           } case "ReceivedItems": {
@@ -175,7 +192,6 @@ function afterLoad() {
     initializeLocationsChecked();
     loadProgress();
     loadFlags();
-    loadStartingItems();
     updateMacros();
     setLocationsAreProgress();
     dataChanged();
@@ -195,27 +211,8 @@ function dataChanged() {
   saveProgress();
 }
 
-function loadStartingItems() {
-  startingItems["Hero's Shield"] = 1;
-  startingItems['Wind Waker'] = 1;
+function loadStartingItems(slotData) {
   startingItems["Boat's Sail"] = 1;
-  startingItems["Wind's Requiem"] = 1;
-  startingItems['Ballad of Gales'] = 1;
-  startingItems['Song of Passing'] = 1;
-  startingItems['Triforce Shard'] = options.num_starting_triforce_shards;
-
-  var gearRemaining = options.starting_gear;
-  for (var i = 0; i < regularItems.length; i++) {
-    var itemName = regularItems[i];
-    startingItems[itemName] = gearRemaining % 2;
-    gearRemaining = Math.floor(gearRemaining / 2);
-  }
-  for (var i = 0; i < progressiveItems.length; i++) {
-    var itemName = progressiveItems[i];
-    startingItems[itemName] = gearRemaining % 4;
-    gearRemaining = Math.floor(gearRemaining / 4);
-  }
-
   if (options.sword_mode == 'Start with Sword') {
     startingItems['Progressive Sword'] += 1;
   } else if (options.sword_mode == 'Swordless') {
@@ -225,7 +222,7 @@ function loadStartingItems() {
     impossibleItems.push('Progressive Sword x4');
     impossibleItems.push('Hurricane Spin');
   }
-
+  Object.assign(startingItems, apItems2NormalItems(slotData.start_inventory_from_pool))
   if (!loadingProgress) {
     Object.keys(startingItems).forEach(function (item) {
       items[item] = startingItems[item];
