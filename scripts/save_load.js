@@ -3,8 +3,8 @@ const gearParam = getParameterByName('g');
 const versionParam = getParameterByName('v');
 var loadingProgress = getParameterByName('p') == '1';
 const isCurrentVersionParam = getParameterByName('c');
-const APUser = getParameterByName('username');
-const APPass = getParameterByName('password');
+const APUser = getParameterByName('user');
+const APPass = getParameterByName('pass');
 const APHost = getParameterByName('host');
 
 var loadingErrorShown = false;
