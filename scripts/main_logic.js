@@ -25,6 +25,7 @@ function findAPItemElement(itemId) {
   elem ||= lookInElements(document.getElementsByClassName("pearls"));
   if (!elem) {
   }
+  console.log(elem);
   return elem;
 }
 
@@ -75,7 +76,6 @@ $(document).ready(function () { // loads the tracker with AP when the page has l
               for (const location in games[game].location_name_to_id) {
                 if (itemLocations[location]) itemLocations[location].id = games[game].location_name_to_id[location];
               }
-              console.log(itemLocations);
               for (const item in games[game].item_name_to_id) {
                 let itemElem = $("#tracker").find(`img[name="${item}"]`)[0];
                 if (!itemElem) {
@@ -195,7 +195,7 @@ function dataChanged() {
   saveProgress();
 }
 
-function loadStartingItems(slotData) {
+function loadStartingItems() {
   startingItems["Boat's Sail"] = 1;
   if (options.sword_mode == 'Start with Sword') {
     startingItems['Progressive Sword'] = 1;
