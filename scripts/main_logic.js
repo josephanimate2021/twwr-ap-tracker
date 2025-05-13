@@ -23,10 +23,16 @@ function findAPItemElement(itemId) {
   }
   let elem = lookInElements([document.getElementById("triforce"),document.getElementById("shield")]);
   elem ||= lookInElements(document.getElementsByClassName("pearls"));
-  elem ||= lookInElements($("#tracker").find("img"))
+  elem ||= lookInElements(jQueryElements2Array($("#tracker").find("img")))
   if (!elem) {
   }
   return elem;
+}
+
+function jQueryElements2Array(elems) {
+  const array = [];
+  for (const elem in elems) if (typeof elem == "number") array.push(elems[elem]);
+  return array;
 }
 
 $(document).ready(function () { // loads the tracker with AP when the page has loaded.
