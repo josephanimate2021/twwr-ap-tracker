@@ -198,7 +198,7 @@ function dataChanged() {
 function loadStartingItems(slotData) {
   startingItems["Boat's Sail"] = 1;
   if (options.sword_mode == 'Start with Sword') {
-    startingItems['Progressive Sword'] += 1;
+    startingItems['Progressive Sword'] = 1;
   } else if (options.sword_mode == 'Swordless') {
     impossibleItems.push('Progressive Sword x1');
     impossibleItems.push('Progressive Sword x2');
