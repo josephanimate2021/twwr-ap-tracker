@@ -59,10 +59,7 @@ $(document).ready(function () { // loads the tracker with AP when the page has l
                 if (!itemElem) {
                   if (item.endsWith("Tingle Statue")) itemElem = $("#tracker").find(`img[name="Tingle Statue"]`)[0];
                   else if (item.startsWith("Triforce Shard")) itemElem = $("#tracker").find(`img[name="Triforce Shard"]`)[0];
-                  else if (item.endsWith("Capacity Upgrade")) {
-                    console.log(`Progressive ${item.split("Capacity Upgrade")[0].slice(0, -1)}7`);
-                    itemElem = $("#tracker").find(`img[name="Progressive ${item.split("Capacity Upgrade")[0].slice(0, -1)}"]`)[0];
-                  }
+                  else if (item.endsWith("Capacity Upgrade")) itemElem = $("#tracker").find(`img[name="Progressive ${item.split("Capacity Upgrade")[0].slice(0, -1)}"]`)[0];
                   else if (item.startsWith("Progressive")) switch (item.substring(12)) {
                     case "Magic Meter": {
                       itemElem = $("#tracker").find(`img[name="Magic Meter Upgrade"]`)[0];
@@ -77,9 +74,8 @@ $(document).ready(function () { // loads the tracker with AP when the page has l
                       if (elem.innerText != item) continue;
                       itemElem = elem;
                     }
-                  } else if (item.startsWith("Treasure Chart") || item.startsWith("Triforce Chart")) {
-                    itemElem = document.getElementById(`chart${charts.findIndex(i => i == item)}`)
-                  } else continue;
+                  } else if (item.startsWith("Treasure Chart") || item.startsWith("Triforce Chart")) itemElem = document.getElementById(`chart${charts.findIndex(i => i == item)}`)
+                  else continue;
                 }
                 console.log(item, itemElem)
                 /*const itemIds = itemElem.getAttribute("data-itemIds") ? JSON.parse(itemElem.getAttribute("data-itemIds")) : [];
