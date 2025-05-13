@@ -62,7 +62,7 @@ function applyAPSettings(form) {
                   name: info.user,
                   game,
                   slot_data: true,
-                  items_handling: 7,
+                  items_handling: 0,
                   uuid: uuidGenV4(),
                   tags: ["NoText"],
                   version: roomInfo.version,
