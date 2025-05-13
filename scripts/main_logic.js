@@ -68,6 +68,8 @@ $(document).ready(function () { // loads the tracker with AP when the page has l
                       itemElem = $("#tracker").find(`img[name="Hero's Shield"]`)[0];
                       break;
                     }
+                  } else if (item.endsWith("Small Key") || item.endsWith("Big Key")) {
+                    console.log('Confirmed', item, 'as a dungeon key')
                   }
                   //else continue;
                 }
