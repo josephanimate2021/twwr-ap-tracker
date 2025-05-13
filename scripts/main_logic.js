@@ -61,8 +61,8 @@ $(document).ready(function () { // loads the tracker with AP when the page has l
                   else if (item.startsWith("Triforce Shard")) itemElem = $("#tracker").find(`img[name="Triforce Shard"]`)[0];
                   else if (item.startsWith("Progressive")) {
                     itemElem = $("#tracker").find(`img[name="${item.substring(12)} Upgrade"]`)[0];
-                    if (!itemElem) continue;
-                  } else continue;
+                    //if (!itemElem) continue;
+                  } //else continue;
                 }
                 const itemIds = itemElem.getAttribute("data-itemIds") ? JSON.parse(itemElem.getAttribute("data-itemIds")) : [];
                 console.log(item, itemElem)
