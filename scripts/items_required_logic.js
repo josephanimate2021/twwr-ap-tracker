@@ -4,6 +4,12 @@ function itemsRequiredForOtherLocation(reqName) {
   return itemsRequiredForLogicalExpression(requirements);
 }
 
+function itemsRequiredForItemLocation(reqName) {
+  var itemLocation = reqName.substring('Can Access Item Location "'.length, reqName.length - 1);
+  var requirements = getLocationRequirements(itemLocation);
+  return itemsRequiredForLogicalExpression(requirements);
+}
+
 function itemsForRequirement(reqName) {
   if (impossibleItems.includes(reqName) || reqName == 'Impossible') {
     var requiredItems = 'Impossible';
@@ -24,6 +30,13 @@ function itemsForRequirement(reqName) {
     var otherLocation = reqName.substring('Has Accessed Other Location "'.length, reqName.length - 1);
     var reqMet = checkHasAccessedOtherLocationReq(reqName);
     var requiredItems = otherLocation;
+    var remainingProgress = reqMet ? 0 : 1;
+  } else if (reqName.startsWith('Can Access Item Location "')) {
+    return itemsRequiredForItemLocation(reqName);
+  } else if (reqName.startsWith('Has Accessed Item Location "')) {
+    var itemLocation = reqName.substring('Has Accessed Item Location "'.length, reqName.length - 1);
+    var reqMet = checkHasAccessedItemLocationReq(reqName);
+    var requiredItems = itemLocation;
     var remainingProgress = reqMet ? 0 : 1;
   } else if (reqName.startsWith('Option "')) {
     var reqMet = checkOptionEnabledRequirement(reqName);
