@@ -49,7 +49,6 @@ function loadFlags() {
   options.key_lunacy = getParamBool('KL', options.key_lunacy);
   options.randomize_charts = getParamBool('RCH', options.randomize_charts);
   options.skip_rematch_bosses = getParamBool('SRB', options.skip_rematch_bosses);
-  options.num_starting_triforce_shards = getParamInt('STS', options.num_starting_triforce_shards);
   options.race_mode = getParamBool('RM', options.race_mode);
   options.starting_gear = parseInt(gearParam);
 
