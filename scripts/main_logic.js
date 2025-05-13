@@ -6,6 +6,27 @@ var dataHasChanged = false;
 var connectionSuccessful = false;
 var roomInfo;
 
+/**
+ * Finds an HTML element of an item using the provided item id from AP
+ * @param {string} itemId
+ * @returns {HTMLElement}
+ */
+function findAPItemElement(itemId) {
+  function lookInElements(elemArray) {
+    for (const elem of elemArray) {
+      const itemIds = JSON.parse(elem.getAttribute("data-itemids"));
+      if (!itemIds.find(i => i == itemId)) continue;
+      return elem;
+    }
+    return undefined;
+  }
+  let elem = lookInElements([document.getElementById("triforce"),document.getElementById("shield")]);
+  elem ||= lookInElements(document.getElementsByClassName("pearls"));
+  if (!elem) {
+  }
+  return elem;
+}
+
 $(document).ready(function () { // loads the tracker with AP when the page has loaded.
   if (APHost) {
     const connector = new WebSocket(`${APHost.startsWith("localhost") || APHost.startsWith("127.0.0.1") ? 'ws' : 'wss'}://${APHost}`);
@@ -88,8 +109,9 @@ $(document).ready(function () { // loads the tracker with AP when the page has l
             loadMacros();
             break;
           } case "ReceivedItems": {
-            for (const archipelagoItemInfo of info2.items) {
-
+            console.log($("#tracker").find(''))
+            for (const APItemInfo of info2.items) {
+              const elem = findAPItemElement(APItemInfo.item);
             }
             break;
           }
