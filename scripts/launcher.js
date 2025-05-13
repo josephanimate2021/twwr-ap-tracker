@@ -149,7 +149,7 @@ function getFlagString() {
  * @returns {string}
  */
 function trackerLink() {
-  return `./tracker.html?f=${getFlagString()}&g=${$("#apConfig").data("startingGear") || 0}&p=0&v=master&c=1&${$("#apConfig").serialize()}`
+  return `${location.origin}/tracker.html?f=${getFlagString()}&g=${$("#apConfig").data("startingGear") || 0}&p=0&v=master&c=1&${$("#apConfig").serialize()}`
 }
 
 /**
