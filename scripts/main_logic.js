@@ -59,10 +59,9 @@ $(document).ready(function () { // loads the tracker with AP when the page has l
                 if (!itemElem) {
                   if (item.endsWith(" Tingle Statue")) itemElem = $("#tracker").find(`img[name="Tingle Statue"]`)[0];
                   else if (item.startsWith("Triforce Shard")) itemElem = $("#tracker").find(`img[name="Triforce Shard"]`)[0];
-                  else if (item.startsWith("Progressive")) {
-                    itemElem = $("#tracker").find(`img[name="${item.substring(12)} Upgrade"]`)[0];
-                    //if (!itemElem) continue;
-                  } //else continue;
+                  else if (item.endsWith(" Capacity Upgrade")) itemElem = $("#tracker").find(`img[name="Progressive ${item.substring(0, 17)[0]}"]`)[0];
+                  else if (item.startsWith("Progressive")) itemElem = $("#tracker").find(`img[name="${item.substring(12)} Upgrade"]`)[0];
+                  //else continue;
                 }
                 console.log(item, itemElem)
                 /*const itemIds = itemElem.getAttribute("data-itemIds") ? JSON.parse(itemElem.getAttribute("data-itemIds")) : [];
