@@ -73,10 +73,38 @@ function applyAPSettings(form) {
             } case "Connected": {
               success = true;
               for (const i in info2.slot_data) {
-                const settingName = i.startsWith("progression") ? i.substring(12) : i;
-                console.log(settingName, settings[settingName])
-                if (!settings[settingName]) continue;
+                let settingName;
+                switch (i) {
+                  case "randomize_dungeon_entrances":
+                  case "randomize_secret_cave_entrances":
+                  case "randomize_miniboss_entrances":
+                  case "randomize_boss_entrances":
+                  case "randomize_secret_cave_inner_entrances":
+                  case "randomize_fairy_fountain_entrances":
+                  case "mix_entrances": {
+                    settingName = "randomize_entrances";
+                    break;
+                  } case "treasure_charts": {
+                    settingName = "Sunken Treasure (From Treasure Charts)";
+                    break;
+                  } case "triforce_charts": {
+                    settingName = "Sunken Treasure (From Triforce Charts)";
+                    break;
+                  } case "misc": {
+                    settingName = "miscellaneous";
+                    break;
+                  } case "big_octos_gunboats": {
+                    settingName = "big_octos_and_gunboats";
+                    break;
+                  } case "platforms_rafts": {
+                    settingName = "lookout_platforms_and_rafts";
+                    break;
+                  } default: {
+                    settingName = i.startsWith("progression") ? i.substring(12) : i;
+                  }
+                }
                 const elem = document.getElementById(settingName);
+                if (!elem) continue;
                 console.log(elem);
               }
               displayMessage(`Successfuly connected to AP and modified the settings from there. You are safe to either Launch the Tracker for copy the Tracker Link which can be used for a variety of things.`, '', {
