@@ -84,6 +84,9 @@ function applyAPSettings(form) {
                   case "mix_entrances": {
                     settingName = "randomize_entrances";
                     break;
+                  } case "skip_rematch_bosses": {
+                    settingName = "skip_boss_rematches";
+                    break;
                   } case "treasure_charts": {
                     settingName = "Sunken Treasure (From Treasure Charts)";
                     break;
@@ -158,11 +161,11 @@ function displayMessage(msg, element, options = {}) {
  * @returns {string}
  */
 function getFlagString() {
-  var flagNames = ['D', 'GF', 'PSC', 'CSC', 'SSQ', 'LSQ', 'ST', 'MG', 'FG', 'MAI', 'PR', 'SUB', 'ERC', 'BOG', 'TRI', 'TRE', 'EP', 'MIS', 'TIN', 'KL', 'REN', 'RCH', 'SWO', 'SRB', 'RM', 'SAV', 'BSM', 'IP'];
+  var flagNames = ['D', 'GF', 'PSC', 'CSC', 'SSQ', 'LSQ', 'ST', 'MG', 'FG', 'MAI', 'PR', 'SUB', 'ERC', 'BOG', 'TRI', 'TRE', 'EP', 'MIS', 'TIN', 'KL', 'REN', 'RCH', 'SWO', 'SRB', 'RM', 'SAV', 'BSM', 'IP', 'SFS'];
   var buttonNames = ['dungeons', 'great_fairies', 'puzzle_secret_caves', 'combat_secret_caves', 'short_sidequests', 'long_sidequests', 'spoils_trading', 'minigames',
     'free_gifts', 'mail', 'lookout_platforms_and_rafts', 'submarines', 'eye_reef_chests', 'big_octos_and_gunboats', 'Sunken Treasure (From Triforce Charts)', 'Sunken Treasure (From Treasure Charts)',
     'expensive_purchases', 'miscellaneous', 'tingle_chests', 'key_lunacy', 'randomize_entrances', 'randomize_charts', 'sword_mode',
-    'skip_boss_rematches', 'race_mode', 'savage_labyrinth', 'battlesquid', 'island_puzzles'];
+    'skip_boss_rematches', 'race_mode', 'savage_labyrinth', 'battlesquid', 'island_puzzles', 'swift_sail'];
 
   var result = '';
   for (var i = 0; i < buttonNames.length; i++) {
