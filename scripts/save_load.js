@@ -74,13 +74,9 @@ function loadFlags() {
   var swordValue = getParamInt('SWO', 0);
   switch (swordValue) {
     case 0:
-      options.sword_mode = 'Start with Sword';
+      options.sword_mode = 'AP Preferences';
       break;
     case 1:
-    case 2:
-      options.sword_mode = 'Randomized Sword';
-      break;
-    case 3:
       options.sword_mode = 'Swordless';
       break;
   }
