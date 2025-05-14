@@ -5,13 +5,6 @@ var itemLocationsLoaded = false;
 var dataHasChanged = false;
 var connectionSuccessful = false;
 var roomInfo;
-var APFunctions = {
-  itemsRecieved: {
-    toggleKey,
-    toggleChart,
-    toggleInventoryItem
-  }
-}
 
 /**
  * Finds an HTML element of an item using the provided item id from AP
