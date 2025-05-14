@@ -114,6 +114,8 @@ $(document).ready(function () { // loads the tracker with AP when the page has l
             const interval = setInterval(() => {
               if (macrosLoaded && itemLocationsLoaded) {
                 clearInterval(interval);
+                const allItems = Object.assign([], Object.keys(items), progressiveItems, regularItems);
+                console.log(allItems)
                 for (const APItemInfo of info2.items) {
                   const elem = findAPItemElement(APItemInfo.item);
                   if (elem) {
@@ -125,13 +127,13 @@ $(document).ready(function () { // loads the tracker with AP when the page has l
                         if (todo.functionCall.param) APFunctions.itemsRecieved[todo.functionCall.name](elem, todo.functionCall.param, todo.functionCall.addParamInfoFromIndex);
                         else APFunctions.itemsRecieved[todo.functionCall.name](elem, todo.functionCall.addParamInfoFromIndex);
                       } else*/ if (todo.functionCall.addHtmlParam) {
-                        if (todo.functionCall.param) APFunctions.itemsRecieved[todo.functionCall.name](elem, todo.functionCall.param);
+                        if (todo.functionCall.param != undefined) APFunctions.itemsRecieved[todo.functionCall.name](elem, todo.functionCall.param);
                         else APFunctions.itemsRecieved[todo.functionCall.name](elem);
                       } /* if (todo.functionCall.addParamInfoFromIndex) {
                         if (todo.functionCall.param) APFunctions.itemsRecieved[todo.functionCall.name](todo.functionCall.param, todo.functionCall.addParamInfoFromIndex);
                         else APFunctions.itemsRecieved[todo.functionCall.name](todo.functionCall.addParamInfoFromIndex);
                       }*/ else {
-                        if (todo.functionCall.param) APFunctions.itemsRecieved[todo.functionCall.name](todo.functionCall.param);
+                        if (todo.functionCall.param != undefined) APFunctions.itemsRecieved[todo.functionCall.name](todo.functionCall.param);
                         else APFunctions.itemsRecieved[todo.functionCall.name]();
                       }
                     }
