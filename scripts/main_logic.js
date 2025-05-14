@@ -13,7 +13,8 @@ var roomInfo;
  */
 function findAPItemElement(itemId) {
   function lookInElements(elemArray) {
-    for (const elem of elemArray) {
+    for (let i = 0; i < elemArray.length; i++) {
+      const elem = elemArray[i];
       if (!elem.getAttribute("data-itemids")) continue;
       const itemIds = JSON.parse(elem.getAttribute("data-itemids"));
       if (!itemIds.find(i => i == itemId)) continue;
@@ -23,17 +24,11 @@ function findAPItemElement(itemId) {
   }
   let elem = lookInElements([document.getElementById("triforce"),document.getElementById("shield")]);
   elem ||= lookInElements(document.getElementsByClassName("pearls"));
-  elem ||= lookInElements(jQueryElements2Array($("#tracker").find("img")))
+  elem ||= lookInElements(document.getElementsByClassName("maps"));
+  elem ||= lookInElements($("#tracker").find("img"));
   if (!elem) {
   }
   return elem;
-}
-
-function jQueryElements2Array(elems) {
-  const array = [];
-  for (const elem in elems) if (typeof elem == "number") array.push(elems[elem]);
-  console.log(elems, array)
-  return array;
 }
 
 $(document).ready(function () { // loads the tracker with AP when the page has loaded.
