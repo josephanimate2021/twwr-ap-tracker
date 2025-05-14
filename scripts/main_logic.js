@@ -145,7 +145,7 @@ $(document).ready(function () { // loads the tracker with AP when the page has l
                       } else if (todo.functionCall.addHtmlParam) {
                         if (todo.functionCall.param != undefined) APFunctions.itemsRecieved[todo.functionCall.name](elem, todo.functionCall.param);
                         else APFunctions.itemsRecieved[todo.functionCall.name](elem);
-                      } if (todo.functionCall.addParamInfoFromIndex) {
+                      } else if (todo.functionCall.addParamInfoFromIndex) {
                         if (todo.functionCall.param != undefined) APFunctions.itemsRecieved[todo.functionCall.name](todo.functionCall.param, itemIndex);
                         else APFunctions.itemsRecieved[todo.functionCall.name](itemIndex);
                       } else {
