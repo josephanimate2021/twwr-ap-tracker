@@ -197,7 +197,7 @@ function getFlagString() {
  * @returns {string}
  */
 function trackerLink() {
-  return `${location.origin}/${location.pathname}/./tracker?f=${getFlagString()}&g=${$("#apConfig").data("startingGear") || '0'}&p=0&v=1.9.0&c=1&${$("#apConfig").serialize()}`
+  return `${location.origin + location.pathname.substring(1).slice(0, -1)}/./tracker?f=${getFlagString()}&p=0&v=1.9.0&c=1&${$("#apConfig").serialize()}`
 }
 
 /**
