@@ -114,25 +114,40 @@ $(document).ready(function () { // loads the tracker with AP when the page has l
             const interval = setInterval(() => {
               if (macrosLoaded && itemLocationsLoaded) {
                 clearInterval(interval);
-                const allItems = Object.assign([], Object.keys(items), progressiveItems, regularItems);
-                console.log(allItems)
+                
+                /**
+                 * Gets the index number of an item using the supplied element id;
+                 * @param {string} elemId
+                 * @returns {number}
+                 */
+                function getAPItemIndex(elemId) {
+                  let num = '';
+                  for (let i = 0; i < elemId.length; i++) {
+                    const letter = elemId.substring(i, i + 1);
+                    if (isNaN(parseInt(letter))) continue;
+                    num += letter;
+                  }
+                  return parseInt(num);
+                }
+                
                 for (const APItemInfo of info2.items) {
                   const elem = findAPItemElement(APItemInfo.item);
                   if (elem) {
+                    const itemIndex = getAPItemIndex(elem.id);
                     itemRecievedCounts[elem.name] = (itemRecievedCounts[elem.name] || 0) + 1;
                     if (elem.name == "Magic Meter Upgrade" && itemRecievedCounts[elem.name] != 2) continue;
                     const todo = JSON.parse(elem.getAttribute("data-whenApItemRecieved"));
                     if (APFunctions.itemsRecieved[todo.functionCall.name]) {
-                      /*if (todo.functionCall.addParamInfoFromIndex && todo.functionCall.addHTMLParam) {
-                        if (todo.functionCall.param) APFunctions.itemsRecieved[todo.functionCall.name](elem, todo.functionCall.param, todo.functionCall.addParamInfoFromIndex);
-                        else APFunctions.itemsRecieved[todo.functionCall.name](elem, todo.functionCall.addParamInfoFromIndex);
-                      } else*/ if (todo.functionCall.addHtmlParam) {
+                      if (todo.functionCall.addParamInfoFromIndex && todo.functionCall.addHtmlParam) {
+                        if (todo.functionCall.param != undefined) APFunctions.itemsRecieved[todo.functionCall.name](elem, todo.functionCall.param, itemIndex);
+                        else APFunctions.itemsRecieved[todo.functionCall.name](elem, itemIndex);
+                      } else if (todo.functionCall.addHtmlParam) {
                         if (todo.functionCall.param != undefined) APFunctions.itemsRecieved[todo.functionCall.name](elem, todo.functionCall.param);
                         else APFunctions.itemsRecieved[todo.functionCall.name](elem);
-                      } /* if (todo.functionCall.addParamInfoFromIndex) {
-                        if (todo.functionCall.param) APFunctions.itemsRecieved[todo.functionCall.name](todo.functionCall.param, todo.functionCall.addParamInfoFromIndex);
-                        else APFunctions.itemsRecieved[todo.functionCall.name](todo.functionCall.addParamInfoFromIndex);
-                      }*/ else {
+                      } if (todo.functionCall.addParamInfoFromIndex) {
+                        if (todo.functionCall.param != undefined) APFunctions.itemsRecieved[todo.functionCall.name](todo.functionCall.param, itemIndex);
+                        else APFunctions.itemsRecieved[todo.functionCall.name](itemIndex);
+                      } else {
                         if (todo.functionCall.param != undefined) APFunctions.itemsRecieved[todo.functionCall.name](todo.functionCall.param);
                         else APFunctions.itemsRecieved[todo.functionCall.name]();
                       }
