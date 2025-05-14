@@ -264,7 +264,8 @@ var options = {
   randomize_charts: false,
   skip_rematch_bosses: false,
   race_mode: false,
-  sword_mode: 'Start with Sword',
+  sword_mode: 'AP Preferences',
+  startWithSwiftSail: true
 };
 
 var locationsAreProgress = {};
