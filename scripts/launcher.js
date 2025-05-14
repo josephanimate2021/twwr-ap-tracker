@@ -1,5 +1,4 @@
 // Script for the twwr ap tracker launcher.
-let settings;
 
 /**
  * Takes a word and capitalizes the beginning of it's letter.
@@ -18,6 +17,7 @@ function capWord(g) {
  */
 function applyAPSettings(form) {
   const info = Object.fromEntries(new URLSearchParams($(form).serialize()));
+  for (const i in info) $(form).find(`input[name="${i}"]`).attr('disabled', '');
   let connected = false, roomInfo, success = false;
   const submutBtn = $(form).find('button[type="submit"]');
   submutBtn.attr("disabled", "");
@@ -123,8 +123,7 @@ function applyAPSettings(form) {
               displayMessage(`Successfuly connected to AP and modified the settings from there. You are safe to either Launch the Tracker for copy the Tracker Link which can be used for a variety of things.`, '', {
                 position: 'top left'
               });
-              submutBtn.text(origText);
-              submutBtn.removeAttr("disabled");
+              submutBtn.text("Settings Modified. Feel free to make any other modifications before launching the tracker.");
               for (const btn of document.getElementById('launcherButtons').children) {
                 $(btn).removeAttr("disabled")
               }
@@ -240,7 +239,7 @@ function loadFromFile() {
 
 $(document).ready(() => { // Loads the main page when the document has loaded.
   jQuery.get(`https://josephanimate2021.github.io/twwr-ap-tracker/settings.yaml`, f => {
-    settings = jsyaml.load(f);
+    const settings = jsyaml.load(f);
     let html = '';
     for (const i in settings) {
       html += `<fieldset><legend>${i}</legend><table>${(() => {
