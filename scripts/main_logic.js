@@ -137,6 +137,7 @@ $(document).ready(function () { // loads the tracker with AP when the page has l
                     itemRecievedCounts[elem.name] = (itemRecievedCounts[elem.name] || 0) + 1;
                     if (elem.name == "Magic Meter Upgrade" && itemRecievedCounts[elem.name] != 2) continue;
                     const todo = JSON.parse(elem.getAttribute("data-whenApItemRecieved"));
+                    console.log(todo)
                     if (APFunctions.itemsRecieved[todo.functionCall.name]) {
                       if (todo.functionCall.addParamInfoFromIndex && todo.functionCall.addHtmlParam) {
                         if (todo.functionCall.param != undefined) APFunctions.itemsRecieved[todo.functionCall.name](elem, todo.functionCall.param, itemIndex);
