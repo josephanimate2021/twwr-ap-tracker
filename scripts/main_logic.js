@@ -4,7 +4,7 @@ var macrosLoaded = false;
 var itemLocationsLoaded = false;
 var dataHasChanged = false;
 var connectionSuccessful = false;
-var roomInfo;
+var roomInfo, itemRecievedCounts = {};
 
 /**
  * Finds an HTML element of an item using the provided item id from AP
@@ -115,7 +115,9 @@ $(document).ready(function () { // loads the tracker with AP when the page has l
                 clearInterval(interval);
                 for (const APItemInfo of info2.items) {
                   const elem = findAPItemElement(APItemInfo.item);
-                  if (!elem || elem.name == "Magic Meter Upgrade") continue;
+                  if (!elem) continue;
+                  itemRecievedCounts[elem.name] = (itemRecievedCounts[elem.name] || 0) + 1;
+                  if (elem.name == "Magic Meter Upgrade" && itemRecievedCounts[elem.name] != 2) continue;
                   const todo = JSON.parse(elem.getAttribute("data-whenApItemRecieved"));
                   if (APFunctions.itemsRecieved[todo.functionCall.name]) {
                     /*if (todo.functionCall.addParamInfoFromIndex && todo.functionCall.addHTMLParam) {
