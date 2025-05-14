@@ -116,23 +116,24 @@ $(document).ready(function () { // loads the tracker with AP when the page has l
                 clearInterval(interval);
                 for (const APItemInfo of info2.items) {
                   const elem = findAPItemElement(APItemInfo.item);
-                  if (!elem) continue;
-                  itemRecievedCounts[elem.name] = (itemRecievedCounts[elem.name] || 0) + 1;
-                  if (elem.name == "Magic Meter Upgrade" && itemRecievedCounts[elem.name] != 2) continue;
-                  const todo = JSON.parse(elem.getAttribute("data-whenApItemRecieved"));
-                  if (APFunctions.itemsRecieved[todo.functionCall.name]) {
-                    /*if (todo.functionCall.addParamInfoFromIndex && todo.functionCall.addHTMLParam) {
-                      if (todo.functionCall.param) APFunctions.itemsRecieved[todo.functionCall.name](elem, todo.functionCall.param, todo.functionCall.addParamInfoFromIndex);
-                      else APFunctions.itemsRecieved[todo.functionCall.name](elem, todo.functionCall.addParamInfoFromIndex);
-                    } else*/ if (todo.functionCall.addHtmlParam) {
-                      if (todo.functionCall.param) APFunctions.itemsRecieved[todo.functionCall.name](elem, todo.functionCall.param);
-                      else APFunctions.itemsRecieved[todo.functionCall.name](elem);
-                    } /* if (todo.functionCall.addParamInfoFromIndex) {
-                      if (todo.functionCall.param) APFunctions.itemsRecieved[todo.functionCall.name](todo.functionCall.param, todo.functionCall.addParamInfoFromIndex);
-                      else APFunctions.itemsRecieved[todo.functionCall.name](todo.functionCall.addParamInfoFromIndex);
-                    }*/ else {
-                      if (todo.functionCall.param) APFunctions.itemsRecieved[todo.functionCall.name](todo.functionCall.param);
-                      else APFunctions.itemsRecieved[todo.functionCall.name]();
+                  if (elem) {
+                    itemRecievedCounts[elem.name] = (itemRecievedCounts[elem.name] || 0) + 1;
+                    if (elem.name == "Magic Meter Upgrade" && itemRecievedCounts[elem.name] != 2) continue;
+                    const todo = JSON.parse(elem.getAttribute("data-whenApItemRecieved"));
+                    if (APFunctions.itemsRecieved[todo.functionCall.name]) {
+                      /*if (todo.functionCall.addParamInfoFromIndex && todo.functionCall.addHTMLParam) {
+                        if (todo.functionCall.param) APFunctions.itemsRecieved[todo.functionCall.name](elem, todo.functionCall.param, todo.functionCall.addParamInfoFromIndex);
+                        else APFunctions.itemsRecieved[todo.functionCall.name](elem, todo.functionCall.addParamInfoFromIndex);
+                      } else*/ if (todo.functionCall.addHtmlParam) {
+                        if (todo.functionCall.param) APFunctions.itemsRecieved[todo.functionCall.name](elem, todo.functionCall.param);
+                        else APFunctions.itemsRecieved[todo.functionCall.name](elem);
+                      } /* if (todo.functionCall.addParamInfoFromIndex) {
+                        if (todo.functionCall.param) APFunctions.itemsRecieved[todo.functionCall.name](todo.functionCall.param, todo.functionCall.addParamInfoFromIndex);
+                        else APFunctions.itemsRecieved[todo.functionCall.name](todo.functionCall.addParamInfoFromIndex);
+                      }*/ else {
+                        if (todo.functionCall.param) APFunctions.itemsRecieved[todo.functionCall.name](todo.functionCall.param);
+                        else APFunctions.itemsRecieved[todo.functionCall.name]();
+                      }
                     }
                   }
                   if (APItemInfo.location != -2) toggleLocationAP(APItemInfo.location)
