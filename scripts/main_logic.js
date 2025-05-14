@@ -178,7 +178,7 @@ function loadMacros() {
 function loadItemLocations() {
   return new Promise((res, rej) => {
     $.ajax({
-      url: `${location.origin}/${location.pathname}/../itemLocationsAP.yaml`,
+      url: `${location.origin + location.pathname}../itemLocationsAP.yaml`,
       success: function (data) {
         itemLocations = jsyaml.load(data);
         itemLocationsLoaded = true;
@@ -192,7 +192,7 @@ function loadItemLocations() {
 }
 
 function getLogicFilesUrl() {
-  return 'https://raw.githubusercontent.com/tanjo3/wwrando/' + versionParam + '/logic/';
+  return 'https://raw.githubusercontent.com/LagoLunatic/wwrando/' + versionParam + '/logic/';
 }
 
 function afterLoad() {
