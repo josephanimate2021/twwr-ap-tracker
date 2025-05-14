@@ -720,6 +720,7 @@ function toggleLocation(element) {
 function toggleLocationAP(locationId) {
   for (const i in itemLocations) {
     if (itemLocations[i].id != locationId) continue;
+    console.log(i.split("-")[1].substring(1))
     currentGeneralLocation = i.split("-")[0].slice(0, -1);
     const notDungeon = !dungeons.findIndex(i => i == currentGeneralLocation);
     currentLocationIsDungeon = !notDungeon;
