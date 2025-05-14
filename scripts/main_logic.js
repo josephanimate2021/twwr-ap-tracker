@@ -23,8 +23,7 @@ function findAPItemElement(itemId) {
     return undefined;
   }
   let elem = lookInElements([document.getElementById("triforce"),document.getElementById("shield")]);
-  elem ||= lookInElements(document.getElementsByClassName("pearls"));
-  elem ||= lookInElements(document.getElementsByClassName("maps"));
+  elem ||= lookInElements(document.getElementsByClassName("sea-sector"));
   elem ||= lookInElements(document.getElementsByClassName("small-key"));
   elem ||= lookInElements(document.getElementsByClassName("boss-key"));
   elem ||= lookInElements($("#tracker").find("img"));
