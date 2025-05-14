@@ -117,18 +117,20 @@ $(document).ready(function () { // loads the tracker with AP when the page has l
                   const elem = findAPItemElement(APItemInfo.item);
                   if (!elem) continue;
                   const todo = JSON.parse(elem.getAttribute("data-whenApItemRecieved"));
-                  /*if (todo.functionCall.addParamInfoFromIndex && todo.functionCall.addHTMLParam) {
-                    if (todo.functionCall.param) APFunctions.itemsRecieved[todo.functionCall.name](elem, todo.functionCall.param, todo.functionCall.addParamInfoFromIndex);
-                    else APFunctions.itemsRecieved[todo.functionCall.name](elem, todo.functionCall.addParamInfoFromIndex);
-                  } else*/ if (todo.functionCall.addHtmlParam) {
-                    if (todo.functionCall.param) APFunctions.itemsRecieved[todo.functionCall.name](elem, todo.functionCall.param);
-                    else APFunctions.itemsRecieved[todo.functionCall.name](elem);
-                  } /* if (todo.functionCall.addParamInfoFromIndex) {
-                    if (todo.functionCall.param) APFunctions.itemsRecieved[todo.functionCall.name](todo.functionCall.param, todo.functionCall.addParamInfoFromIndex);
-                    else APFunctions.itemsRecieved[todo.functionCall.name](todo.functionCall.addParamInfoFromIndex);
-                  }*/ else {
-                    if (todo.functionCall.param) APFunctions.itemsRecieved[todo.functionCall.name](todo.functionCall.param);
-                    else APFunctions.itemsRecieved[todo.functionCall.name]();
+                  if (APFunctions.itemsRecieved[todo.functionCall.name]) {
+                    /*if (todo.functionCall.addParamInfoFromIndex && todo.functionCall.addHTMLParam) {
+                      if (todo.functionCall.param) APFunctions.itemsRecieved[todo.functionCall.name](elem, todo.functionCall.param, todo.functionCall.addParamInfoFromIndex);
+                      else APFunctions.itemsRecieved[todo.functionCall.name](elem, todo.functionCall.addParamInfoFromIndex);
+                    } else*/ if (todo.functionCall.addHtmlParam) {
+                      if (todo.functionCall.param) APFunctions.itemsRecieved[todo.functionCall.name](elem, todo.functionCall.param);
+                      else APFunctions.itemsRecieved[todo.functionCall.name](elem);
+                    } /* if (todo.functionCall.addParamInfoFromIndex) {
+                      if (todo.functionCall.param) APFunctions.itemsRecieved[todo.functionCall.name](todo.functionCall.param, todo.functionCall.addParamInfoFromIndex);
+                      else APFunctions.itemsRecieved[todo.functionCall.name](todo.functionCall.addParamInfoFromIndex);
+                    }*/ else {
+                      if (todo.functionCall.param) APFunctions.itemsRecieved[todo.functionCall.name](todo.functionCall.param);
+                      else APFunctions.itemsRecieved[todo.functionCall.name]();
+                    }
                   }
                 }
               }
