@@ -36,10 +36,10 @@ function showLoadingError() {
 
 function displayMessage(msg, element, options = {}) {
   const je = element ? $(element) : $;
-  je.notify(msg, Object.assign(options, {
+  je.notify(msg, Object.assign({
     autoHideDelay: 5000,
     position: 'top left'
-  }));
+  }, options));
 }
 
 function loadFlags() {
