@@ -137,9 +137,11 @@ $(document).ready(function () { // loads the tracker with AP when the page has l
                   if (APItemInfo.location != -2) toggleLocationAP(APItemInfo.location)
                   else dataChanged()
                 }
-                displayMessage(`Successfuly checked ${info2.items.length} items that were recieved from AP!`);
               }
             }, 1);
+            break;
+          } case "PrintJSON": {
+            for (const info of info2.data) displayMessage(info.text);
             break;
           }
         }
