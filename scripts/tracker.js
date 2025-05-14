@@ -720,7 +720,7 @@ function toggleLocation(element, isAP = false) {
 function toggleLocationAP(locationId) {
   for (const i in itemLocations) {
     if (itemLocations[i].id != locationId) continue;
-    console.log(itemLocations[i])
+    console.log(i)
   }
 }
 
