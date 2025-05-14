@@ -115,7 +115,7 @@ $(document).ready(function () { // loads the tracker with AP when the page has l
                 clearInterval(interval);
                 for (const APItemInfo of info2.items) {
                   const elem = findAPItemElement(APItemInfo.item);
-                  if (!elem) continue;
+                  if (!elem || elem.name == "Magic Meter Upgrade") continue;
                   const todo = JSON.parse(elem.getAttribute("data-whenApItemRecieved"));
                   if (APFunctions.itemsRecieved[todo.functionCall.name]) {
                     /*if (todo.functionCall.addParamInfoFromIndex && todo.functionCall.addHTMLParam) {
