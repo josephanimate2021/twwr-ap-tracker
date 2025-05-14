@@ -844,6 +844,7 @@ var APFunctions = {
   itemsRecieved: {
     toggleKey,
     toggleChart,
-    toggleInventoryItem
+    toggleInventoryItem,
+    toggleShield
   }
 }
