@@ -717,6 +717,13 @@ function toggleLocation(element) {
   dataChanged();
 }
 
+function toggleLocationAP(locationId) {
+  for (const i in itemLocations) {
+    if (itemLocations[i].id != locationId) continue;
+    console.log(itemLocations[i])
+  }
+}
+
 function clearMapInfo() {
   document.getElementById('map-info').innerText = '';
   document.getElementById('chest-counts').style.visibility = 'hidden';

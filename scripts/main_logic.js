@@ -134,6 +134,8 @@ $(document).ready(function () { // loads the tracker with AP when the page has l
                       else APFunctions.itemsRecieved[todo.functionCall.name]();
                     }
                   }
+                  if (APItemInfo.location == -2) dataChanged();
+                  else toggleLocationAP(APItemInfo.location)
                 }
                 displayMessage(`Successfuly checked ${info2.items.length} items that were recieved from AP!`);
               }
