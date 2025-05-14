@@ -218,6 +218,13 @@ function dataChanged() {
 
 function loadStartingItems() {
   startingItems["Boat's Sail"] = 1;
+  if (options.sword_mode == 'Swordless') {
+    impossibleItems.push('Progressive Sword x1');
+    impossibleItems.push('Progressive Sword x2');
+    impossibleItems.push('Progressive Sword x3');
+    impossibleItems.push('Progressive Sword x4');
+    impossibleItems.push('Hurricane Spin');
+  }
   if (!loadingProgress) {
     Object.keys(startingItems).forEach(function (item) {
       items[item] = startingItems[item];
