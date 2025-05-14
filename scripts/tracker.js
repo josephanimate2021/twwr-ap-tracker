@@ -701,7 +701,7 @@ function refreshEntranceColors() {
   }
 }
 
-function toggleLocation(element) {
+function toggleLocation(element, isAP = false) {
   if (currentGeneralLocation.length > 0) {
     var detailedLocation = element.innerText;
     var newLocationChecked = !locationsChecked[currentGeneralLocation][detailedLocation];
@@ -714,7 +714,7 @@ function toggleLocation(element) {
       shrinkMap();
     }
   }
-  dataChanged();
+  if (!isAP) dataChanged();
 }
 
 function toggleLocationAP(locationId) {
