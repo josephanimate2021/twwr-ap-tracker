@@ -1,7 +1,7 @@
 {
-  "name": "tww-rando-tracker",
+  "name": "twwr-ap-tracker",
   "version": "1.0.0",
-  "description": "Tracker for The Wind Waker Randomizer",
+  "description": "Tracker for The Wind Waker AP Randomizer",
   "license": "GPL-3.0-or-later",
   "scripts": {
     "build": "webpack",
@@ -15,7 +15,7 @@
   },
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/wooferzfg/tww-rando-tracker.git"
+    "url": "git+https://github.com/josephanimate2021/twwr-ap-tracker.git"
   },
   "dependencies": {
     "js-yaml": "^4.1.0",
