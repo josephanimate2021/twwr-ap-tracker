@@ -222,7 +222,7 @@ function dataChanged() {
 }
 
 function loadStartingItems() {
-  startingItems["Boat's Sail"] = 1;
+  if (options.startWithSwiftSail) startingItems["Boat's Sail"] = 1;
   if (options.sword_mode == 'Swordless') {
     impossibleItems.push('Progressive Sword x1');
     impossibleItems.push('Progressive Sword x2');
