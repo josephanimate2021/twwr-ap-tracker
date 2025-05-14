@@ -116,12 +116,7 @@ Additional Randomization Options:
     # Controls whether you start with the Hero's Sword, the Hero's Sword is randomized, or if there are no swords in the
     # entire game.
     # 
-    # - **Start with Hero's Sword:** You will start the game with the basic Hero's Sword already in your inventory.
-    # - **No Starting Sword:** You will start the game with no sword, and have to find it somewhere in the world like
-    #   other randomized items.
-    # - **Randomized Sword:** You will start the game with no sword, but they'll be randomized. However, they are not
-    #   necessary to beat the game. The Hyrule Barrier will be gone, Phantom Ganon in FF is vulnerable to Skull Hammer,
-    #   and the logic does not expect you to have a sword.
+    # - **AP Preferences** The tracker will check the sword item based off of the settings set in AP.
     # - **Swordless:** You will start the game with no sword, and won't be able to find it anywhere. You have to beat the
     #   entire game using other items as weapons instead of the sword. (Note that Phantom Ganon in FF becomes vulnerable
     #   to Skull Hammer in this mode.)
