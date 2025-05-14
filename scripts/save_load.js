@@ -50,7 +50,7 @@ function loadFlags() {
   options.randomize_charts = getParamBool('RCH', options.randomize_charts);
   options.skip_rematch_bosses = getParamBool('SRB', options.skip_rematch_bosses);
   options.race_mode = getParamBool('RM', options.race_mode);
-  options.starting_gear = parseInt(gearParam);
+  options.startWithSwiftSail = getParamBool('SFS', options.startWithSwiftSail);
 
   var entrancesValue = getParamInt('REN', 0);
   switch (entrancesValue) {
