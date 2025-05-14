@@ -125,9 +125,7 @@ Additional Randomization Options:
     # - **Swordless:** You will start the game with no sword, and won't be able to find it anywhere. You have to beat the
     #   entire game using other items as weapons instead of the sword. (Note that Phantom Ganon in FF becomes vulnerable
     #   to Skull Hammer in this mode.)
-    start_with_sword: 50
-    no_starting_sword: 0
-    randomized_sword: 0
+    ap_preferences: 50
     swordless: 0
 
   key_lunacy:
