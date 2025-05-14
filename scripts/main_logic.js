@@ -141,9 +141,7 @@ $(document).ready(function () { // loads the tracker with AP when the page has l
             }, 1);
             break;
           } case "PrintJSON": {
-            for (const info of info2.data) displayMessage(info.text, '', {
-              autoHideDelay: 5000 * info.text.length
-            });
+            for (const info of info2.data) displayMessage(info.text);
             break;
           }
         }
