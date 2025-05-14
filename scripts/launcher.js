@@ -31,6 +31,7 @@ function applyAPSettings(form) {
       connected = true;
       connector.close();
     }
+    for (const i in info) $(form).find(`input[name="${i}"]`).removeAttr('readonly', '');
     submutBtn.removeAttr("disabled");
     submutBtn.text(origText);
   }
