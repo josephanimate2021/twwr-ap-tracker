@@ -26,8 +26,6 @@ function findAPItemElement(itemId) {
   elem ||= lookInElements(document.getElementsByClassName("pearls"));
   elem ||= lookInElements(document.getElementsByClassName("maps"));
   elem ||= lookInElements($("#tracker").find("img"));
-  if (!elem) {
-  }
   return elem;
 }
 
@@ -114,7 +112,9 @@ $(document).ready(function () { // loads the tracker with AP when the page has l
           } case "ReceivedItems": {
             for (const APItemInfo of info2.items) {
               const elem = findAPItemElement(APItemInfo.item);
-              console.log(APItemInfo.item, elem);
+              if (!elem) continue;
+              const todo = JSON.parse(elem.getAttribute("data-whenApItemRecieved"));
+              console.log(todo);
             }
             break;
           }
