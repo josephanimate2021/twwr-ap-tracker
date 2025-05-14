@@ -178,7 +178,7 @@ function loadMacros() {
 function loadItemLocations() {
   return new Promise((res, rej) => {
     $.ajax({
-      url: `${location.origin + location.pathname}../itemLocationsAP.yaml`,
+      url: `${location.origin + location.pathname.substring(1)}/../itemLocationsAP.yaml`,
       success: function (data) {
         itemLocations = jsyaml.load(data);
         itemLocationsLoaded = true;
