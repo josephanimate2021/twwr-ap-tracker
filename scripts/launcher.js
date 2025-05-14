@@ -198,8 +198,8 @@ function getFlagString() {
  * Creates a new link for the tracker.
  * @returns {string}
  */
-function trackerLink() {
-  return `${location.origin + location.pathname.slice(0, -1)}/./tracker?f=${getFlagString()}&p=0&v=1.9.0&c=1&${$("#apConfig").serialize()}`
+function trackerLink(p = false, ap = true) {
+  return `${location.origin + location.pathname.slice(0, -1)}/./${ap ? 'ap' : 'new'}?f=${getFlagString()}&p=${!p ? 0 : 1}&v=1.9.0&c=1${ap ? `&${$("#apConfig").serialize()}` : ''}`
 }
 
 /**
