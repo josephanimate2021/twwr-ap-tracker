@@ -701,7 +701,7 @@ function refreshEntranceColors() {
   }
 }
 
-function toggleLocation(element, isAP = false) {
+function toggleLocation(element) {
   if (currentGeneralLocation.length > 0) {
     var detailedLocation = element.innerText;
     var newLocationChecked = !locationsChecked[currentGeneralLocation][detailedLocation];
@@ -714,13 +714,20 @@ function toggleLocation(element, isAP = false) {
       shrinkMap();
     }
   }
-  if (!isAP) dataChanged();
+  dataChanged();
 }
 
 function toggleLocationAP(locationId) {
   for (const i in itemLocations) {
     if (itemLocations[i].id != locationId) continue;
-    console.log(i)
+    currentGeneralLocation = i.split("-")[0].slice(0, -1);
+    const notDungeon = !dungeons.findIndex(i => i == currentGeneralLocation);
+    currentLocationIsDungeon = !notDungeon;
+    toggleLocation({
+      innerText: i.split("-")[1].substring(1)
+    });
+    currentGeneralLocation = '';
+    currentLocationIsDungeon = false
   }
 }
 
