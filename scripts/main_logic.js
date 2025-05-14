@@ -31,151 +31,157 @@ function findAPItemElement(itemId) {
 }
 
 $(document).ready(function () { // loads the tracker with AP when the page has loaded.
-  if (APHost) {
-    const connector = new WebSocket(`${APHost.startsWith("localhost") || APHost.startsWith("127.0.0.1") ? 'ws' : 'wss'}://${APHost}`);
-    connector.addEventListener("error", () => {
-      connectionSuccessful = true;
-      displayMessage('Connection to AP has failed.', '', {
-        className: 'error'
-      })
-    });
-    connector.addEventListener("message", async e => {
-      const array = JSON.parse(e.data);
-      for (const info2 of array) {
-        switch (info2.cmd) {
-          case "RoomInfo": {
-            info2.cmd = "GetDataPackage";
-            roomInfo = info2;
-            break;
-          } case "DataPackage": {
-            const games = info2.data.games;
+  if (location.pathname.includes("/ap")) {
+    if (APHost) {
+      const connector = new WebSocket(`${APHost.startsWith("localhost") || APHost.startsWith("127.0.0.1") ? 'ws' : 'wss'}://${APHost}`);
+      connector.addEventListener("error", () => {
+        connectionSuccessful = true;
+        displayMessage('Connection to AP has failed.', '', {
+          className: 'error'
+        })
+      });
+      connector.addEventListener("message", async e => {
+        const array = JSON.parse(e.data);
+        for (const info2 of array) {
+          switch (info2.cmd) {
+            case "RoomInfo": {
+              info2.cmd = "GetDataPackage";
+              roomInfo = info2;
+              break;
+            } case "DataPackage": {
+              const games = info2.data.games;
 
-            /**
-             * generates a v4 UUID for archipelago
-             * @returns {string}
-             */
-            function uuidGenV4() {
-              const G = [];
-              for (let Q = 0; Q < 36; Q++) G.push(Math.floor(Math.random() * 16));
-              return G[14] = 4, G[19] = G[19] &= -5, G[19] = G[19] |= 8, G[8] = G[13] = G[18] = G[23] = "-", G.map((Q) => Q.toString(16)).join("")
-            }
-
-            for (const game in games) {
-              if (game == "Archipelago") continue;
-              Object.assign(info2, {
-                cmd: "Connect",
-                password: APPass,
-                name: APUser,
-                game,
-                slot_data: true,
-                items_handling: 7,
-                uuid: uuidGenV4(),
-                tags: ["Tracker"],
-                version: roomInfo.version,
-              });
-              const itemLocations = await loadItemLocations();
-              for (const location in games[game].location_name_to_id) {
-                if (itemLocations[location]) itemLocations[location].id = games[game].location_name_to_id[location];
+              /**
+               * generates a v4 UUID for archipelago
+               * @returns {string}
+               */
+              function uuidGenV4() {
+                const G = [];
+                for (let Q = 0; Q < 36; Q++) G.push(Math.floor(Math.random() * 16));
+                return G[14] = 4, G[19] = G[19] &= -5, G[19] = G[19] |= 8, G[8] = G[13] = G[18] = G[23] = "-", G.map((Q) => Q.toString(16)).join("")
               }
-              for (const item in games[game].item_name_to_id) {
-                let itemElem = $("#tracker").find(`img[name="${item}"]`)[0];
-                if (!itemElem) {
-                  if (item.endsWith("Tingle Statue")) itemElem = $("#tracker").find(`img[name="Tingle Statue"]`)[0];
-                  else if (item.startsWith("Triforce Shard")) itemElem = $("#tracker").find(`img[name="Triforce Shard"]`)[0];
-                  else if (item.endsWith("Capacity Upgrade")) itemElem = $("#tracker").find(`img[name="Progressive ${item.split("Capacity Upgrade")[0].slice(0, -1)}"]`)[0];
-                  else if (item.startsWith("Progressive")) switch (item.substring(12)) {
-                    case "Magic Meter": {
-                      itemElem = $("#tracker").find(`img[name="Magic Meter Upgrade"]`)[0];
-                      break;
-                    } case "Shield": {
-                      itemElem = $("#tracker").find(`img[name="Hero's Shield"]`)[0];
-                      break;
-                    }
-                  } else if (item.endsWith("Small Key") || item.endsWith("Big Key")) {
-                    const allElements = document.getElementsByClassName(item.endsWith('Big Key') ? 'boss-key' : 'small-key');
-                    for (const elem of allElements) {
-                      if (elem.innerText != item) continue;
-                      itemElem = elem;
-                    }
-                  } else if (item.startsWith("Treasure Chart") || item.startsWith("Triforce Chart")) itemElem = document.getElementById(`chart${charts.findIndex(i => i == item)}`)
+
+              for (const game in games) {
+                if (game == "Archipelago") continue;
+                Object.assign(info2, {
+                  cmd: "Connect",
+                  password: APPass,
+                  name: APUser,
+                  game,
+                  slot_data: true,
+                  items_handling: 7,
+                  uuid: uuidGenV4(),
+                  tags: ["Tracker"],
+                  version: roomInfo.version,
+                });
+                const itemLocations = await loadItemLocations();
+                for (const location in games[game].location_name_to_id) {
+                  if (itemLocations[location]) itemLocations[location].id = games[game].location_name_to_id[location];
                 }
-                if (!itemElem) continue;
-                const itemIds = itemElem.getAttribute("data-itemIds") ? JSON.parse(itemElem.getAttribute("data-itemIds")) : [];
-                itemIds.push(games[game].item_name_to_id[item]);
-                itemElem.setAttribute("data-itemIds", JSON.stringify(itemIds));
-              }
-            }
-            break;
-          } case "Connected": {
-            displayMessage('Successfuly connected to AP!')
-            connectionSuccessful = true;
-            loadMacros();
-            break;
-          } case "ReceivedItems": {
-            const interval = setInterval(() => {
-              if (macrosLoaded && itemLocationsLoaded) {
-                clearInterval(interval);
-                
-                /**
-                 * Gets the index number of an item using the supplied element id;
-                 * @param {string} elemId
-                 * @returns {number}
-                 */
-                function getAPItemIndex(elemId) {
-                  let num = '';
-                  for (let i = 0; i < elemId.length; i++) {
-                    const letter = elemId.substring(i, i + 1);
-                    if (isNaN(parseInt(letter))) continue;
-                    num += letter;
+                for (const item in games[game].item_name_to_id) {
+                  let itemElem = $("#tracker").find(`img[name="${item}"]`)[0];
+                  if (!itemElem) {
+                    if (item.endsWith("Tingle Statue")) itemElem = $("#tracker").find(`img[name="Tingle Statue"]`)[0];
+                    else if (item.startsWith("Triforce Shard")) itemElem = $("#tracker").find(`img[name="Triforce Shard"]`)[0];
+                    else if (item.endsWith("Capacity Upgrade")) itemElem = $("#tracker").find(`img[name="Progressive ${item.split("Capacity Upgrade")[0].slice(0, -1)}"]`)[0];
+                    else if (item.startsWith("Progressive")) switch (item.substring(12)) {
+                      case "Magic Meter": {
+                        itemElem = $("#tracker").find(`img[name="Magic Meter Upgrade"]`)[0];
+                        break;
+                      } case "Shield": {
+                        itemElem = $("#tracker").find(`img[name="Hero's Shield"]`)[0];
+                        break;
+                      }
+                    } else if (item.endsWith("Small Key") || item.endsWith("Big Key")) {
+                      const allElements = document.getElementsByClassName(item.endsWith('Big Key') ? 'boss-key' : 'small-key');
+                      for (const elem of allElements) {
+                        if (elem.innerText != item) continue;
+                        itemElem = elem;
+                      }
+                    } else if (item.startsWith("Treasure Chart") || item.startsWith("Triforce Chart")) itemElem = document.getElementById(`chart${charts.findIndex(i => i == item)}`)
                   }
-                  return parseInt(num);
+                  if (!itemElem) continue;
+                  const itemIds = itemElem.getAttribute("data-itemIds") ? JSON.parse(itemElem.getAttribute("data-itemIds")) : [];
+                  itemIds.push(games[game].item_name_to_id[item]);
+                  itemElem.setAttribute("data-itemIds", JSON.stringify(itemIds));
                 }
-                
-                for (const APItemInfo of info2.items) {
-                  const elem = findAPItemElement(APItemInfo.item);
-                  if (elem) {
-                    const itemIndex = getAPItemIndex(elem.id);
-                    itemRecievedCounts[elem.name] = (itemRecievedCounts[elem.name] || 0) + 1;
-                    if (elem.name == "Magic Meter Upgrade" && itemRecievedCounts[elem.name] != 2) continue;
-                    const todo = JSON.parse(elem.getAttribute("data-whenApItemRecieved"));
-                    if (APFunctions.itemsRecieved[todo.functionCall.name]) {
-                      if (todo.functionCall.addParamInfoFromIndex && todo.functionCall.addHtmlParam) {
-                        if (todo.functionCall.param != undefined) APFunctions.itemsRecieved[todo.functionCall.name](elem, todo.functionCall.param, itemIndex);
-                        else APFunctions.itemsRecieved[todo.functionCall.name](elem, itemIndex);
-                      } else if (todo.functionCall.addHtmlParam) {
-                        if (todo.functionCall.param != undefined) APFunctions.itemsRecieved[todo.functionCall.name](elem, todo.functionCall.param);
-                        else APFunctions.itemsRecieved[todo.functionCall.name](elem);
-                      } else if (todo.functionCall.addParamInfoFromIndex) {
-                        if (todo.functionCall.param != undefined) APFunctions.itemsRecieved[todo.functionCall.name](todo.functionCall.param, itemIndex);
-                        else APFunctions.itemsRecieved[todo.functionCall.name](itemIndex);
-                      } else {
-                        if (todo.functionCall.param != undefined) APFunctions.itemsRecieved[todo.functionCall.name](todo.functionCall.param);
-                        else APFunctions.itemsRecieved[todo.functionCall.name]();
+              }
+              break;
+            } case "Connected": {
+              displayMessage('Successfuly connected to AP!')
+              connectionSuccessful = true;
+              loadMacros();
+              break;
+            } case "ReceivedItems": {
+              const interval = setInterval(() => {
+                if (macrosLoaded && itemLocationsLoaded) {
+                  clearInterval(interval);
+                  
+                  /**
+                   * Gets the index number of an item using the supplied element id;
+                   * @param {string} elemId
+                   * @returns {number}
+                   */
+                  function getAPItemIndex(elemId) {
+                    let num = '';
+                    for (let i = 0; i < elemId.length; i++) {
+                      const letter = elemId.substring(i, i + 1);
+                      if (isNaN(parseInt(letter))) continue;
+                      num += letter;
+                    }
+                    return parseInt(num);
+                  }
+                  
+                  for (const APItemInfo of info2.items) {
+                    const elem = findAPItemElement(APItemInfo.item);
+                    if (elem) {
+                      const itemIndex = getAPItemIndex(elem.id);
+                      itemRecievedCounts[elem.name] = (itemRecievedCounts[elem.name] || 0) + 1;
+                      if (elem.name == "Magic Meter Upgrade" && itemRecievedCounts[elem.name] != 2) continue;
+                      const todo = JSON.parse(elem.getAttribute("data-whenApItemRecieved"));
+                      if (APFunctions.itemsRecieved[todo.functionCall.name]) {
+                        if (todo.functionCall.addParamInfoFromIndex && todo.functionCall.addHtmlParam) {
+                          if (todo.functionCall.param != undefined) APFunctions.itemsRecieved[todo.functionCall.name](elem, todo.functionCall.param, itemIndex);
+                          else APFunctions.itemsRecieved[todo.functionCall.name](elem, itemIndex);
+                        } else if (todo.functionCall.addHtmlParam) {
+                          if (todo.functionCall.param != undefined) APFunctions.itemsRecieved[todo.functionCall.name](elem, todo.functionCall.param);
+                          else APFunctions.itemsRecieved[todo.functionCall.name](elem);
+                        } else if (todo.functionCall.addParamInfoFromIndex) {
+                          if (todo.functionCall.param != undefined) APFunctions.itemsRecieved[todo.functionCall.name](todo.functionCall.param, itemIndex);
+                          else APFunctions.itemsRecieved[todo.functionCall.name](itemIndex);
+                        } else {
+                          if (todo.functionCall.param != undefined) APFunctions.itemsRecieved[todo.functionCall.name](todo.functionCall.param);
+                          else APFunctions.itemsRecieved[todo.functionCall.name]();
+                        }
                       }
                     }
+                    if (APItemInfo.location != -2) toggleLocationAP(APItemInfo.location)
+                    else dataChanged()
                   }
-                  if (APItemInfo.location != -2) toggleLocationAP(APItemInfo.location)
-                  else dataChanged()
                 }
-              }
-            }, 1);
-            break;
+              }, 1);
+              break;
+            }
           }
         }
-      }
-      if (!connectionSuccessful) connector.send(JSON.stringify(array));
-    })
-    setTimeout(() => {
-      if (!connectionSuccessful) {
-        displayMessage("Connection to AP was timed out.", '', {
-          className: "error"
-        });
-        connector.close();
-      }
-    }, 35042);
-  } else displayMessage('Please provide a host for AP Server Connection.', '', {
-    className: 'error'
-  });
+        if (!connectionSuccessful) connector.send(JSON.stringify(array));
+      })
+      setTimeout(() => {
+        if (!connectionSuccessful) {
+          displayMessage("Connection to AP was timed out.", '', {
+            className: "error"
+          });
+          connector.close();
+        }
+      }, 35042);
+    } else displayMessage('Please provide a host for AP Server Connection.', '', {
+      className: 'error'
+    });
+  } else {
+    loadItemLocations(false);
+    loadMacros();
+  }
+  afterLoad(location.pathname.includes("/ap"))
 });
 
 function loadMacros() {
@@ -185,7 +191,6 @@ function loadMacros() {
       success: function (data) {
         macros = jsyaml.load(data);
         macrosLoaded = true;
-        afterLoad();
       },
       error: function () {
         showLoadingError();
@@ -194,10 +199,10 @@ function loadMacros() {
   )
 }
 
-function loadItemLocations() {
+function loadItemLocations(ap = true) {
   return new Promise((res, rej) => {
     $.ajax({
-      url: `${location.origin + location.pathname.slice(0, -1)}/../itemLocationsAP.yaml`,
+      url: ap ? `${location.origin + location.pathname.slice(0, -1)}/../itemLocationsAP.yaml` : getLogicFilesUrl() + 'item_locations.txt',
       success: function (data) {
         itemLocations = jsyaml.load(data);
         itemLocationsLoaded = true;
@@ -214,19 +219,22 @@ function getLogicFilesUrl() {
   return 'https://raw.githubusercontent.com/LagoLunatic/wwrando/' + versionParam + '/logic/';
 }
 
-function afterLoad() {
-  if (macrosLoaded && itemLocationsLoaded) {
-    updateLocations();
-    initializeLocationsChecked();
-    loadProgress();
-    loadFlags();
-    loadStartingItems();
-    updateMacros();
-    setLocationsAreProgress();
-    dataChanged();
-    $(".loading-spinner").hide();
-    $(".tracker-container").show();
-  }
+function afterLoad(ap = true) {
+  const interval = setInterval(() => {
+    if (macrosLoaded && itemLocationsLoaded) {
+      clearInterval(interval);
+      updateLocations();
+      initializeLocationsChecked();
+      loadProgress();
+      loadFlags();
+      loadStartingItems(ap);
+      updateMacros();
+      setLocationsAreProgress();
+      dataChanged();
+      $(".loading-spinner").hide();
+      $(".tracker-container").show();
+    }
+  }, 1)
 }
 
 // tracker should call this after changing 'items', 'keys', or 'locationsChecked'
@@ -240,7 +248,15 @@ function dataChanged() {
   saveProgress();
 }
 
-function loadStartingItems() {
+function loadStartingItems(ap = true) {
+  if (!ap) {
+    startingItems["Hero's Shield"] = 1;
+    startingItems['Wind Waker'] = 1;
+    startingItems["Boat's Sail"] = 1;
+    startingItems["Wind's Requiem"] = 1;
+    startingItems['Ballad of Gales'] = 1;
+    startingItems['Song of Passing'] = 1;
+  }
   if (options.startWithSwiftSail) startingItems["Boat's Sail"] = 1;
   if (options.sword_mode == 'Swordless') {
     impossibleItems.push('Progressive Sword x1');

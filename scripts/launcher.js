@@ -126,9 +126,8 @@ function applyAPSettings(form) {
                 position: 'top left'
               });
               submutBtn.text("Settings Modified. Feel free to make any other modifications before launching the tracker.");
-              for (const btn of document.getElementById('launcherButtons').children) {
-                $(btn).removeAttr("disabled")
-              }
+              $("#manualLauncherButtons").hide();
+              $("#APLauncherButtons").show();
               break;
             } case "ConnectionRefused": {
               handleError(`Errors: ${info2.errors.join(', ')}`, connector);
@@ -199,7 +198,7 @@ function getFlagString() {
  * @returns {string}
  */
 function trackerLink(p = false, ap = true) {
-  return `${location.origin + location.pathname.slice(0, -1)}/./${ap ? 'ap' : 'new'}?f=${getFlagString()}&p=${!p ? 0 : 1}&v=1.9.0&c=1${ap ? `&${$("#apConfig").serialize()}` : ''}`
+  return `${location.origin + location.pathname.slice(0, -1)}/${location.pathname.endsWith('index.html') ? '../' : ''}${ap ? 'ap' : 'new'}.html?f=${getFlagString()}&p=${!p ? 0 : 1}&v=1.9.0&c=1${ap ? `&${$("#apConfig").serialize()}` : ''}`
 }
 
 /**
