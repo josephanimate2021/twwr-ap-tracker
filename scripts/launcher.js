@@ -1,4 +1,5 @@
 // Script for the twwr ap tracker launcher.
+let settings;
 
 /**
  * Takes a word and capitalizes the beginning of it's letter.
@@ -71,6 +72,12 @@ function applyAPSettings(form) {
               break;
             } case "Connected": {
               success = true;
+              for (const i in info2.slot_data) {
+                const settingName = i.startsWith("progression") ? i.substring(12) : i;
+                if (!settings[settingName]) continue;
+                const elem = document.getElementById(settingName);
+                console.log(elem);
+              }
               displayMessage(`Successfuly connected to AP and modified the settings from there. You are safe to either Launch the Tracker for copy the Tracker Link which can be used for a variety of things.`, '', {
                 position: 'top left'
               });
@@ -153,20 +160,6 @@ function trackerLink() {
 }
 
 /**
- * Loads recent tracker progress by opening the tracker with the provided true boolean
- */
-function loadMostRecent() {
-  openTracker(true);
-}
-
-/**
- * Launches a new tracker while providing the false boolean.
- */
-function launch() {
-  openTracker(false);
-}
-
-/**
  * Loads contents of a file and then opens the tracker with it.
  */
 function loadFileContents() {
@@ -205,31 +198,31 @@ function loadFromFile() {
 
 $(document).ready(() => { // Loads the main page when the document has loaded.
   jQuery.get(`https://josephanimate2021.github.io/twwr-ap-tracker/settings.yaml`, f => {
-    const info = jsyaml.load(f);
+    settings = jsyaml.load(f);
     let html = '';
-    for (const i in info) {
+    for (const i in settings) {
       html += `<fieldset><legend>${i}</legend><table>${(() => {
         let html = '<colgroup>';
         if (
-          Object.keys(info[i]).length > 1
+          Object.keys(settings[i]).length > 1
         ) html += '<col class="text-col"><col class="slider-col"><col class="text-col"><col class="slider-col"><col class="text-col"><col class="slider-col">'
-        else for (let k = 0; k <= Object.keys(info[i]).length; k++) html += '<col class="text-col"><col class="slider-col">'
+        else for (let k = 0; k <= Object.keys(settings[i]).length; k++) html += '<col class="text-col"><col class="slider-col">'
         return html + '</colgroup>'
       })()}<tbody>`;
       let count = 0;
-      for (const g in info[i]) {
-        const info2 = info[i][g];
+      for (const g in settings[i]) {
+        const info = settings[i][g];
         if (count == 3) {
           html += '</tr>'
           count = 0;
         }
         if (count == 0) html += '<tr>';
         html += `<td class="label-text">${g.split("_").map(capWord).join(' ')}</td><td class="slider-container">`;
-        if (info2.true != undefined && info2.false != undefined) html += `<label class="switch">
-          <input id="${g}" type="checkbox"${info2.true > 0 ? ' checked' : ''}>
+        if (info.true != undefined && info.false != undefined) html += `<label class="switch">
+          <input id="${g}" type="checkbox"${info.true > 0 ? ' checked' : ''}>
           <span class="slider"></span>
         </label>`;
-        else html += `<div class="select-container"><select id="${g}">${Object.keys(info2).map(v => `<option ${info2[v] > 0 ? ' selected' : ''}>${isNaN(parseInt(v)) ? v.split("_").map(capWord).join(' ') : v}</option>`).join('')}</select></div>`;
+        else html += `<div class="select-container"><select id="${g}">${Object.keys(info).map(v => `<option ${info[v] > 0 ? ' selected' : ''}>${isNaN(parseInt(v)) ? v.split("_").map(capWord).join(' ') : v}</option>`).join('')}</select></div>`;
         html += '</td>'
         count++;
       }
