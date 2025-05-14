@@ -37,7 +37,7 @@ function showLoadingError() {
 function displayMessage(msg, element, options = {}) {
   const je = element ? $(element) : $;
   je.notify(msg, Object.assign({
-    autoHideDelay: 5000,
+    autoHideDelay: 9999,
     className: 'success',
     position: 'top left'
   }, options));
