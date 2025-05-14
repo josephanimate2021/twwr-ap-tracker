@@ -108,7 +108,17 @@ function applyAPSettings(form) {
                 }
                 const elem = document.getElementById(settingName);
                 if (!elem) continue;
-                console.log(elem);
+                switch (settingName) {
+                  case "sword_mode": {
+                    elem.find('option').removeAttr('selected');
+                    if (info2.slot_data[i] == 3) elem.find('option[value="Swordless"]').attr('selected', '')
+                    else elem.find('option[value="AP Preferences"]').attr('selected', '')
+                    break;
+                  } default: {
+                    if (info2.slot_data[i] == 1) elem.setAttribute("checked", "");
+                    else elem.removeAttribute("checked");
+                  }
+                }
               }
               displayMessage(`Successfuly connected to AP and modified the settings from there. You are safe to either Launch the Tracker for copy the Tracker Link which can be used for a variety of things.`, '', {
                 position: 'top left'
