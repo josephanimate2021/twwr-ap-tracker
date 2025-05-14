@@ -88,19 +88,19 @@ function applyAPSettings(form) {
                   } case "skip_rematch_bosses": {
                     settingName = "skip_boss_rematches";
                     break;
-                  } case "treasure_charts": {
+                  } case "progression_treasure_charts": {
                     settingName = "Sunken Treasure (From Treasure Charts)";
                     break;
-                  } case "triforce_charts": {
+                  } case "progression_triforce_charts": {
                     settingName = "Sunken Treasure (From Triforce Charts)";
                     break;
-                  } case "misc": {
+                  } case "progression_misc": {
                     settingName = "miscellaneous";
                     break;
-                  } case "big_octos_gunboats": {
+                  } case "progression_big_octos_gunboats": {
                     settingName = "big_octos_and_gunboats";
                     break;
-                  } case "platforms_rafts": {
+                  } case "progression_platforms_rafts": {
                     settingName = "lookout_platforms_and_rafts";
                     break;
                   } default: {
