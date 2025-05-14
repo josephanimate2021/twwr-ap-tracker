@@ -97,8 +97,8 @@ $(document).ready(function () { // loads the tracker with AP when the page has l
                       itemElem = elem;
                     }
                   } else if (item.startsWith("Treasure Chart") || item.startsWith("Triforce Chart")) itemElem = document.getElementById(`chart${charts.findIndex(i => i == item)}`)
-                  else continue;
                 }
+                if (!itemElem) continue;
                 const itemIds = itemElem.getAttribute("data-itemIds") ? JSON.parse(itemElem.getAttribute("data-itemIds")) : [];
                 itemIds.push(games[game].item_name_to_id[item]);
                 itemElem.setAttribute("data-itemIds", JSON.stringify(itemIds));
