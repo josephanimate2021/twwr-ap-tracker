@@ -138,8 +138,8 @@ $(document).ready(function () { // loads the tracker with AP when the page has l
                   }
                   if (APItemInfo.location != -2) toggleLocationAP(APItemInfo.location)
                   else dataChanged()
-                  displayMessage(`Successfuly checked ${info2.items.length} items that were recieved from AP!`);
                 }
+                displayMessage(`Successfuly checked ${info2.items.length} items that were recieved from AP!`);
               }
             }, 1);
             break;
@@ -147,10 +147,8 @@ $(document).ready(function () { // loads the tracker with AP when the page has l
             const interval = setInterval(() => {
               if (macrosLoaded && itemLocationsLoaded) {
                 clearInterval(interval);
-                for (const locationId of info2.checked_locations) {
-                  toggleLocationAP(locationId)
-                  displayMessage(`The tracker has been updated successfuly!`);
-                }
+                info2.checked_locations.forEach(toggleLocationAP);
+                displayMessage(`The tracker has been updated successfuly!`);
               }
             }, 1);
             break;
