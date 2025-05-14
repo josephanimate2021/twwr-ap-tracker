@@ -115,8 +115,8 @@ function applyAPSettings(form) {
                     else $(elem).find('option[value="AP Preferences"]').attr('selected', '')
                     break;
                   } default: {
+                    elem.removeAttribute("checked");
                     if (info2.slot_data[i] == 1) elem.setAttribute("checked", "");
-                    else elem.removeAttribute("checked");
                   }
                 }
               }
