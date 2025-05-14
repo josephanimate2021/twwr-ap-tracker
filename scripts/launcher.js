@@ -110,9 +110,9 @@ function applyAPSettings(form) {
                 if (!elem) continue;
                 switch (settingName) {
                   case "sword_mode": {
-                    elem.find('option').removeAttr('selected');
-                    if (info2.slot_data[i] == 3) elem.find('option[value="Swordless"]').attr('selected', '')
-                    else elem.find('option[value="AP Preferences"]').attr('selected', '')
+                    $(elem).find('option').removeAttr('selected');
+                    if (info2.slot_data[i] == 3) $(elem).find('option[value="Swordless"]').attr('selected', '')
+                    else $(elem).find('option[value="AP Preferences"]').attr('selected', '')
                     break;
                   } default: {
                     if (info2.slot_data[i] == 1) elem.setAttribute("checked", "");
