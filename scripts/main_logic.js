@@ -135,7 +135,7 @@ $(document).ready(function () { // loads the tracker with AP when the page has l
                     }
                   }
                 }
-                displayMessage(`Successfuly checked ${info2.items.length} items recieved from AP!`);
+                displayMessage(`Successfuly checked ${info2.items.length} items that were recieved from AP!`);
               }
             }, 1);
             break;
