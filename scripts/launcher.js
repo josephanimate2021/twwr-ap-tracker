@@ -74,6 +74,7 @@ function applyAPSettings(form) {
               success = true;
               for (const i in info2.slot_data) {
                 const settingName = i.startsWith("progression") ? i.substring(12) : i;
+                console.log(settingName, settings[settingName])
                 if (!settings[settingName]) continue;
                 const elem = document.getElementById(settingName);
                 console.log(elem);
