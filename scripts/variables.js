@@ -263,7 +263,8 @@ var options = {
   randomize_entrances: 'Disabled',
   randomize_charts: false,
   skip_rematch_bosses: false,
-  race_mode: false
+  race_mode: false,
+  sword_mode: 'Start with Sword',
 };
 
 var locationsAreProgress = {};
