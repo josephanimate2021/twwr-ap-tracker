@@ -721,11 +721,11 @@ function toggleLocationAP(locationId) {
   for (const i in itemLocations) {
     if (itemLocations[i].id != locationId) continue;
     currentGeneralLocation = i.split("-")[0].slice(0, -1);
-    console.log(i)
+    console.log(i.substring(currentGeneralLocation.length + 3))
     const notDungeon = !dungeons.findIndex(i => i == currentGeneralLocation);
     currentLocationIsDungeon = !notDungeon;
     toggleLocation({
-      innerText: i.split("-")[1].substring(1)
+      innerText: i.substring(currentGeneralLocation.length + 3)
     });
     currentGeneralLocation = '';
     currentLocationIsDungeon = false
