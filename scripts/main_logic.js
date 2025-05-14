@@ -143,15 +143,6 @@ $(document).ready(function () { // loads the tracker with AP when the page has l
               }
             }, 1);
             break;
-          } case "RoomUpdate": {
-            const interval = setInterval(() => {
-              if (macrosLoaded && itemLocationsLoaded) {
-                clearInterval(interval);
-                info2.checked_locations.forEach(toggleLocationAP);
-                displayMessage(`The tracker has been updated successfuly!`);
-              }
-            }, 1);
-            break;
           }
         }
       }
