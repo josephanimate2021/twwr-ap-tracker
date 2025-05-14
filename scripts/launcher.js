@@ -17,7 +17,7 @@ function capWord(g) {
  */
 function applyAPSettings(form) {
   const info = Object.fromEntries(new URLSearchParams($(form).serialize()));
-  for (const i in info) $(form).find(`input[name="${i}"]`).attr('disabled', '');
+  for (const i in info) $(form).find(`input[name="${i}"]`).attr('readonly', '');
   let connected = false, roomInfo, success = false;
   const submutBtn = $(form).find('button[type="submit"]');
   submutBtn.attr("disabled", "");
