@@ -153,6 +153,8 @@ $(document).ready(function () { // loads the tracker with AP when the page has l
                 }
               }
             }, 1);
+            break;
+          }
         }
       }
       if (!connectionSuccessful) connector.send(JSON.stringify(array));
