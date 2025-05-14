@@ -839,3 +839,11 @@ function fullClear() {
   clearRaceModeBannedLocations();
   dataChanged();
 }
+
+var APFunctions = {
+  itemsRecieved: {
+    toggleKey,
+    toggleChart,
+    toggleInventoryItem
+  }
+}
