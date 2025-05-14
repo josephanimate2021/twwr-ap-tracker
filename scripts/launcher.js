@@ -107,6 +107,7 @@ function applyAPSettings(form) {
                     settingName = i.startsWith("progression") ? i.substring(12) : i;
                   }
                 }
+                document.getElementById('gameSettings').reset();
                 const elem = document.getElementById(settingName);
                 if (!elem) continue;
                 switch (settingName) {
