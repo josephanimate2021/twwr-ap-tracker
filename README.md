@@ -25,3 +25,8 @@ After the server starts, you can go to [localhost:8080](http://localhost:8080/) 
 
 # So, where is the URL for this tracker?
 You may click [here](https://josephanimate2021.github.io/twwr-ap-tracker) to visit this tracker. For GH Pages, I am using the older style tracker along with the old code as that tends to like GH pages more than this app for some reason.
+
+# Credits
+
+* Wooferzfg - For mataining the original tracker that is used for The Wind Waker randomizer runs. Source code is [here](https://github.com/wooferzfg/tww-rando-tracker/).
+* BigDunka - For making the original tracker. If it wern't for this person, then this tracker wouldn't exist today.
