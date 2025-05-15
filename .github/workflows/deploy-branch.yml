@@ -9,17 +9,11 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
-      - name: Clone Github Pages Repo
-        run: |
-          git clone -b gh-pages-main https://github.com/josephanimate2021/twwr-ap-tracker
-          
-      - name: Clone the ${{ github.ref_name }} branch
-        run: |
-          git clone -b ${{ github.ref_name }} https://github.com/josephanimate2021/twwr-ap-tracker ./${{ github.ref_name }}
-          rm -rf ./${{ github.ref_name }}/.git
-          
       - name: Deploy The ${{ github.ref_name }} branch to the Github Pages branch
         run: |
+          git clone -b gh-pages-main https://github.com/josephanimate2021/twwr-ap-tracker
+          git clone -b ${{ github.ref_name }} https://github.com/josephanimate2021/twwr-ap-tracker ./${{ github.ref_name }}
+          rm -rf ./${{ github.ref_name }}/.git
           git config --global user.email "action@github.com"
           git config --global user.name "GitHub Action"
           git add .
