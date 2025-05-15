@@ -146,62 +146,76 @@ export default class Launcher extends React.PureComponent {
         <form
           onSubmit={(event) => {
             event.preventDefault();
+            let successfulConnection = false;
             const APClient = new Client();
             APClient.socket.on('connected', (e) => {
               const allDropdownOptions = Permalink.DROPDOWN_OPTIONS;
-              Object.keys(e.slot_data.start_inventory).filter(
-                i => i == 'Triforce Shard'
-              ).forEach((j) => {
-                updateStartingTriforceShards(e.slot_data.start_inventory, j)
-              })
-              Object.keys(e.slot_data.start_inventory_from_pool).filter(
-                i => i == 'Triforce Shard'
-              ).forEach((j) => {
-                updateStartingTriforceShards(e.slot_data.start_inventory_from_pool, j)
-              })
-              const setOptionValue = this.setOptionValue;
+              const { setOptionValue } = this;
               function updateStartingTriforceShards(a, b) {
                 setOptionValue('num_starting_triforce_shards', a[b]);
               }
+              Object.keys(e.slot_data.start_inventory).filter(
+                (i) => i === 'Triforce Shard',
+              ).forEach((j) => {
+                updateStartingTriforceShards(e.slot_data.start_inventory, j);
+              });
+              Object.keys(e.slot_data.start_inventory_from_pool).filter(
+                (i) => i === 'Triforce Shard',
+              ).forEach((j) => {
+                updateStartingTriforceShards(e.slot_data.start_inventory_from_pool, j);
+              });
               Object.keys(e.slot_data).forEach((i) => {
                 const val = this.getOptionValue(i);
                 if (val !== undefined) {
-                  if (typeof val == "boolean") {
+                  if (typeof val === 'boolean') {
                     const booleans = [false, true];
                     const apVal = booleans[e.slot_data[i]];
-                    if (apVal != undefined) this.setOptionValue(i, apVal);
+                    if (apVal !== undefined) setOptionValue(i, apVal);
                   } else {
                     const dropdownOptions = allDropdownOptions[i];
                     switch (i) {
-                      case "num_required_bosses": {
-                        this.setOptionValue('num_required_bosses', e.slot_data.num_required_bosses);
+                      case 'sword_mode': {
+                        const o = e.slot_data.sword_mode === 1 || e.slot_data.sword_mode === 2 ? 'No Starting Sword' : e.slot_data.sword_mode;
+                        setOptionValue('sword_mode', o);
                         break;
-                      } case "sword_mode": {
-                        if (e.slot_data.sword_mode == 1 || e.slot_data.sword_mode == 2) {
-                          this.setOptionValue('sword_mode', 'No Starting Sword');
-                          break;
-                        }
+                      } case 'num_required_bosses': {
+                        setOptionValue('num_required_bosses', e.slot_data.num_required_bosses);
+                        break;
                       } default: {
-                        this.setOptionValue(i, dropdownOptions[e.slot_data[i]])
+                        setOptionValue(i, dropdownOptions[e.slot_data[i]]);
                       }
                     }
                   }
                 }
               });
             });
+            APClient.socket.on('connectionRefused', (e) => {
+              toast.error(`AP Refused connection due to the following errors: ${e.errors.join(', ')}`);
+            });
             const submitBtn = jQuery(event.target).find('button[type="submit"]');
-            // const origText = submitBtn.text();
+            const origText = submitBtn.text();
             submitBtn.text('Connecting to AP...');
             submitBtn.attr('disabled', '');
             const info = Object.fromEntries(new URLSearchParams(jQuery(event.target).serialize()));
             Object.keys(info).forEach((i) => jQuery(event.target).find(`input[name="${i}"]`).attr('readonly', ''));
             APClient.login(info.host, info.user, 'The Wind Waker', {
               tags: ['NoText'],
+              password: info.pass || '',
             }).then(() => {
+              successfulConnection = true;
               submitBtn.text('Connected to AP');
-              jQuery(".settings").find('div[data-ap="false"]').hide()
-              jQuery(".settings").find('div[data-ap="true"]').show();
-            }).catch(console.error);
+              jQuery('.settings').find('div[data-ap="false"]').hide();
+              jQuery('.settings').find('div[data-ap="true"]').show();
+            }).catch(toast.error);
+            setTimeout(() => {
+              if (!successfulConnection) {
+                toast.error('AP Connection Timed Out.');
+                submitBtn.removeAttr('disabled');
+                submitBtn.text(origText);
+                Object.keys(info).forEach((i) => jQuery(event.target).find(`input[name="${i}"]`).removeAttr('readonly'));
+                APClient.socket.disconnect();
+              }
+            }, 34321);
           }}
           id="apConfig"
         >
