@@ -148,12 +148,44 @@ export default class Launcher extends React.PureComponent {
             event.preventDefault();
             const APClient = new Client();
             APClient.socket.on('connected', (e) => {
-              // const approvedOptions = {};
+              const allDropdownOptions = Permalink.DROPDOWN_OPTIONS;
+              Object.keys(e.slot_data.start_inventory).filter(
+                i => i == 'Triforce Shard'
+              ).forEach((j) => {
+                updateStartingTriforceShards(e.slot_data.start_inventory, j)
+              })
+              Object.keys(e.slot_data.start_inventory_from_pool).filter(
+                i => i == 'Triforce Shard'
+              ).forEach((j) => {
+                updateStartingTriforceShards(e.slot_data.start_inventory_from_pool, j)
+              })
+              const setOptionValue = this.setOptionValue;
+              function updateStartingTriforceShards(a, b) {
+                setOptionValue('num_starting_triforce_shards', a[b]);
+              }
               Object.keys(e.slot_data).forEach((i) => {
                 const val = this.getOptionValue(i);
                 if (val !== undefined) {
-                  const allOptions = Permalink.OPTIONS[i.toUpperCase()];
-                  console.log(i, allOptions);
+                  if (typeof val == "boolean") {
+                    const booleans = [false, true];
+                    const apVal = booleans[e.slot_data[i]];
+                    if (apVal != undefined) this.setOptionValue(i, apVal);
+                  } else {
+                    const dropdownOptions = allDropdownOptions[i];
+                    switch (i) {
+                      case "num_required_bosses": {
+                        this.setOptionValue('num_required_bosses', e.slot_data.num_required_bosses);
+                        break;
+                      } case "sword_mode": {
+                        if (e.slot_data.sword_mode == 1 || e.slot_data.sword_mode == 2) {
+                          this.setOptionValue('sword_mode', 'No Starting Sword');
+                          break;
+                        }
+                      } default: {
+                        this.setOptionValue(i, dropdownOptions[e.slot_data[i]])
+                      }
+                    }
+                  }
                 }
               });
             });
@@ -167,6 +199,8 @@ export default class Launcher extends React.PureComponent {
               tags: ['NoText'],
             }).then(() => {
               submitBtn.text('Connected to AP');
+              jQuery(".settings").find('div[data-ap="false"]').hide()
+              jQuery(".settings").find('div[data-ap="true"]').show();
             }).catch(console.error);
           }}
           id="apConfig"
