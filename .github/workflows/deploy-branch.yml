@@ -9,9 +9,10 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
-      - name: Checkout Github Pages Repo
+      - name: Clone Github Pages Repo
         run: |
-          git checkout gh-pages-main
+          git clone -b gh-pages-main https://github.com/josephanimate2021/twwr-ap-tracker
+          rm -rf ./.git
           
       - name: Clone the ${{ github.ref_name }} branch
         run: |
