@@ -1,4 +1,6 @@
+import jQuery from 'jquery';
 import _ from 'lodash';
+
 import React from 'react';
 import { ToastContainer, toast } from 'react-toastify';
 
@@ -13,7 +15,6 @@ import ToggleOptionInput from './toggle-option-input';
 import 'react-toastify/dist/ReactToastify.css';
 import 'react-toggle/style.css';
 
-import jQuery from 'jquery';
 import { Client } from "archipelago.js";
 
 export default class Launcher extends React.PureComponent {
