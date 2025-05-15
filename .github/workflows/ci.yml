@@ -48,22 +48,11 @@ jobs:
 
           
         
-      - name: Deploy branches
+      - name: Add the old branch to pages deployment.
         run: |
-          git config --global user.email "action@github.com"
-          git config --global user.name "GitHub Action"
-          git clone -b gh-pages-main -q "https://github.com/josephanimate2021/twwr-ap-tracker" ./repo
-          rm -rf ./repo/${{ github.ref_name }}
-          git clone -b gh-pages-${{ github.ref_name }} -q "https://github.com/josephanimate2021/twwr-ap-tracker" ./repo/${{ github.ref_name }}
-          rm -r ./repo/${{ github.ref_name }}/.git
-          git clone -b old -q "https://github.com/josephanimate2021/twwr-ap-tracker" ./repo/${{ github.ref_name }}/old
-          cd repo
-          git checkout --orphan gh-pages-temp
-          git add ${{ github.ref_name }}/
-          git add .
-          git commit -m "Deploy main branch and ${{ github.ref_name }} branch together"
-          git push --force https://action:${{ secrets.GITHUB_TOKEN }}@github.com/josephanimate2021/twwr-ap-tracker.git gh-pages-temp:gh-pages-main
-          git push https://action:${{ secrets.GITHUB_TOKEN }}@github.com/josephanimate2021/twwr-ap-tracker.git :gh-pages-${{ github.ref_name }}
+          git clone -b old "https://github.com/josephanimate2021/twwr-ap-tracker" ./dist/old
+          rm -r ./dist/old/.git
+          
       - name: Deploy
         if: github.repository == 'josephanimate2021/twwr-ap-tracker' && github.ref == 'refs/heads/main'
         uses: peaceiris/actions-gh-pages@v4.0.0
