@@ -11,6 +11,7 @@ jobs:
     steps:
       - name: Deploy The ${{ github.ref_name }} branch to the Github Pages branch
         run: |
+          git clone https://github.com/josephanimate2021/twwr-ap-tracker.git
           git checkout gh-pages-main
           git clone -b ${{ github.ref_name }} https://github.com/josephanimate2021/twwr-ap-tracker.git ./oldStyle
           rm -rf ./oldStyle/.git
