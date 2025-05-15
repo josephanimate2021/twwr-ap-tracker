@@ -29,7 +29,7 @@ jobs:
       - name: Deploy
         uses: peaceiris/actions-gh-pages@v4.0.0
         with:
-          personal_token: ${{ secrets.GH_PAGES_DEPLOY }}
+          personal_token: ${{ secrets.GITHUB_TOKEN }}
           force_orphan: true
           publish_branch: gh-pages-${{ github.ref_name }}
           publish_dir: ./dist
@@ -53,5 +53,5 @@ jobs:
           git add ${{ github.ref_name }}/
           git add .
           git commit -m "Deploy main branch and ${{ github.ref_name }} branch together"
-          git push --force https://action:${{ secrets.GH_PAGES_DEPLOY }}@github.com/josephanimate2021/twwr-ap-tracker.git gh-pages-temp:gh-pages-main
-          git push https://action:${{ secrets.GH_PAGES_DEPLOY }}@github.com/josephanimate2021/twwr-ap-tracker.git :gh-pages-${{ github.ref_name }}
+          git push --force https://action:${{ secrets.GITHUB_TOKEN }}@github.com/josephanimate2021/twwr-ap-tracker.git gh-pages-temp:gh-pages-main
+          git push https://action:${{ secrets.GITHUB_TOKEN }}@github.com/josephanimate2021/twwr-ap-tracker.git :gh-pages-${{ github.ref_name }}
