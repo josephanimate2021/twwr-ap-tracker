@@ -16,9 +16,7 @@ jobs:
         uses: peaceiris/actions-gh-pages@v4.0.0
         with:
           github_token: ${{ secrets.GITHUB_TOKEN }}
-          force_orphan: true
-          publish_branch: gh-pages-${{ github.ref_name }}
-          publish_dir: ./dist
+          publish_branch: ${{ github.ref_name }}
 
   combined_deploy:
     runs-on: ubuntu-latest
@@ -30,14 +28,8 @@ jobs:
         run: |
           git config --global user.email "action@github.com"
           git config --global user.name "GitHub Action"
-          git clone -b gh-pages-main -q "https://github.com/josephanimate2021/twwr-ap-tracker" ./repo
-          rm -rf ./repo/${{ github.ref_name }}
-          git clone -b gh-pages-${{ github.ref_name }} -q "https://github.com/josephanimate2021/twwr-ap-tracker" ./repo/${{ github.ref_name }}
-          rm -r ./repo/${{ github.ref_name }}/.git
-          cd repo
-          git checkout --orphan gh-pages-temp
-          git add ${{ github.ref_name }}/
+          git clone -b gh-pages-${{ github.ref_name }} -q "https://github.com/josephanimate2021/twwr-ap-tracker" ./${{ github.ref_name }}
+          rm -r ./${{ github.ref_name }}/.git
           git add .
-          git commit -m "Deploy main branch and ${{ github.ref_name }} branch together"
-          git push --force https://action:${{ secrets.GITHUB_TOKEN }}@github.com/josephanimate2021/twwr-ap-tracker.git gh-pages-temp:gh-pages-main
-          git push https://action:${{ secrets.GITHUB_TOKEN }}@github.com/josephanimate2021/twwr-ap-tracker.git :gh-pages-${{ github.ref_name }}
+          git commit -m "Deployed the main and ${{ github.ref_name }} branches together"
+          git push https://action:${{ secrets.GITHUB_TOKEN }}@github.com/josephanimate2021/twwr-ap-tracker.git
