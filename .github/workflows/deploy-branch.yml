@@ -12,7 +12,6 @@ jobs:
       - name: Clone Github Pages Repo
         run: |
           git clone -b gh-pages-main https://github.com/josephanimate2021/twwr-ap-tracker
-          rm -rf ./.git
           
       - name: Clone the ${{ github.ref_name }} branch
         run: |
