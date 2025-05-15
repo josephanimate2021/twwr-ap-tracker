@@ -23,6 +23,7 @@ function RenderTracker({ loadProgress }) {
 RenderTracker.propTypes = {
   loadProgress: PropTypes.bool.isRequired,
 };
+
 export default function App() {
   return (
     <HashRouter>
@@ -36,6 +37,11 @@ export default function App() {
           exact
           path="/tracker/new/:permalink"
           element={<RenderTracker loadProgress={false} />}
+        />
+        <Route
+          exact
+          path="/tracker/load/:permalink"
+          element={<RenderTracker loadProgress />}
         />
       </Routes>
     </HashRouter>

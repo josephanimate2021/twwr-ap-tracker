@@ -1,26 +1,28 @@
-# TWW Randomizer Tracker for Archipelago (AP)
+# TWW Randomizer Tracker
 
-This is an AP tracker for [The Wind Waker Randomizer](https://archipelago.gg/games/The%20Wind%20Waker). The original tracker was made by [wooferzfg](https://github.com/wooferzfg/tww-rando-tracker) with the AP version of this being modified by me.
+[![Build Status](https://github.com/wooferzfg/tww-rando-tracker/workflows/CI/badge.svg)](https://github.com/wooferzfg/tww-rando-tracker/actions)
+
+This is a tracker for [The Wind Waker Randomizer](https://github.com/LagoLunatic/wwrando). It's available at [wooferzfg.me/tww-rando-tracker](https://www.wooferzfg.me/tww-rando-tracker/).
 
 ## Build Instructions
 
-Building and running the tracker locally requires you to install [Node.JS version 20 or later](https://nodejs.org/en/download/) and [Git](https://git-scm.com/downloads).
+Building and running the tracker locally requires you to install [Node 20](https://nodejs.org/en/download/) and [Git](https://git-scm.com/downloads).
 
 Clone the repository by running the following in a command prompt:
 ```bash
-git clone https://github.com/josephanimate2021/twwr-ap-tracker.git
+git clone https://github.com/wooferzfg/tww-rando-tracker.git
 ```
 
-Navigate to the `twwr-ap-tracker` folder and install dependencies:
+Navigate to the `tww-rando-tracker` folder and install dependencies:
 ```bash
-cd twwr-ap-tracker && npm install
+cd tww-rando-tracker && npm install
 ```
 You can then build and serve the tracker application:
 ```bash
 npm start
 ```
-After the server starts, you can go to [127.0.0.1:8080](http://127.0.0.1:8080/) to open the tracker.
+After the server starts, you can go to [localhost:8080](http://localhost:8080/) to open the tracker.
 
 ## Documentation
 
-Original code documentation is available at [wooferzfg.me/tww-rando-tracker/docs](https://www.wooferzfg.me/tww-rando-tracker/docs).
+Code documentation is available at [wooferzfg.me/tww-rando-tracker/docs](https://www.wooferzfg.me/tww-rando-tracker/docs).
