@@ -138,7 +138,65 @@ export default class Launcher extends React.PureComponent {
     );
   }
 
-  permalinkContainer() {
+  permalinkContainer(ap = true) {
+    if (ap) {
+      return (
+        <form
+          onSubmit={(e) => {
+            e.preventDefault();
+            const APClient = new Client();
+            APClient.messages.on('message', (content) => {
+              console.log(content);
+            });
+            const submitBtn = jQuery(e.target).find('button[type="submit"]');
+            // const origText = submitBtn.text();
+            submitBtn.text('Connecting to AP...');
+            submitBtn.attr('disabled', '');
+            const info = Object.fromEntries(new URLSearchParams(jQuery(e.target).serialize()));
+            Object.keys(info).forEach((i) => jQuery(e.target).find(`input[name="${i}"]`).attr('readonly', ''));
+            APClient.login(info.host, info.user).then(() => console.log('Connected to the Archipelago server!')).catch(console.error);
+          }}
+          id="apConfig"
+        >
+          <div className="permalink-container">
+            <div className="permalink-label">AP Server Address:</div>
+            <div className="permalink-input">
+              <input
+                className="permalink"
+                name="host"
+                type="text"
+                required
+              />
+            </div>
+          </div>
+          <div className="permalink-container">
+            <div className="permalink-label">Username:</div>
+            <div className="permalink-input">
+              <input
+                className="permalink"
+                name="user"
+                type="text"
+                required
+              />
+            </div>
+          </div>
+          <div className="permalink-container">
+            <div className="permalink-label">Password:</div>
+            <div className="permalink-input">
+              <input
+                className="permalink"
+                name="pass"
+                type="password"
+              />
+            </div>
+          </div>
+          <div className="launcher-button-container">
+            <button className="launcher-button" type="submit">Apply Settings From AP</button>
+          </div>
+        </form>
+      );
+    }
+
     const { permalink } = this.state;
 
     return (
@@ -153,62 +211,6 @@ export default class Launcher extends React.PureComponent {
           />
         </div>
       </div>
-    );
-  }
-
-  applyAPSettings(elem) {
-    const APClient = new Client();
-    APClient.messages.on('message', (content) => {
-      console.log(content);
-    });
-    const submitBtn = jQuery(elem).find('button[type="submit"]');
-    const origText = submitBtn.text();
-    submitBtn.text('Connecting to AP...');
-    submitBtn.attr('disabled', '');
-    const info = Object.fromEntries(new URLSearchParams(jQuery(elem).serialize()));
-    for (const i in info) jQuery(elem).find(`input[name="${i}"]`).attr('readonly', '');
-    APClient.login(info.host, info.user).then(() => console.log('Connected to the Archipelago server!')).catch(console.error);
-  }
-
-  APLinkContainer() {
-    return (
-      <form action="javascript:;" onSubmit={(event) => this.applyAPSettings(event.target)} id="apConfig">
-        <div className="permalink-container">
-          <div className="permalink-label">AP Server Address:</div>
-          <div className="permalink-input">
-            <input
-              className="permalink"
-              name="host"
-              type="text"
-              required
-            />
-          </div>
-        </div>
-        <div className="permalink-container">
-          <div className="permalink-label">Username:</div>
-          <div className="permalink-input">
-            <input
-              className="permalink"
-              name="user"
-              type="text"
-              required
-            />
-          </div>
-        </div>
-        <div className="permalink-container">
-          <div className="permalink-label">Password:</div>
-          <div className="permalink-input">
-            <input
-              className="permalink"
-              name="pass"
-              type="password"
-            />
-          </div>
-        </div>
-        <div className="launcher-button-container">
-          <button className="launcher-button" type="submit">Apply Settings From AP</button>
-        </div>
-      </form>
     );
   }
 
@@ -429,17 +431,18 @@ export default class Launcher extends React.PureComponent {
             />
           </div>
           <div className="settings">
-            {this.APLinkContainer()}
+            {this.permalinkContainer()}
             {this.progressItemLocationsTable()}
             {this.additionalRandomizationOptionsTable()}
             {this.convenienceTweaksTable()}
-            {this.permalinkContainer()}
+            {this.permalinkContainer(false)}
             {this.launchButtonContainer()}
             {this.launchButtonContainer(false)}
           </div>
           <div className="attribution">
             <span>
-              AP Version of this tracker is created by josephanimate2021. • Current tracker is maintained by wooferzfg •
+              AP Version of this tracker is created by josephanimate2021.
+              • Current tracker is maintained by wooferzfg •
             </span>
             <a href={`https://github.com/josephanimate2021/twwr-ap-tracker/commit/${COMMIT_HASH}`} target="_blank" rel="noreferrer">
               Version:
