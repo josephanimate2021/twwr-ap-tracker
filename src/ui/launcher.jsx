@@ -13,6 +13,9 @@ import ToggleOptionInput from './toggle-option-input';
 import 'react-toastify/dist/ReactToastify.css';
 import 'react-toggle/style.css';
 
+import jQuery from 'jquery';
+import { Client } from "archipelago.js";
+
 export default class Launcher extends React.PureComponent {
   static notifyAboutUpdate() {
     const { serviceWorker } = navigator;
@@ -141,7 +144,7 @@ export default class Launcher extends React.PureComponent {
     const { permalink } = this.state;
 
     return (
-      <div className="permalink-container">
+      <div className="permalink-container" title='While AP does not take advantage of this, you may use the Permalink feature to copy the applied AP settings for usage with the normal Wind Waker Randomizer.'>
         <div className="permalink-label">Permalink:</div>
         <div className="permalink-input">
           <input
@@ -152,6 +155,62 @@ export default class Launcher extends React.PureComponent {
           />
         </div>
       </div>
+    );
+  }
+
+  applyAPSettings(elem) {
+    const APClient = new Client();
+    APClient.messages.on("message", (content) => {
+      console.log(content);
+    });
+    const submitBtn = jQuery(elem).find('button[type="submit"]');
+    const origText = submitBtn.text();
+    submitBtn.text('Connecting to AP...');
+    submitBtn.attr("disabled", "");
+    const info = Object.fromEntries(new URLSearchParams(jQuery(elem).serialize()));
+    for (const i in info) jQuery(elem).find(`input[name="${i}"]`).attr("readonly", "");
+    APClient.login(info.host, info.user).then(() => console.log("Connected to the Archipelago server!")).catch(console.error);
+  }
+
+  APLinkContainer() {
+    return (
+      <form action="javascript:;" onSubmit={(event) => this.applyAPSettings(event.target)} id="apConfig">
+        <div className="permalink-container">
+          <div className="permalink-label">AP Server Address:</div>
+          <div className="permalink-input">
+            <input
+              className="permalink"
+              name="host"
+              type="text"
+              required={true}
+            />
+          </div>
+        </div>
+        <div className="permalink-container">
+          <div className="permalink-label">Username:</div>
+          <div className="permalink-input">
+            <input
+              className="permalink"
+              name="user"
+              type="text"
+              required={true}
+            />
+          </div>
+        </div>
+        <div className="permalink-container">
+          <div className="permalink-label">Password:</div>
+          <div className="permalink-input">
+            <input
+              className="permalink"
+              name="pass"
+              type="password"
+            />
+          </div>
+        </div>
+        <div className="launcher-button-container">
+          <button className="launcher-button" type="submit">Apply Settings From AP</button>
+        </div>
+      </form>
     );
   }
 
@@ -328,15 +387,15 @@ export default class Launcher extends React.PureComponent {
     this.loadFromSave();
   }
 
-  launchButtonContainer() {
+  launchButtonContainer(ap = true) {
     return (
-      <div className="launcher-button-container">
+      <div className="launcher-button-container" style={ap ? {display: 'none'} : {}} data-ap={ap}>
         <button
           className="launcher-button"
           type="button"
           onClick={this.launchNewTracker}
         >
-          Launch New Tracker
+          Launch {ap ? 'AP' : 'New'} Tracker
         </button>
         <button
           className="launcher-button"
@@ -363,20 +422,24 @@ export default class Launcher extends React.PureComponent {
           <div className="header">
             <img
               src={HEADER_IMAGE}
-              alt="The Legend of Zelda: The Wind Waker Randomizer Tracker"
+              alt="The Legend of Zelda: The Wind Waker Archipelago Randomizer Tracker"
               draggable={false}
             />
           </div>
           <div className="settings">
-            {this.permalinkContainer()}
+            {this.APLinkContainer()}
             {this.progressItemLocationsTable()}
             {this.additionalRandomizationOptionsTable()}
             {this.convenienceTweaksTable()}
+            {this.permalinkContainer()}
             {this.launchButtonContainer()}
+            {this.launchButtonContainer(false)}
           </div>
           <div className="attribution">
-            <span>Maintained by wooferzfg • Original Tracker by BigDunka • </span>
-            <a href={`https://github.com/wooferzfg/tww-rando-tracker/commit/${COMMIT_HASH}`} target="_blank" rel="noreferrer">
+            <span>
+              AP Version of this tracker is created by josephanimate2021. • Current tracker is maintained by wooferzfg • 
+            </span>
+            <a href={`https://github.com/josephanimate2021/twwr-ap-tracker/commit/${COMMIT_HASH}`} target="_blank" rel="noreferrer">
               Version:
               {' '}
               {COMMIT_HASH}
