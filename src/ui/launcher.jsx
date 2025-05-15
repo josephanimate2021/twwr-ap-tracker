@@ -1,6 +1,6 @@
+import { Client } from 'archipelago.js';
 import jQuery from 'jquery';
 import _ from 'lodash';
-
 import React from 'react';
 import { ToastContainer, toast } from 'react-toastify';
 
@@ -11,11 +11,8 @@ import DropdownOptionInput from './dropdown-option-input';
 import OptionsTable from './options-table';
 import Storage from './storage';
 import ToggleOptionInput from './toggle-option-input';
-
 import 'react-toastify/dist/ReactToastify.css';
 import 'react-toggle/style.css';
-
-import { Client } from "archipelago.js";
 
 export default class Launcher extends React.PureComponent {
   static notifyAboutUpdate() {
@@ -145,7 +142,7 @@ export default class Launcher extends React.PureComponent {
     const { permalink } = this.state;
 
     return (
-      <div className="permalink-container" title='While AP does not take advantage of this, you may use the Permalink feature to copy the applied AP settings for usage with the normal Wind Waker Randomizer.'>
+      <div className="permalink-container" title="While AP does not take advantage of this, you may use the Permalink feature to copy the applied AP settings for usage with the normal Wind Waker Randomizer.">
         <div className="permalink-label">Permalink:</div>
         <div className="permalink-input">
           <input
@@ -161,16 +158,16 @@ export default class Launcher extends React.PureComponent {
 
   applyAPSettings(elem) {
     const APClient = new Client();
-    APClient.messages.on("message", (content) => {
+    APClient.messages.on('message', (content) => {
       console.log(content);
     });
     const submitBtn = jQuery(elem).find('button[type="submit"]');
     const origText = submitBtn.text();
     submitBtn.text('Connecting to AP...');
-    submitBtn.attr("disabled", "");
+    submitBtn.attr('disabled', '');
     const info = Object.fromEntries(new URLSearchParams(jQuery(elem).serialize()));
-    for (const i in info) jQuery(elem).find(`input[name="${i}"]`).attr("readonly", "");
-    APClient.login(info.host, info.user).then(() => console.log("Connected to the Archipelago server!")).catch(console.error);
+    for (const i in info) jQuery(elem).find(`input[name="${i}"]`).attr('readonly', '');
+    APClient.login(info.host, info.user).then(() => console.log('Connected to the Archipelago server!')).catch(console.error);
   }
 
   APLinkContainer() {
@@ -183,7 +180,7 @@ export default class Launcher extends React.PureComponent {
               className="permalink"
               name="host"
               type="text"
-              required={true}
+              required
             />
           </div>
         </div>
@@ -194,7 +191,7 @@ export default class Launcher extends React.PureComponent {
               className="permalink"
               name="user"
               type="text"
-              required={true}
+              required
             />
           </div>
         </div>
@@ -390,13 +387,17 @@ export default class Launcher extends React.PureComponent {
 
   launchButtonContainer(ap = true) {
     return (
-      <div className="launcher-button-container" style={ap ? {display: 'none'} : {}} data-ap={ap}>
+      <div className="launcher-button-container" style={ap ? { display: 'none' } : {}} data-ap={ap}>
         <button
           className="launcher-button"
           type="button"
           onClick={this.launchNewTracker}
         >
-          Launch {ap ? 'AP' : 'New'} Tracker
+          Launch
+          {' '}
+          {ap ? 'AP' : 'New'}
+          {' '}
+          Tracker
         </button>
         <button
           className="launcher-button"
@@ -438,7 +439,7 @@ export default class Launcher extends React.PureComponent {
           </div>
           <div className="attribution">
             <span>
-              AP Version of this tracker is created by josephanimate2021. • Current tracker is maintained by wooferzfg • 
+              AP Version of this tracker is created by josephanimate2021. • Current tracker is maintained by wooferzfg •
             </span>
             <a href={`https://github.com/josephanimate2021/twwr-ap-tracker/commit/${COMMIT_HASH}`} target="_blank" rel="noreferrer">
               Version:
