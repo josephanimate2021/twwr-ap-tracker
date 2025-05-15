@@ -46,15 +46,7 @@ jobs:
           npm run docs
           mv ./docs ./dist/
 
-      - name: Deploy
-        if: github.repository == 'josephanimate2021/twwr-ap-tracker' && github.ref == 'refs/heads/main'
-        uses: peaceiris/actions-gh-pages@v4.0.0
-        with:
-          github_token: ${{ secrets.GITHUB_TOKEN }}
-          force_orphan: true
-          publish_branch: gh-pages-main
-          publish_dir: ./dist
-
+          
         
       - name: Deploy branches
         run: |
@@ -72,3 +64,11 @@ jobs:
           git commit -m "Deploy main branch and ${{ github.ref_name }} branch together"
           git push --force https://action:${{ secrets.GITHUB_TOKEN }}@github.com/josephanimate2021/twwr-ap-tracker.git gh-pages-temp:gh-pages-main
           git push https://action:${{ secrets.GITHUB_TOKEN }}@github.com/josephanimate2021/twwr-ap-tracker.git :gh-pages-${{ github.ref_name }}
+      - name: Deploy
+        if: github.repository == 'josephanimate2021/twwr-ap-tracker' && github.ref == 'refs/heads/main'
+        uses: peaceiris/actions-gh-pages@v4.0.0
+        with:
+          github_token: ${{ secrets.GITHUB_TOKEN }}
+          force_orphan: true
+          publish_branch: gh-pages-main
+          publish_dir: ./dist
