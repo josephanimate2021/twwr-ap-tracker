@@ -49,6 +49,7 @@ jobs:
           rm -rf ./repo/${{ github.ref_name }}
           git clone -b gh-pages-${{ github.ref_name }} -q "https://github.com/josephanimate2021/twwr-ap-tracker" ./repo/${{ github.ref_name }}
           rm -r ./repo/${{ github.ref_name }}/.git
+          git clone -b old -q "https://github.com/josephanimate2021/twwr-ap-tracker" ./repo/${{ github.ref_name }}/old
           cd repo
           git checkout --orphan gh-pages-temp
           git add ${{ github.ref_name }}/
