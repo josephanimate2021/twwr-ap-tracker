@@ -140,33 +140,33 @@ export default class Launcher extends React.PureComponent {
     );
   }
 
-    permalinkContainer(ap = true) {
+  permalinkContainer(ap = true) {
     if (ap) {
       return (
         <form
-          onSubmit={(e) => {
-            e.preventDefault();
+          onSubmit={(event) => {
+            event.preventDefault();
             const APClient = new Client();
-            APClient.socket.on("connected", e => {
-              const approvedOptions = {};
-              for (const i in e.slot_data) {
+            APClient.socket.on('connected', (e) => {
+              // const approvedOptions = {};
+              Object.keys(e.slot_data).forEach((i) => {
                 const val = this.getOptionValue(i);
-                if (val != undefined) {
+                if (val !== undefined) {
                   const allOptions = Permalink.OPTIONS[i.toUpperCase()];
-                  console.log(i, allOptions)
+                  console.log(i, allOptions);
                 }
-              }
-            })
-            const submitBtn = jQuery(e.target).find('button[type="submit"]');
+              });
+            });
+            const submitBtn = jQuery(event.target).find('button[type="submit"]');
             // const origText = submitBtn.text();
             submitBtn.text('Connecting to AP...');
             submitBtn.attr('disabled', '');
-            const info = Object.fromEntries(new URLSearchParams(jQuery(e.target).serialize()));
-            Object.keys(info).forEach((i) => jQuery(e.target).find(`input[name="${i}"]`).attr('readonly', ''));
+            const info = Object.fromEntries(new URLSearchParams(jQuery(event.target).serialize()));
+            Object.keys(info).forEach((i) => jQuery(event.target).find(`input[name="${i}"]`).attr('readonly', ''));
             APClient.login(info.host, info.user, 'The Wind Waker', {
-              tags: ['NoText']
+              tags: ['NoText'],
             }).then(() => {
-              submitBtn.text('Connected to AP')
+              submitBtn.text('Connected to AP');
             }).catch(console.error);
           }}
           id="apConfig"
