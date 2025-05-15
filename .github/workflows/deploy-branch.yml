@@ -12,21 +12,6 @@ jobs:
       - name: Checkout commit
         uses: actions/checkout@v4
 
-      - name: Install Node
-        uses: actions/setup-node@v4.0.3
-        with:
-          node-version: '20.x'
-
-      - name: Install npm packages
-        run: |
-          set -e
-          npm install
-
-      - name: Build UI
-        run: |
-          set -e
-          npm run build:production
-
       - name: Deploy
         uses: peaceiris/actions-gh-pages@v4.0.0
         with:
