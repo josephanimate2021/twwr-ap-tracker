@@ -1,4 +1,4 @@
-name: Automatic Pages Deployment
+name: Github Pages Deployment
 permissions:
   contents: write
 on:
