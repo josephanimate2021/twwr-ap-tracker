@@ -239,7 +239,7 @@ function loadFromFile() {
 }
 
 $(document).ready(() => { // Loads the main page when the document has loaded.
-  jQuery.get(`https://josephanimate2021.github.io/twwr-ap-tracker/settings.yaml`, f => {
+  jQuery.get(`${location.origin + location.pathname.slice(0, -1)}/${location.pathname.endsWith('index.html') ? '../' : ''}settings.yaml`, f => {
     const settings = jsyaml.load(f);
     let html = '';
     for (const i in settings) {

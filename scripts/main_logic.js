@@ -252,7 +252,6 @@ function loadStartingItems(ap = true) {
   if (!ap) {
     startingItems["Hero's Shield"] = 1;
     startingItems['Wind Waker'] = 1;
-    startingItems["Boat's Sail"] = 1;
     startingItems["Wind's Requiem"] = 1;
     startingItems['Ballad of Gales'] = 1;
     startingItems['Song of Passing'] = 1;
