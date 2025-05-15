@@ -49,7 +49,7 @@ jobs:
         if: github.repository == 'josephanimate2021/twwr-ap-tracker' && github.ref == 'refs/heads/main'
         uses: peaceiris/actions-gh-pages@v4.0.0
         with:
-          personal_token: ${{ secrets.GITHUB_TOKEN }}
+          github_token: ${{ secrets.GITHUB_TOKEN }}
           force_orphan: true
           publish_branch: gh-pages-main
           publish_dir: ./dist
