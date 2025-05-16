@@ -14,6 +14,7 @@
   "rules": {
     "default-param-last": 0,
     "max-len": 0,
+    "react/destructuring-assignment": 0,
     "import/order": ["error", {
       "alphabetize": {
         "order": "asc",

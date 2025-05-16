@@ -151,9 +151,8 @@ class Tracker extends React.PureComponent {
         p.forEach((itm) => {
           if (itm.locationId !== -2) {
             const correctItem = allItems.find((i) => itm.name.includes(i));
-            const { trackerState } = this.state;
             const interval = setInterval(() => {
-              if (trackerState?.incrementItem) {
+              if (this.state.trackerState?.incrementItem) {
                 clearInterval(interval);
                 if (correctItem) this.incrementItem(correctItem, true);
               }
@@ -161,7 +160,7 @@ class Tracker extends React.PureComponent {
             const generalLocation = itm.locationName.split(' - ')[0];
             const detailedLocation = itm.locationName.substring(generalLocation.length + 3);
             const interval1 = setInterval(() => {
-              if (trackerState?.toggleLocationChecked) {
+              if (this.state.trackerState?.toggleLocationChecked) {
                 clearInterval(interval1);
                 this.toggleLocationChecked(generalLocation, detailedLocation, true);
               }
