@@ -141,12 +141,6 @@ class Tracker extends React.PureComponent {
         LogicHelper.ALL_TREASURE_CHARTS,
         LogicHelper.ALL_TRIFORCE_CHARTS,
       );
-      const allLocations = Object.assign(
-        [],
-        LogicHelper.DUNGEONS,
-        LogicHelper.ISLANDS,
-        LogicHelper.MISC_LOCATIONS,
-      );
       this.apClient.messages.on('message', toast);
       this.apClient.socket.on('disconnected', () => toast.info('Disconnected from AP'));
       this.apClient.socket.on('connected', (e) => {
@@ -157,13 +151,21 @@ class Tracker extends React.PureComponent {
         p.forEach((itm) => {
           if (itm.locationId !== -2) {
             const correctItem = allItems.find((i) => itm.name.includes(i));
-            if (correctItem) this.incrementItem(correctItem, true);
-            const correctLocation = allLocations.find((i) => itm.locationName.includes(i));
-            if (correctLocation) {
-              const generalLocation = correctLocation.split(' - ')[0];
-              const detailedLocation = correctLocation.substring(generalLocation.length + 3);
-              this.toggleLocationChecked(generalLocation, detailedLocation, true);
-            }
+            const { trackerState } = this.state;
+            const interval = setInterval(() => {
+              if (trackerState?.incrementItem) {
+                clearInterval(interval);
+                if (correctItem) this.incrementItem(correctItem, true);
+              }
+            }, 1);
+            const generalLocation = itm.locationName.split(' - ')[0];
+            const detailedLocation = itm.locationName.substring(generalLocation.length + 3);
+            const interval1 = setInterval(() => {
+              if (trackerState?.toggleLocationChecked) {
+                clearInterval(interval1);
+                this.toggleLocationChecked(generalLocation, detailedLocation, true);
+              }
+            }, 1);
           }
         });
       });
