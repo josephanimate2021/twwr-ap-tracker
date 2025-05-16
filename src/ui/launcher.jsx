@@ -151,11 +151,11 @@ export default class Launcher extends React.PureComponent {
               function updateStartingTriforceShards(a, b) {
                 setOptionValue('num_starting_triforce_shards', a[b]);
               }
-              [e.slot_data.start_inventory_from_pool, e.slot_data.start_inventory].forEach(k => {
+              [e.slot_data.start_inventory_from_pool, e.slot_data.start_inventory].forEach((k) => {
                 Object.keys(k).forEach((j) => {
                   if (j === 'Triforce Shard') updateStartingTriforceShards(e.slot_data.start_inventory, j);
                 });
-              })
+              });
               Object.keys(e.slot_data).forEach((i) => {
                 const val = this.getOptionValue(i);
                 if (val !== undefined) {
@@ -478,7 +478,9 @@ export default class Launcher extends React.PureComponent {
   }
 
   openTracker(pathType, query = {}) {
-    Launcher.openTrackerWindow(`/${pathType}/${encodeURIComponent(this.state.permalink)}`, query);
+    const { permalink } = this.state;
+
+    Launcher.openTrackerWindow(`/${pathType}/${encodeURIComponent(permalink)}`, query);
   }
 
   async loadFromFile(query = {}) {
@@ -493,9 +495,7 @@ export default class Launcher extends React.PureComponent {
         <button
           className="launcher-button"
           type="button"
-          onClick={() => this.openTracker('new', ap ? Object.assign({
-            archipelago: true
-          }, Object.fromEntries(new URLSearchParams(jQuery("#apConfig").serialize()))) : {})}
+          onClick={() => this.openTracker('new', ap ? ({ archipelago: true, ...Object.fromEntries(new URLSearchParams(jQuery('#apConfig').serialize())) }) : {})}
         >
           Launch
           {' '}
@@ -506,18 +506,14 @@ export default class Launcher extends React.PureComponent {
         <button
           className="launcher-button"
           type="button"
-          onClick={() => this.openTracker('load', ap ? Object.assign({
-            archipelago: true
-          }, Object.fromEntries(new URLSearchParams(jQuery("#apConfig").serialize()))) : {})}
+          onClick={() => this.openTracker('load', ap ? ({ archipelago: true, ...Object.fromEntries(new URLSearchParams(jQuery('#apConfig').serialize())) }) : {})}
         >
           Load From Autosave
         </button>
         <button
           className="launcher-button"
           type="button"
-          onClick={() => this.loadFromFile(ap ? Object.assign({
-            archipelago: true
-          }, Object.fromEntries(new URLSearchParams(jQuery("#apConfig").serialize()))) : {})}
+          onClick={() => this.loadFromFile(ap ? ({ archipelago: true, ...Object.fromEntries(new URLSearchParams(jQuery('#apConfig').serialize())) }) : {})}
         >
           Load From File
         </button>

@@ -47,7 +47,7 @@ class Tracker extends React.PureComponent {
       trackSpheres: false,
       viewingEntrances: false,
     };
-    this.queryInfo = Object.fromEntries(new URLSearchParams(location.search.substring(1)));
+    this.queryInfo = Object.fromEntries(new URLSearchParams(window.location.search.substring(1)));
     this.isAP = this.queryInfo.archipelago && this.queryInfo.user && this.queryInfo.host;
     this.initialize();
     this.clearAllLocations = this.clearAllLocations.bind(this);
@@ -75,7 +75,7 @@ class Tracker extends React.PureComponent {
 
   async initialize() {
     await Images.importImages();
-    
+
     const preferences = Storage.loadPreferences();
     if (!_.isNil(preferences)) {
       this.updatePreferences(preferences);
@@ -133,9 +133,9 @@ class Tracker extends React.PureComponent {
     if (this.isAP) {
       this.apClient.login(this.queryInfo.host, this.queryInfo.user, 'The Wind Waker', {
         password: this.queryInfo.pass,
-        tags: ['Tracker']
-      }).catch(toast.error)
-      this.apClient.messages.on("message", toast);
+        tags: ['Tracker'],
+      }).catch(toast.error);
+      this.apClient.messages.on('message', toast);
     }
   }
 
