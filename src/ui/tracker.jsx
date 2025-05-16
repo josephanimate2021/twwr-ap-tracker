@@ -84,45 +84,6 @@ class Tracker extends React.PureComponent {
     const { loadProgress, permalink } = this.props;
 
     let initialData;
-    if (this.isAP) {
-      this.apClient.login(this.queryInfo.host, this.queryInfo.user, 'The Wind Waker', {
-        password: this.queryInfo.pass || '',
-        tags: ['Tracker'],
-      }).catch(toast.error);
-      const allItems = Object.assign(
-        [],
-        LogicHelper.ALL_ITEMS,
-        LogicHelper.ALL_TREASURE_CHARTS,
-        LogicHelper.ALL_TRIFORCE_CHARTS,
-      );
-      const allLocations = Object.assign(
-        [],
-        LogicHelper.DUNGEONS,
-        LogicHelper.ISLANDS,
-        LogicHelper.MISC_LOCATIONS,
-      );
-      this.apClient.messages.on('message', toast);
-      this.apClient.socket.on('disconnected', () => toast.info('Disconnected from AP'));
-      this.apClient.socket.on('connected', e => {
-        toast.success('Connected to AP');
-        load(e);
-      });
-      this.apClient.items.on("itemsReceived", (p) => {
-        p.forEach((itm) => {
-          if (itm.locationId != -2) {
-            const correctItem = allItems.find((i) => itm.name.includes(i));
-            if (correctItem) this.incrementItem(correctItem, true);
-            const correctLocation = allLocations.find((i) => itm.locationName.includes(i));
-            if (correctLocation) {
-              const generalLocation = correctLocation.split(' - ')[0];
-              const detailedLocation = correctLocation.substring(generalLocation.length + 3);
-              this.toggleLocationChecked(generalLocation, detailedLocation, true);
-            }
-          }
-        });
-      });
-    } else load()
-
     async function load(connectionInfo = {}) {
       if (loadProgress) {
         const saveData = Storage.loadFromStorage();
@@ -169,6 +130,44 @@ class Tracker extends React.PureComponent {
         trackerState,
       });
     }
+    if (this.isAP) {
+      this.apClient.login(this.queryInfo.host, this.queryInfo.user, 'The Wind Waker', {
+        password: this.queryInfo.pass || '',
+        tags: ['Tracker'],
+      }).catch(toast.error);
+      const allItems = Object.assign(
+        [],
+        LogicHelper.ALL_ITEMS,
+        LogicHelper.ALL_TREASURE_CHARTS,
+        LogicHelper.ALL_TRIFORCE_CHARTS,
+      );
+      const allLocations = Object.assign(
+        [],
+        LogicHelper.DUNGEONS,
+        LogicHelper.ISLANDS,
+        LogicHelper.MISC_LOCATIONS,
+      );
+      this.apClient.messages.on('message', toast);
+      this.apClient.socket.on('disconnected', () => toast.info('Disconnected from AP'));
+      this.apClient.socket.on('connected', (e) => {
+        toast.success('Connected to AP');
+        load(e);
+      });
+      this.apClient.items.on('itemsReceived', (p) => {
+        p.forEach((itm) => {
+          if (itm.locationId !== -2) {
+            const correctItem = allItems.find((i) => itm.name.includes(i));
+            if (correctItem) this.incrementItem(correctItem, true);
+            const correctLocation = allLocations.find((i) => itm.locationName.includes(i));
+            if (correctLocation) {
+              const generalLocation = correctLocation.split(' - ')[0];
+              const detailedLocation = correctLocation.substring(generalLocation.length + 3);
+              this.toggleLocationChecked(generalLocation, detailedLocation, true);
+            }
+          }
+        });
+      });
+    } else load();
   }
 
   incrementItem(itemName, onAP = false) {

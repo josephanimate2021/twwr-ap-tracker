@@ -12,6 +12,8 @@
     "react"
   ],
   "rules": {
+    "default-param-last": 0,
+    "max-len": 0,
     "import/order": ["error", {
       "alphabetize": {
         "order": "asc",

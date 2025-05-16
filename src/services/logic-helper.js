@@ -757,7 +757,7 @@ class LogicHelper {
 
   static #setStartingAndImpossibleItems(apConnectionInfo = {}, isAP = false, apClient) {
     this.startingItems = {};
-    this.impossibleItems = {}
+    this.impossibleItems = {};
     const swordMode = Settings.getOptionValue(Permalink.OPTIONS.SWORD_MODE);
     if (isAP) {
       if (apConnectionInfo.slot_data) {
@@ -767,7 +767,7 @@ class LogicHelper {
       }
       apClient.items.received.forEach((j) => {
         this.startingItems[j.name] = 1;
-      })
+      });
     } else {
       const startingGear = Settings.getStartingGear();
 
