@@ -28,7 +28,7 @@ export default class Storage {
 
   static async exportFile(saveData) {
     const blob = new Blob([saveData], { type: 'application/json' });
-    const url = await URL.createObjectURL(blob);
+    const url = URL.createObjectURL(blob);
 
     try {
       const element = document.createElement('a');
@@ -60,6 +60,7 @@ export default class Storage {
       const input = document.createElement('input');
 
       input.setAttribute('type', 'file');
+      input.setAttribute('accept', '.json')
 
       input.onchange = () => {
         const file = _.first(input.files);
