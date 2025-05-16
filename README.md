@@ -1,7 +1,5 @@
 # TWW AP Randomizer Tracker
 
-[![Build Status](https://github.com/josephanimate2021/twwr-ap-tracker/workflows/CI/badge.svg)](https://github.com/josephanimate2021/twwr-ap-tracker/actions)
-
 This is a tracker for [The Wind Waker Archipelago Randomizer](https://archipelago.gg/games/The%20Wind%20Waker/info/en). For usage of this newer style tracker, you may run this locally as I can't get this branch to deploy with gh pages for some reason.
 
 ## Build Instructions
