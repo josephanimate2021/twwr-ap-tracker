@@ -60,7 +60,7 @@ export default class Storage {
       const input = document.createElement('input');
 
       input.setAttribute('type', 'file');
-      input.setAttribute('accept', '.json')
+      input.setAttribute('accept', '.json');
 
       input.onchange = () => {
         const file = _.first(input.files);

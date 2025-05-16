@@ -1,4 +1,5 @@
 import { Client } from 'archipelago.js';
+import jQuery from 'jquery';
 import _ from 'lodash';
 import PropTypes from 'prop-types';
 import React from 'react';
@@ -136,17 +137,17 @@ class Tracker extends React.PureComponent {
         tags: ['Tracker'],
       }).catch(toast.error);
       this.apClient.messages.on('message', toast);
-      this.apClient.socket.on("dataPackage", e => {
+      this.apClient.socket.on('dataPackage', (e) => {
         const gameInfo = e.data.games['The Wind Waker'];
         if (!gameInfo) {
           toast.error('You need to be running an AP Server for The Legend Of Zelda: The Wind Waker Archipelago Randomizer in order for this tracker to work properly. Your AP Connection was closed as a result of this error occuring.', {
-            autoClose: false
-          })
-          this.apClient.socket.disconnect()
+            autoClose: false,
+          });
+          this.apClient.socket.disconnect();
         }
-      })
-      this.apClient.socket.on("disconnected", () => toast.info('Disconnected from AP'));
-      this.apClient.socket.on("connected", () => toast.success('Connected to AP'));
+      });
+      this.apClient.socket.on('disconnected', () => toast.info('Disconnected from AP'));
+      this.apClient.socket.on('connected', () => toast.success('Connected to AP'));
     }
   }
 
@@ -570,14 +571,14 @@ class Tracker extends React.PureComponent {
           <input
             type="text"
             onKeyDown={(event) => {
-              if (event.key == "Enter") {
+              if (event.key === 'Enter') {
                 this.apClient.messages.say(event.target.value).then(toast).finally(() => {
-                  event.target.value = '';
-                })
+                  jQuery(event.target).val('');
+                });
               }
             }}
-            placeholder='Enter a command here'
-          ></input>
+            placeholder="Enter a command here"
+          />
           <Buttons
             settingsWindowOpen={settingsWindowOpen}
             chartListOpen={chartListOpen}
