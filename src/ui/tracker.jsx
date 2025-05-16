@@ -76,61 +76,14 @@ class Tracker extends React.PureComponent {
 
   async initialize() {
     await Images.importImages();
-
     const preferences = Storage.loadPreferences();
     if (!_.isNil(preferences)) {
       this.updatePreferences(preferences);
     }
-
+    const $this = this;
     const { loadProgress, permalink } = this.props;
 
     let initialData;
-
-    if (loadProgress) {
-      const saveData = Storage.loadFromStorage();
-
-      if (!_.isNil(saveData)) {
-        try {
-          initialData = TrackerController.initializeFromSaveData(saveData);
-
-          toast.success('Progress loaded!');
-        } catch (err) {
-          TrackerController.reset();
-        }
-      }
-
-      if (_.isNil(initialData)) {
-        toast.error('Could not load progress from save data!');
-      }
-    }
-
-    if (_.isNil(initialData)) {
-      try {
-        const decodedPermalink = decodeURIComponent(permalink);
-
-        initialData = await TrackerController.initializeFromPermalink(decodedPermalink);
-      } catch (err) {
-        toast.error('Tracker could not be initialized!');
-
-        throw err;
-      }
-    }
-
-    const {
-      logic,
-      saveData,
-      spheres,
-      trackerState,
-    } = initialData;
-
-    this.setState({
-      isLoading: false,
-      logic,
-      saveData,
-      spheres,
-      trackerState,
-    });
-
     if (this.isAP) {
       this.apClient.login(this.queryInfo.host, this.queryInfo.user, 'The Wind Waker', {
         password: this.queryInfo.pass || '',
@@ -149,37 +102,71 @@ class Tracker extends React.PureComponent {
         LogicHelper.MISC_LOCATIONS,
       );
       this.apClient.messages.on('message', toast);
-      this.apClient.socket.on('dataPackage', (e) => {
-        this.apGame = e.data.games['The Wind Waker'];
-        if (!this.apGame) {
-          toast.error('You need to be running an AP Server for The Legend Of Zelda: The Wind Waker Archipelago Randomizer in order for this tracker to work properly. Your AP Connection was closed as a result of this error occuring.', {
-            autoClose: false,
-          });
-          this.apClient.socket.disconnect();
-        }
-      });
       this.apClient.socket.on('disconnected', () => toast.info('Disconnected from AP'));
-      this.apClient.socket.on('connected', () => toast.success('Connected to AP'));
-      this.apClient.socket.on('receivedItems', (p) => {
-        function findAPProperty(apId, type) {
-          let item;
-          Object.keys(this.apGame[type]).forEach((i) => {
-            if (this.apGame[type][i] === apId) item = i;
-          });
-          return item;
-        }
-        p.items.forEach((itm) => {
-          const item = findAPProperty(itm.item, 'item_name_to_id');
-          const correctItem = allItems.find((i) => item.includes(i));
-          if (correctItem) this.incrementItem(correctItem, true);
-          const location = findAPProperty(itm.location, 'location_name_to_id');
-          const correctLocation = allLocations.find((i) => location.includes(i));
-          if (correctLocation) {
-            const generalLocation = correctLocation.split(' - ')[0];
-            const detailedLocation = correctLocation.substring(generalLocation.length + 3);
-            this.toggleLocationChecked(generalLocation, detailedLocation, true);
+      this.apClient.socket.on('connected', e => {
+        toast.success('Connected to AP');
+        load(e);
+      });
+      this.apClient.items.on("itemsReceived", (p) => {
+        p.forEach((itm) => {
+          if (itm.locationId != -2) {
+            const correctItem = allItems.find((i) => itm.name.includes(i));
+            if (correctItem) this.incrementItem(correctItem, true);
+            const correctLocation = allLocations.find((i) => itm.locationName.includes(i));
+            if (correctLocation) {
+              const generalLocation = correctLocation.split(' - ')[0];
+              const detailedLocation = correctLocation.substring(generalLocation.length + 3);
+              this.toggleLocationChecked(generalLocation, detailedLocation, true);
+            }
           }
         });
+      });
+    } else load()
+
+    async function load(connectionInfo = {}) {
+      if (loadProgress) {
+        const saveData = Storage.loadFromStorage();
+
+        if (!_.isNil(saveData)) {
+          try {
+            initialData = TrackerController.initializeFromSaveData(saveData, connectionInfo, $this.isAP, $this.apClient);
+
+            toast.success('Progress loaded!');
+          } catch (err) {
+            TrackerController.reset();
+          }
+        }
+
+        if (_.isNil(initialData)) {
+          toast.error('Could not load progress from save data!');
+        }
+      }
+
+      if (_.isNil(initialData)) {
+        try {
+          const decodedPermalink = decodeURIComponent(permalink);
+
+          initialData = await TrackerController.initializeFromPermalink(decodedPermalink, connectionInfo, $this.isAP, $this.apClient);
+        } catch (err) {
+          toast.error('Tracker could not be initialized!');
+
+          throw err;
+        }
+      }
+
+      const {
+        logic,
+        saveData,
+        spheres,
+        trackerState,
+      } = initialData;
+
+      $this.setState({
+        isLoading: false,
+        logic,
+        saveData,
+        spheres,
+        trackerState,
       });
     }
   }

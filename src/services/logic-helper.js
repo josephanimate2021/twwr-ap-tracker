@@ -24,7 +24,7 @@ import Permalink from './permalink';
 import Settings from './settings';
 
 class LogicHelper {
-  static initialize() {
+  static initialize(apConnectionInfo = {}, isAP = false, apClient) {
     Memoizer.memoize(this, [
       'allCharts',
       'allRandomEntrances',
@@ -59,7 +59,7 @@ class LogicHelper {
       'vanillaChartForIsland',
     ]);
 
-    this.#setStartingAndImpossibleItems();
+    this.#setStartingAndImpossibleItems(apConnectionInfo, isAP, apClient);
     this.nonRequiredBossDungeons = [];
   }
 
@@ -755,32 +755,45 @@ class LogicHelper {
     });
   }
 
-  static #setStartingAndImpossibleItems() {
-    const startingGear = Settings.getStartingGear();
-
-    const startingTingleStatues = _.sumBy(TINGLE_STATUES, (tingleStatue) => {
-      const tingleStatueCount = _.get(startingGear, tingleStatue, 0);
-      _.unset(startingGear, tingleStatue);
-      return tingleStatueCount;
-    });
-
-    this.startingItems = {
-      [this.ITEMS.WIND_WAKER]: 1,
-      [this.ITEMS.BOATS_SAIL]: 1,
-      [this.ITEMS.WINDS_REQUIEM]: 1,
-      [this.ITEMS.TRIFORCE_SHARD]: Settings.getOptionValue(
-        Permalink.OPTIONS.NUM_STARTING_TRIFORCE_SHARDS,
-      ),
-      [this.ITEMS.TINGLE_STATUE]: startingTingleStatues,
-    };
-    this.impossibleItems = {};
-
-    _.merge(this.startingItems, startingGear);
-
+  static #setStartingAndImpossibleItems(apConnectionInfo = {}, isAP = false, apClient) {
+    this.startingItems = {};
+    this.impossibleItems = {}
     const swordMode = Settings.getOptionValue(Permalink.OPTIONS.SWORD_MODE);
-    if (swordMode === Permalink.SWORD_MODE_OPTIONS.START_WITH_HEROS_SWORD) {
-      this.startingItems[this.ITEMS.PROGRESSIVE_SWORD] += 1;
-    } else if (swordMode === Permalink.SWORD_MODE_OPTIONS.SWORDLESS) {
+    if (isAP) {
+      if (apConnectionInfo.slot_data) {
+        if (
+          apConnectionInfo.slot_data.swift_sail > 0
+        ) this.startingItems[this.ITEMS.BOATS_SAIL] = 1;
+      }
+      apClient.items.received.forEach((j) => {
+        this.startingItems[j.name] = 1;
+      })
+    } else {
+      const startingGear = Settings.getStartingGear();
+
+      const startingTingleStatues = _.sumBy(TINGLE_STATUES, (tingleStatue) => {
+        const tingleStatueCount = _.get(startingGear, tingleStatue, 0);
+        _.unset(startingGear, tingleStatue);
+        return tingleStatueCount;
+      });
+
+      this.startingItems = {
+        [this.ITEMS.WIND_WAKER]: 1,
+        [this.ITEMS.BOATS_SAIL]: 1,
+        [this.ITEMS.WINDS_REQUIEM]: 1,
+        [this.ITEMS.TRIFORCE_SHARD]: Settings.getOptionValue(
+          Permalink.OPTIONS.NUM_STARTING_TRIFORCE_SHARDS,
+        ),
+        [this.ITEMS.TINGLE_STATUE]: startingTingleStatues,
+      };
+
+      _.merge(this.startingItems, startingGear);
+
+      if (swordMode === Permalink.SWORD_MODE_OPTIONS.START_WITH_HEROS_SWORD) {
+        this.startingItems[this.ITEMS.PROGRESSIVE_SWORD] += 1;
+      }
+    }
+    if (swordMode === Permalink.SWORD_MODE_OPTIONS.SWORDLESS) {
       this.impossibleItems = {
         [this.ITEMS.PROGRESSIVE_SWORD]: 1,
         [this.ITEMS.HURRICANE_SPIN]: 1,
