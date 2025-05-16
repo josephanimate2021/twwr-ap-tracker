@@ -211,6 +211,7 @@ input {
 }
 
 .tracker-container button,
+.tracker-container input[type="text"],
 .launcher-container button,
 .permalink {
   padding: 6px;
@@ -222,6 +223,7 @@ input {
 }
 
 .tracker-container button,
+.tracker-container input[type="text"],
 .launcher-container button,
 select {
   background: linear-gradient(#d2d2d2, #c8c8c8);
@@ -229,6 +231,10 @@ select {
   min-width: 120px;
   padding-left: 10px;
   padding-right: 10px;
+}
+
+.tracker-container input[type="text"] {
+  width: 20%
 }
 
 button:hover:enabled {

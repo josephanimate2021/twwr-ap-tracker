@@ -38,7 +38,7 @@ export default class Launcher extends React.PureComponent {
     const windowHeight = 585;
 
     window.open(
-      `#/tracker${route}?${new URLSearchParams(query).toString()}`,
+      `?${new URLSearchParams(query).toString()}#/tracker${route}`,
       '_blank',
       `width=${windowWidth},height=${windowHeight},titlebar=0,menubar=0,toolbar=0`,
     );
@@ -168,7 +168,7 @@ export default class Launcher extends React.PureComponent {
                     switch (i) {
                       case 'sword_mode': {
                         const o = e.slot_data.sword_mode === 1 || e.slot_data.sword_mode === 2 ? 'No Starting Sword' : e.slot_data.sword_mode;
-                        setOptionValue('sword_mode', o);
+                        setOptionValue('sword_mode', dropdownOptions[o]);
                         break;
                       } case 'num_required_bosses': {
                         setOptionValue('num_required_bosses', e.slot_data.num_required_bosses);

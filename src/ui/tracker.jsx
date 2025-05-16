@@ -132,10 +132,21 @@ class Tracker extends React.PureComponent {
 
     if (this.isAP) {
       this.apClient.login(this.queryInfo.host, this.queryInfo.user, 'The Wind Waker', {
-        password: this.queryInfo.pass,
+        password: this.queryInfo.pass || '',
         tags: ['Tracker'],
       }).catch(toast.error);
       this.apClient.messages.on('message', toast);
+      this.apClient.socket.on("dataPackage", e => {
+        const gameInfo = e.data.games['The Wind Waker'];
+        if (!gameInfo) {
+          toast.error('You need to be running an AP Server for The Legend Of Zelda: The Wind Waker Archipelago Randomizer in order for this tracker to work properly. Your AP Connection was closed as a result of this error occuring.', {
+            autoClose: false
+          })
+          this.apClient.socket.disconnect()
+        }
+      })
+      this.apClient.socket.on("disconnected", () => toast.info('Disconnected from AP'));
+      this.apClient.socket.on("connected", () => toast.success('Connected to AP'));
     }
   }
 
@@ -556,6 +567,17 @@ class Tracker extends React.PureComponent {
               updatePreferences={this.updatePreferences}
             />
           )}
+          <input
+            type="text"
+            onKeyDown={(event) => {
+              if (event.key == "Enter") {
+                this.apClient.messages.say(event.target.value).then(toast).finally(() => {
+                  event.target.value = '';
+                })
+              }
+            }}
+            placeholder='Enter a command here'
+          ></input>
           <Buttons
             settingsWindowOpen={settingsWindowOpen}
             chartListOpen={chartListOpen}
