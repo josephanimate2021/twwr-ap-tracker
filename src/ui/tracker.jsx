@@ -1,3 +1,4 @@
+import { Client } from 'archipelago.js';
 import _ from 'lodash';
 import PropTypes from 'prop-types';
 import React from 'react';
@@ -21,7 +22,7 @@ import 'react-toastify/dist/ReactToastify.css';
 class Tracker extends React.PureComponent {
   constructor(props) {
     super(props);
-
+    this.apClient = new Client();
     this.state = {
       chartListOpen: false,
       clearAllIncludesMail: true,
@@ -46,9 +47,9 @@ class Tracker extends React.PureComponent {
       trackSpheres: false,
       viewingEntrances: false,
     };
-
+    this.queryInfo = Object.fromEntries(new URLSearchParams(location.search.substring(1)));
+    this.isAP = this.queryInfo.archipelago && this.queryInfo.user && this.queryInfo.host;
     this.initialize();
-
     this.clearAllLocations = this.clearAllLocations.bind(this);
     this.clearOpenedMenus = this.clearOpenedMenus.bind(this);
     this.decrementItem = this.decrementItem.bind(this);
@@ -74,7 +75,7 @@ class Tracker extends React.PureComponent {
 
   async initialize() {
     await Images.importImages();
-
+    
     const preferences = Storage.loadPreferences();
     if (!_.isNil(preferences)) {
       this.updatePreferences(preferences);
@@ -128,9 +129,17 @@ class Tracker extends React.PureComponent {
       spheres,
       trackerState,
     });
+
+    if (this.isAP) {
+      this.apClient.login(this.queryInfo.host, this.queryInfo.user, 'The Wind Waker', {
+        password: this.queryInfo.pass,
+        tags: ['Tracker']
+      }).catch(toast.error)
+      this.apClient.messages.on("message", toast);
+    }
   }
 
-  incrementItem(itemName) {
+  incrementItem(itemName, onAP = false) {
     const {
       lastLocation,
       trackerState,
@@ -151,6 +160,8 @@ class Tracker extends React.PureComponent {
       );
     }
 
+    if (this.isAP && !onAP) return;
+
     this.updateTrackerState(newTrackerState);
   }
 
@@ -159,10 +170,10 @@ class Tracker extends React.PureComponent {
 
     const newTrackerState = trackerState.decrementItem(itemName);
 
-    this.updateTrackerState(newTrackerState);
+    if (!this.isAP) this.updateTrackerState(newTrackerState);
   }
 
-  toggleLocationChecked(generalLocation, detailedLocation) {
+  toggleLocationChecked(generalLocation, detailedLocation, onAp = false) {
     const { trackerState } = this.state;
 
     let newTrackerState = trackerState.toggleLocationChecked(generalLocation, detailedLocation);
@@ -180,6 +191,8 @@ class Tracker extends React.PureComponent {
       newTrackerState = newTrackerState.unsetItemForLocation(generalLocation, detailedLocation);
     }
 
+    if (this.isAP && !onAp) return;
+
     this.updateTrackerState(newTrackerState);
   }
 
@@ -194,7 +207,7 @@ class Tracker extends React.PureComponent {
       { includeAdditionalLocations: clearAllIncludesMail },
     );
 
-    this.updateTrackerState(newTrackerState);
+    if (!this.isAP) this.updateTrackerState(newTrackerState);
   }
 
   toggleRequiredBoss(dungeonName) {

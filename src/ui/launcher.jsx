@@ -33,12 +33,12 @@ export default class Launcher extends React.PureComponent {
     );
   }
 
-  static openTrackerWindow(route) {
+  static openTrackerWindow(route, query = {}) {
     const windowWidth = 1797;
     const windowHeight = 585;
 
     window.open(
-      `#/tracker${route}`,
+      `#/tracker${route}?${new URLSearchParams(query).toString()}`,
       '_blank',
       `width=${windowWidth},height=${windowHeight},titlebar=0,menubar=0,toolbar=0`,
     );
@@ -55,9 +55,6 @@ export default class Launcher extends React.PureComponent {
       permalink,
     };
 
-    this.launchNewTracker = this.launchNewTracker.bind(this);
-    this.loadFromFile = this.loadFromFile.bind(this);
-    this.loadFromSave = this.loadFromSave.bind(this);
     this.setOptionValue = this.setOptionValue.bind(this);
   }
 
@@ -154,16 +151,11 @@ export default class Launcher extends React.PureComponent {
               function updateStartingTriforceShards(a, b) {
                 setOptionValue('num_starting_triforce_shards', a[b]);
               }
-              Object.keys(e.slot_data.start_inventory).filter(
-                (i) => i === 'Triforce Shard',
-              ).forEach((j) => {
-                updateStartingTriforceShards(e.slot_data.start_inventory, j);
-              });
-              Object.keys(e.slot_data.start_inventory_from_pool).filter(
-                (i) => i === 'Triforce Shard',
-              ).forEach((j) => {
-                updateStartingTriforceShards(e.slot_data.start_inventory_from_pool, j);
-              });
+              [e.slot_data.start_inventory_from_pool, e.slot_data.start_inventory].forEach(k => {
+                Object.keys(k).forEach((j) => {
+                  if (j === 'Triforce Shard') updateStartingTriforceShards(e.slot_data.start_inventory, j);
+                });
+              })
               Object.keys(e.slot_data).forEach((i) => {
                 const val = this.getOptionValue(i);
                 if (val !== undefined) {
@@ -485,28 +477,14 @@ export default class Launcher extends React.PureComponent {
     );
   }
 
-  launchNewTracker() {
-    const encodedPermalink = this.encodedPermalink();
-
-    Launcher.openTrackerWindow(`/new/${encodedPermalink}`);
+  openTracker(pathType, query = {}) {
+    Launcher.openTrackerWindow(`/${pathType}/${encodeURIComponent(this.state.permalink)}`, query);
   }
 
-  loadFromSave() {
-    const encodedPermalink = this.encodedPermalink();
-
-    Launcher.openTrackerWindow(`/load/${encodedPermalink}`);
-  }
-
-  encodedPermalink() {
-    const { permalink } = this.state;
-
-    return encodeURIComponent(permalink);
-  }
-
-  async loadFromFile() {
+  async loadFromFile(query = {}) {
     await Storage.loadFileAndStore();
 
-    this.loadFromSave();
+    this.openTracker('load', query);
   }
 
   launchButtonContainer(ap = true) {
@@ -515,7 +493,9 @@ export default class Launcher extends React.PureComponent {
         <button
           className="launcher-button"
           type="button"
-          onClick={this.launchNewTracker}
+          onClick={() => this.openTracker('new', ap ? Object.assign({
+            archipelago: true
+          }, Object.fromEntries(new URLSearchParams(jQuery("#apConfig").serialize()))) : {})}
         >
           Launch
           {' '}
@@ -526,14 +506,18 @@ export default class Launcher extends React.PureComponent {
         <button
           className="launcher-button"
           type="button"
-          onClick={this.loadFromSave}
+          onClick={() => this.openTracker('load', ap ? Object.assign({
+            archipelago: true
+          }, Object.fromEntries(new URLSearchParams(jQuery("#apConfig").serialize()))) : {})}
         >
           Load From Autosave
         </button>
         <button
           className="launcher-button"
           type="button"
-          onClick={this.loadFromFile}
+          onClick={() => this.loadFromFile(ap ? Object.assign({
+            archipelago: true
+          }, Object.fromEntries(new URLSearchParams(jQuery("#apConfig").serialize()))) : {})}
         >
           Load From File
         </button>
