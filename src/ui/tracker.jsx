@@ -136,10 +136,22 @@ class Tracker extends React.PureComponent {
         password: this.queryInfo.pass || '',
         tags: ['Tracker'],
       }).catch(toast.error);
+      const allItems = Object.assign(
+        [],
+        LogicHelper.ALL_ITEMS,
+        LogicHelper.ALL_TREASURE_CHARTS,
+        LogicHelper.ALL_TRIFORCE_CHARTS,
+      );
+      const allLocations = Object.assign(
+        [],
+        LogicHelper.DUNGEONS,
+        LogicHelper.ISLANDS,
+        LogicHelper.MISC_LOCATIONS,
+      );
       this.apClient.messages.on('message', toast);
       this.apClient.socket.on('dataPackage', (e) => {
-        const gameInfo = e.data.games['The Wind Waker'];
-        if (!gameInfo) {
+        this.apGame = e.data.games['The Wind Waker'];
+        if (!this.apGame) {
           toast.error('You need to be running an AP Server for The Legend Of Zelda: The Wind Waker Archipelago Randomizer in order for this tracker to work properly. Your AP Connection was closed as a result of this error occuring.', {
             autoClose: false,
           });
@@ -148,6 +160,27 @@ class Tracker extends React.PureComponent {
       });
       this.apClient.socket.on('disconnected', () => toast.info('Disconnected from AP'));
       this.apClient.socket.on('connected', () => toast.success('Connected to AP'));
+      this.apClient.socket.on('receivedItems', (p) => {
+        function findAPProperty(apId, type) {
+          let item;
+          Object.keys(this.apGame[type]).forEach((i) => {
+            if (this.apGame[type][i] === apId) item = i;
+          });
+          return item;
+        }
+        p.items.forEach((itm) => {
+          const item = findAPProperty(itm.item, 'item_name_to_id');
+          const correctItem = allItems.find((i) => item.includes(i));
+          if (correctItem) this.incrementItem(correctItem, true);
+          const location = findAPProperty(itm.location, 'location_name_to_id');
+          const correctLocation = allLocations.find((i) => location.includes(i));
+          if (correctLocation) {
+            const generalLocation = correctLocation.split(' - ')[0];
+            const detailedLocation = correctLocation.substring(generalLocation.length + 3);
+            this.toggleLocationChecked(generalLocation, detailedLocation, true);
+          }
+        });
+      });
     }
   }
 
