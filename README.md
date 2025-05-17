@@ -26,9 +26,7 @@ After the server starts, you can go to [localhost:8080](http://localhost:8080/) 
 Yes, there is an older style tracker that you may use if you wish. Both trackers work in a simmilar structure, but with different code.
 If you prefer to use the older style tracker than the newest style one, you may click [here](https://josephanimate2021.github.io/twwr-ap-tracker/old) to get started.
 Please keep in mind that the older style tracker supports up to version 1.9.0 of The Wind Waker Randomizer, meaning that the older style tracker may not understand how the WWR logic works in AP.
-but it's support still works nonetheless. (
-Only downside is that you won't be able to copy permalinks from the applied AP Settings as the code for the older tracker has no idea how to create new permalinks.
-)
+but it's support still works nonetheless. (Only downside is that you won't be able to copy permalinks from the applied AP Settings as the code for the older tracker has no idea how to create new permalinks.)
 
 ## Documentation
 
