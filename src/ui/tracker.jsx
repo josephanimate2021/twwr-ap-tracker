@@ -51,7 +51,9 @@ class Tracker extends React.PureComponent {
     this.queryInfo = Object.fromEntries(new URLSearchParams(window.location.search.substring(1)));
     this.isAP = this.queryInfo.archipelago && this.queryInfo.user && this.queryInfo.host;
     this.initialize();
-
+    this.apClient.items.on('itemsReceived', (k) => {
+      if (this.state.trackerState) this.recievedItems(k);
+    });
     this.clearAllLocations = this.clearAllLocations.bind(this);
     this.clearOpenedMenus = this.clearOpenedMenus.bind(this);
     this.decrementItem = this.decrementItem.bind(this);
@@ -152,7 +154,6 @@ class Tracker extends React.PureComponent {
                 if (this.state.trackerState) {
                   clearInterval(interval1);
                   this.recievedItems(this.apClient.items.received);
-                  this.apClient.items.on('itemsReceived', this.recievedItems);
                 }
               });
             });
