@@ -51,6 +51,7 @@ class Tracker extends React.PureComponent {
     this.queryInfo = Object.fromEntries(new URLSearchParams(window.location.search.substring(1)));
     this.isAP = this.queryInfo.archipelago && this.queryInfo.user && this.queryInfo.host;
     this.initialize();
+
     this.clearAllLocations = this.clearAllLocations.bind(this);
     this.clearOpenedMenus = this.clearOpenedMenus.bind(this);
     this.decrementItem = this.decrementItem.bind(this);
@@ -76,21 +77,24 @@ class Tracker extends React.PureComponent {
 
   async initialize() {
     await Images.importImages();
-    const preferences = Storage.loadPreferences();
+
+    const preferences = Storage.loadPreferences(); const
+      $this = this;
     if (!_.isNil(preferences)) {
       this.updatePreferences(preferences);
     }
-    const $this = this;
+
     const { loadProgress, permalink } = this.props;
 
     let initialData;
-    async function load(connectionInfo = {}) {
+
+    async function load(apSettings = {}) {
       if (loadProgress) {
         const saveData = Storage.loadFromStorage();
 
         if (!_.isNil(saveData)) {
           try {
-            initialData = TrackerController.initializeFromSaveData(saveData, connectionInfo, $this.isAP, $this.apClient);
+            initialData = TrackerController.initializeFromSaveData(saveData, $this.isAP, apSettings);
 
             toast.success('Progress loaded!');
           } catch (err) {
@@ -107,7 +111,7 @@ class Tracker extends React.PureComponent {
         try {
           const decodedPermalink = decodeURIComponent(permalink);
 
-          initialData = await TrackerController.initializeFromPermalink(decodedPermalink, connectionInfo, $this.isAP, $this.apClient);
+          initialData = await TrackerController.initializeFromPermalink(decodedPermalink, $this.isAP, apSettings);
         } catch (err) {
           toast.error('Tracker could not be initialized!');
 
@@ -130,45 +134,76 @@ class Tracker extends React.PureComponent {
         trackerState,
       });
     }
+
     if (this.isAP) {
       this.apClient.login(this.queryInfo.host, this.queryInfo.user, 'The Wind Waker', {
         password: this.queryInfo.pass || '',
         tags: ['Tracker'],
       }).catch(toast.error);
-      const allItems = Object.assign(
-        [],
-        LogicHelper.ALL_ITEMS,
-        LogicHelper.ALL_TREASURE_CHARTS,
-        LogicHelper.ALL_TRIFORCE_CHARTS,
-      );
       this.apClient.messages.on('message', toast);
       this.apClient.socket.on('disconnected', () => toast.info('Disconnected from AP'));
       this.apClient.socket.on('connected', (e) => {
         toast.success('Connected to AP');
-        load(e);
-      });
-      this.apClient.items.on('itemsReceived', (p) => {
-        p.forEach((itm) => {
-          if (itm.locationId !== -2) {
-            const correctItem = allItems.find((i) => itm.name.includes(i));
-            const interval = setInterval(() => {
-              if (this.state.trackerState?.incrementItem) {
-                clearInterval(interval);
-                if (correctItem) this.incrementItem(correctItem, true);
-              }
-            }, 1);
-            const generalLocation = itm.locationName.split(' - ')[0];
-            const detailedLocation = itm.locationName.substring(generalLocation.length + 3);
-            const interval1 = setInterval(() => {
-              if (this.state.trackerState?.toggleLocationChecked) {
-                clearInterval(interval1);
-                this.toggleLocationChecked(generalLocation, detailedLocation, true);
-              }
-            }, 1);
+        const interval = setInterval(() => {
+          if (this.apClient.authenticated) {
+            clearInterval(interval);
+            load(e.slot_data).then(() => {
+              const interval1 = setInterval(() => {
+                if (this.state.trackerState) {
+                  clearInterval(interval1);
+                  this.recievedItems(this.apClient.items.received);
+                  this.apClient.items.on('itemsReceived', this.recievedItems);
+                }
+              });
+            });
           }
-        });
+        }, 1);
       });
     } else load();
+  }
+
+  recievedItems(itemsArray) {
+    itemsArray.forEach((j) => {
+      const gL = j.locationName.split('-')[0].slice(0, -1);
+      const generalLocation = Object.keys(
+        this.state.trackerState.locationsChecked,
+      ).find((i) => gL.includes(i));
+      if (generalLocation) {
+        const dL = j.locationName.substring(gL.length + 3);
+        const detailedLocation = Object.keys(
+          this.state.trackerState.locationsChecked[
+            generalLocation
+          ],
+        ).find((i) => dL.includes(i));
+        if (detailedLocation) {
+          this.state.trackerState.locationsChecked[generalLocation][detailedLocation] = true;
+          this.setState({
+            lastLocation: {
+              generalLocation,
+              detailedLocation,
+            },
+          });
+        }
+      }
+      const correctItem = Object.keys(
+        this.state.trackerState.items,
+      ).find((i) => j.name.includes(i));
+      if (correctItem) {
+        let newItemCount = 1 + this.state.trackerState.getItemValue(correctItem);
+        const maxItemCount = LogicHelper.maxItemCount(correctItem);
+        if (newItemCount > maxItemCount) newItemCount = 0;
+        this.state.trackerState.items[correctItem] = newItemCount;
+        if (
+          this.state.lastLocation?.generalLocation
+          && this.state.lastLocation?.detailedLocation
+        ) {
+          this.state.trackerState.itemsForLocations[
+            this.state.lastLocation.generalLocation
+          ][this.state.lastLocation.detailedLocation] = correctItem;
+        }
+      }
+    });
+    this.updateTrackerState(this.state.trackerState);
   }
 
   incrementItem(itemName, onAP = false) {
@@ -191,7 +226,6 @@ class Tracker extends React.PureComponent {
         detailedLocation,
       );
     }
-
     if (this.isAP && !onAP) return;
 
     this.updateTrackerState(newTrackerState);
@@ -588,17 +622,19 @@ class Tracker extends React.PureComponent {
               updatePreferences={this.updatePreferences}
             />
           )}
-          <input
-            type="text"
-            onKeyDown={(event) => {
-              if (event.key === 'Enter') {
-                this.apClient.messages.say(event.target.value).then(toast).finally(() => {
-                  jQuery(event.target).val('');
-                });
-              }
-            }}
-            placeholder="Enter a command here"
-          />
+          {this.isAP ? (
+            <input
+              type="text"
+              onKeyDown={(event) => {
+                if (event.key === 'Enter') {
+                  this.apClient.messages.say(event.target.value).then(toast).finally(() => {
+                    jQuery(event.target).val('');
+                  });
+                }
+              }}
+              placeholder="Enter a command here"
+            />
+          ) : ''}
           <Buttons
             settingsWindowOpen={settingsWindowOpen}
             chartListOpen={chartListOpen}
@@ -614,7 +650,6 @@ class Tracker extends React.PureComponent {
         </div>
       );
     }
-
     return (
       <>
         {content}

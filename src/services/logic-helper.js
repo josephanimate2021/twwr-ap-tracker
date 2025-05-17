@@ -24,7 +24,7 @@ import Permalink from './permalink';
 import Settings from './settings';
 
 class LogicHelper {
-  static initialize(apConnectionInfo = {}, isAP = false, apClient) {
+  static initialize(isAP = false, apSettings = {}) {
     Memoizer.memoize(this, [
       'allCharts',
       'allRandomEntrances',
@@ -59,7 +59,7 @@ class LogicHelper {
       'vanillaChartForIsland',
     ]);
 
-    this.#setStartingAndImpossibleItems(apConnectionInfo, isAP, apClient);
+    this.#setStartingAndImpossibleItems(isAP, apSettings);
     this.nonRequiredBossDungeons = [];
   }
 
@@ -755,20 +755,11 @@ class LogicHelper {
     });
   }
 
-  static #setStartingAndImpossibleItems(apConnectionInfo = {}, isAP = false, apClient) {
+  static #setStartingAndImpossibleItems(isAP = false, apSettings = {}) {
     this.startingItems = {};
     this.impossibleItems = {};
     const swordMode = Settings.getOptionValue(Permalink.OPTIONS.SWORD_MODE);
-    if (isAP) {
-      if (apConnectionInfo.slot_data) {
-        if (
-          apConnectionInfo.slot_data.swift_sail > 0
-        ) this.startingItems[this.ITEMS.BOATS_SAIL] = 1;
-      }
-      apClient.items.received.forEach((j) => {
-        this.startingItems[j.name] = 1;
-      });
-    } else {
+    if (!isAP) {
       const startingGear = Settings.getStartingGear();
 
       const startingTingleStatues = _.sumBy(TINGLE_STATUES, (tingleStatue) => {
@@ -792,7 +783,7 @@ class LogicHelper {
       if (swordMode === Permalink.SWORD_MODE_OPTIONS.START_WITH_HEROS_SWORD) {
         this.startingItems[this.ITEMS.PROGRESSIVE_SWORD] += 1;
       }
-    }
+    } else if (apSettings.swift_sail > 0) this.startingItems[this.ITEMS.BOATS_SAIL] = 1;
     if (swordMode === Permalink.SWORD_MODE_OPTIONS.SWORDLESS) {
       this.impossibleItems = {
         [this.ITEMS.PROGRESSIVE_SWORD]: 1,

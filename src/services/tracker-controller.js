@@ -9,7 +9,7 @@ import Spheres from './spheres';
 import TrackerState from './tracker-state';
 
 class TrackerController {
-  static async initializeFromPermalink(permalink, apConnectionInfo = {}, isAP = false, apClient) {
+  static async initializeFromPermalink(permalink, isAP = false, apSettings = {}) {
     Settings.initializeFromPermalink(permalink);
 
     const {
@@ -22,14 +22,12 @@ class TrackerController {
 
     LogicTweaks.applyTweaks();
 
-    LogicHelper.initialize(apConnectionInfo, isAP, apClient);
+    LogicHelper.initialize(isAP, apSettings);
 
-    return this.refreshState(
-      TrackerState.default(),
-    );
+    return this.refreshState(TrackerState.default());
   }
 
-  static initializeFromSaveData(saveData, apConnectionInfo = {}, isAP = false, apClient) {
+  static initializeFromSaveData(saveData, isAP = false, apSettings = {}) {
     const {
       locations,
       macros,
@@ -42,11 +40,9 @@ class TrackerController {
     Locations.initializeRaw(locations);
     Macros.initialize(macros);
 
-    LogicHelper.initialize(apConnectionInfo, isAP, apClient);
+    LogicHelper.initialize(isAP, apSettings);
 
-    return this.refreshState(
-      TrackerState.createStateRaw(trackerState),
-    );
+    return this.refreshState(TrackerState.createStateRaw(trackerState));
   }
 
   static reset() {
