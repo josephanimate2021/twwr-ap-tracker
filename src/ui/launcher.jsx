@@ -33,12 +33,16 @@ export default class Launcher extends React.PureComponent {
     );
   }
 
+  static trackerLink(route, query = {}) {
+    return `${window.location.origin}${window.location.pathname}?${new URLSearchParams(query).toString()}#/tracker${route}`
+  }
+
   static openTrackerWindow(route, query = {}) {
     const windowWidth = 1797;
     const windowHeight = 585;
 
     window.open(
-      `?${new URLSearchParams(query).toString()}#/tracker${route}`,
+      Launcher.trackerLink(route, query),
       '_blank',
       `width=${windowWidth},height=${windowHeight},titlebar=0,menubar=0,toolbar=0`,
     );
@@ -485,6 +489,13 @@ export default class Launcher extends React.PureComponent {
     Launcher.openTrackerWindow(`/${pathType}/${encodeURIComponent(permalink)}`, query);
   }
 
+  copyTrackerLink(pathType, query = {}) {
+    const { permalink } = this.state;
+
+    navigator.clipboard.writeText(Launcher.trackerLink(`/${pathType}/${encodeURIComponent(permalink)}`, query));
+    toast.success('Copied the tracker link to the clipboard.')
+  }
+
   async loadFromFile(query = {}) {
     await Storage.loadFileAndStore();
 
@@ -518,6 +529,13 @@ export default class Launcher extends React.PureComponent {
           onClick={() => this.loadFromFile(ap ? ({ archipelago: true, ...Object.fromEntries(new URLSearchParams(jQuery('#apConfig').serialize())) }) : {})}
         >
           Load From File
+        </button>
+        <button
+          className="launcher-button"
+          type="button"
+          onClick={() => this.copyTrackerLink('load', ap ? ({ archipelago: true, ...Object.fromEntries(new URLSearchParams(jQuery('#apConfig').serialize())) }) : {})}
+        >
+          Copy Tracker Link
         </button>
       </div>
     );
