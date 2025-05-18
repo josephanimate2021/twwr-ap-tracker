@@ -534,7 +534,10 @@ export default class Launcher extends React.PureComponent {
           className="launcher-button"
           type="button"
           title="Useful for recording a run with OBS +  Sharing the tracker in general"
-          onClick={() => this.copyTrackerLink('load', ap ? ({ archipelago: true, ...Object.fromEntries(new URLSearchParams(jQuery('#apConfig').serialize())) }) : {})}
+          onClick={() => {
+            const loadOrNew = confirm('Are you planning on loading your existing tracker progress?\r\n\r\nOk - Yes, i am planning on loading my existing tracker progress.\r\nCancel - No, I am just going to make myself a new tracker instead.');
+            this.copyTrackerLink(loadOrNew ? 'load' : 'new', ap ? ({ archipelago: true, ...Object.fromEntries(new URLSearchParams(jQuery('#apConfig').serialize())) }) : {})
+          }}
         >
           Copy Tracker Link
         </button>
