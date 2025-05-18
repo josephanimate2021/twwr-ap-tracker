@@ -1,6 +1,8 @@
 # TWW AP Randomizer Tracker
 
-This is a tracker for [The Wind Waker Archipelago Randomizer](https://archipelago.gg/games/The%20Wind%20Waker/info/en). If you want to run the tracker locally, please follow the Build Instructions steps in order to get started. otherwise, you may use the tracker by refering [here](https://josephanimate2021.github.io/twwr-ap-tracker).
+This is a tracker for [The Wind Waker Archipelago Randomizer](https://archipelago.gg/games/The%20Wind%20Waker/info/en). If you want to run the tracker locally, 
+please follow the steps in the <strong>Build Instructions</strong> section in order to get started. 
+otherwise, you may use the tracker by refering [here](https://josephanimate2021.github.io/twwr-ap-tracker).
 
 ## Build Instructions
 
@@ -21,7 +23,7 @@ npm start
 ```
 After the server starts, you can go to [localhost:8080](http://localhost:8080/) to open the tracker. 
 
-## I heard that this source code contains the old branch which contains working AP Support + the old styled tracker. is that true?
+## I heard that this source code contains the old branch which has working AP Support and the older styled tracker. is that true?
 
 Yes, there is an older style tracker that you may use if you wish. Both trackers work in a simmilar structure, but with different code.
 If you prefer to use the older style tracker than the newest style one, you may click [here](https://josephanimate2021.github.io/twwr-ap-tracker/old) to get started.

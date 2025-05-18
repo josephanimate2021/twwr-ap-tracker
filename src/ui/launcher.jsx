@@ -33,12 +33,16 @@ export default class Launcher extends React.PureComponent {
     );
   }
 
+  static trackerLink(route, query = {}) {
+    return `${window.location.origin}${window.location.pathname}?${new URLSearchParams(query).toString()}#/tracker${route}`
+  }
+
   static openTrackerWindow(route, query = {}) {
     const windowWidth = 1797;
     const windowHeight = 585;
 
     window.open(
-      `?${new URLSearchParams(query).toString()}#/tracker${route}`,
+      Launcher.trackerLink(route, query),
       '_blank',
       `width=${windowWidth},height=${windowHeight},titlebar=0,menubar=0,toolbar=0`,
     );
@@ -485,6 +489,13 @@ export default class Launcher extends React.PureComponent {
     Launcher.openTrackerWindow(`/${pathType}/${encodeURIComponent(permalink)}`, query);
   }
 
+  copyTrackerLink(pathType, query = {}) {
+    const { permalink } = this.state;
+
+    navigator.clipboard.writeText(Launcher.trackerLink(`/${pathType}/${encodeURIComponent(permalink)}`, query));
+    toast.success('Copied the tracker link to the clipboard.')
+  }
+
   async loadFromFile(query = {}) {
     await Storage.loadFileAndStore();
 
@@ -518,6 +529,17 @@ export default class Launcher extends React.PureComponent {
           onClick={() => this.loadFromFile(ap ? ({ archipelago: true, ...Object.fromEntries(new URLSearchParams(jQuery('#apConfig').serialize())) }) : {})}
         >
           Load From File
+        </button>
+        <button
+          className="launcher-button"
+          type="button"
+          title="Useful for recording a run with OBS +  Sharing the tracker in general"
+          onClick={() => {
+            const loadOrNew = window.confirm('Are you planning on loading your existing tracker progress?\r\n\r\n[Ok] - Yes, i am planning on loading my existing tracker progress.\r\n[Cancel] - No, I am just going to make myself a new tracker instead.');
+            this.copyTrackerLink(loadOrNew ? 'load' : 'new', ap ? ({ archipelago: true, ...Object.fromEntries(new URLSearchParams(jQuery('#apConfig').serialize())) }) : {})
+          }}
+        >
+          Copy Tracker Link
         </button>
       </div>
     );
