@@ -144,6 +144,10 @@ class Tracker extends React.PureComponent {
       }).catch(toast.error);
       this.apClient.messages.on('message', toast);
       this.apClient.socket.on('disconnected', () => toast.info('Disconnected from AP'));
+      this.apClient.socket.on('connectionRefused', g => {
+        toast.error(`AP Refused connection due to the following errors: ${g.errors.join(', ')}`);
+        this.apClient.socket.disconnect()
+      })
       this.apClient.socket.on('connected', (e) => {
         toast.success('Connected to AP');
         const interval = setInterval(() => {

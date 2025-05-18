@@ -144,17 +144,30 @@ export default class Launcher extends React.PureComponent {
           onSubmit={(event) => {
             event.preventDefault();
             let successfulConnection = false;
+            const submitBtn = jQuery(event.target).find('button[type="submit"]');
+            const origText = submitBtn.text();
+            submitBtn.text('Connecting to AP...');
+            submitBtn.attr('disabled', '');
+            const info = Object.fromEntries(new URLSearchParams(jQuery(event.target).serialize()));
+            Object.keys(info).forEach((i) => jQuery(event.target).find(`input[name="${i}"]`).attr('readonly', ''));
+            function handleError(e) {
+              toast.error(e);
+              submitBtn.removeAttr('disabled');
+              submitBtn.text(origText);
+              Object.keys(info).forEach((i) => jQuery(event.target).find(`input[name="${i}"]`).removeAttr('readonly'));
+              APClient.socket.disconnect();
+            }
             const APClient = new Client();
             APClient.socket.on('connected', (e) => {
               const allDropdownOptions = Permalink.DROPDOWN_OPTIONS;
               const { setOptionValue } = this;
-              function updateStartingTriforceShards(a, b) {
-                setOptionValue('num_starting_triforce_shards', a[b]);
-              }
+              let trifroceShardsCount = 0;
               [e.slot_data.start_inventory_from_pool, e.slot_data.start_inventory].forEach((k) => {
-                Object.keys(k).forEach((j) => {
-                  if (j === 'Triforce Shard') updateStartingTriforceShards(e.slot_data.start_inventory, j);
-                });
+                const startingTriforceShards = Object.keys(k).filter((j) => j.startsWith('Triforce Shard'));
+                if (startingTriforceShards.length > 0) {
+                  trifroceShardsCount += startingTriforceShards.length;
+                  setOptionValue('num_starting_triforce_shards', trifroceShardsCount > 8 ? 8 : trifroceShardsCount);
+                }
               });
               Object.keys(e.slot_data).forEach((i) => {
                 const val = this.getOptionValue(i);
@@ -167,7 +180,7 @@ export default class Launcher extends React.PureComponent {
                     const dropdownOptions = allDropdownOptions[i];
                     switch (i) {
                       case 'sword_mode': {
-                        const o = e.slot_data.sword_mode === 1 || e.slot_data.sword_mode === 2 ? 'No Starting Sword' : e.slot_data.sword_mode;
+                        const o = e.slot_data.sword_mode === 1 || e.slot_data.sword_mode === 2 ? 1 : e.slot_data.sword_mode === 3 ? 2 : 0;
                         setOptionValue('sword_mode', dropdownOptions[o]);
                         break;
                       } case 'num_required_bosses': {
@@ -182,14 +195,9 @@ export default class Launcher extends React.PureComponent {
               });
             });
             APClient.socket.on('connectionRefused', (e) => {
-              toast.error(`AP Refused connection due to the following errors: ${e.errors.join(', ')}`);
+              successfulConnection = true;
+              handleError(`AP Refused connection due to the following errors: ${e.errors.join(', ')}`);
             });
-            const submitBtn = jQuery(event.target).find('button[type="submit"]');
-            const origText = submitBtn.text();
-            submitBtn.text('Connecting to AP...');
-            submitBtn.attr('disabled', '');
-            const info = Object.fromEntries(new URLSearchParams(jQuery(event.target).serialize()));
-            Object.keys(info).forEach((i) => jQuery(event.target).find(`input[name="${i}"]`).attr('readonly', ''));
             APClient.login(info.host, info.user, 'The Wind Waker', {
               tags: ['NoText'],
               password: info.pass || '',
@@ -200,13 +208,7 @@ export default class Launcher extends React.PureComponent {
               jQuery('.settings').find('div[data-ap="true"]').show();
             }).catch(toast.error);
             setTimeout(() => {
-              if (!successfulConnection) {
-                toast.error('AP Connection Timed Out.');
-                submitBtn.removeAttr('disabled');
-                submitBtn.text(origText);
-                Object.keys(info).forEach((i) => jQuery(event.target).find(`input[name="${i}"]`).removeAttr('readonly'));
-                APClient.socket.disconnect();
-              }
+              if (!successfulConnection) handleError('AP Connection Timed Out')
             }, 34321);
           }}
           id="apConfig"
