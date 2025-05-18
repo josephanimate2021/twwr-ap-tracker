@@ -203,7 +203,10 @@ class Tracker extends React.PureComponent {
       }
       const correctItem = Object.keys(
         this.state.trackerState.items,
-      ).find((i) => j.name.includes(i));
+      ).find((i) => {
+        if (j.name.endsWith("Capacity Upgrade") && i.startsWith("Progressive")) return j.name === `${i.substring(12)} Capacity Upgrade`;
+        return j.name.includes(i)
+      });
       if (correctItem) {
         let newItemCount = 1 + this.state.trackerState.getItemValue(correctItem);
         const maxItemCount = LogicHelper.maxItemCount(correctItem);
