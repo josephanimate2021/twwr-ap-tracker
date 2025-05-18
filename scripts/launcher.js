@@ -11,6 +11,8 @@ function capWord(g) {
   return beg.toUpperCase() + rest;
 }
 
+let connected = false, success = false;
+
 /**
  * Connects to AP and applys the settings from there.
  * @param {HTMLButtonElement} submutBtn 
@@ -18,7 +20,8 @@ function capWord(g) {
 function applyAPSettings(form) {
   const info = Object.fromEntries(new URLSearchParams($(form).serialize()));
   for (const i in info) $(form).find(`input[name="${i}"]`).attr('readonly', '');
-  let connected = false, roomInfo, success = false;
+  connected = false, success = false;
+  let roomInfo;
   const submutBtn = $(form).find('button[type="submit"]');
   submutBtn.attr("disabled", "");
   const origText = submutBtn.text();
@@ -213,7 +216,7 @@ function loadFileContents() {
     localStorage.setItem('version', version);
   } catch (err) {}
   
-  openTracker(true);
+  open(trackerLink(true, connected && success), 'width=1327,height=550,titlebar=0,menubar=0,toolbar=0')
 }
 
 /**

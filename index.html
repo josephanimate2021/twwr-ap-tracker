@@ -50,6 +50,7 @@
             </div>
           </form>
           <form id="gameSettings"></form>
+          <input type="file" id="load-progress" accept=".json"/>
           <div class="launcher-button-container" id="APLauncherButtons" style="display: none;">
             <button class="launcher-button" type="button" onclick="open(
               trackerLink(), '', 'width=1327,height=550,titlebar=0,menubar=0,toolbar=0'
@@ -71,6 +72,9 @@
             <button class="launcher-button" type="button" onclick="navigator.clipboard.writeText(trackerLink(false, false)), displayMessage(
               'Successfuly copied the link to the clipboard! TIP: To load tracker progress, replace p=0 with p=1 in the tracker URL.'
             )" title="Useful for recording a run with OBS +  Sharing the tracker in general">Copy Tracker Link</button>
+          </div>
+          <div class="launcher-button-container" id="manualLauncherButtons">
+            <button class="launcher-button" type="button" onclick="loadFromFile()">Load From File</button>
           </div>
         </div>
         <div class="attribution">
