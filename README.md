@@ -1,6 +1,8 @@
 # TWW AP Randomizer Tracker
 
-This is a tracker for [The Wind Waker Archipelago Randomizer](https://archipelago.gg/games/The%20Wind%20Waker/info/en). If you want to run the tracker locally, please follow the Build Instructions steps in order to get started. otherwise, you may use the tracker by refering [here](https://josephanimate2021.github.io/twwr-ap-tracker).
+This is a tracker for [The Wind Waker Archipelago Randomizer](https://archipelago.gg/games/The%20Wind%20Waker/info/en). If you want to run the tracker locally, 
+please follow the steps in the <strong>Build Instructions</strong> section in order to get started. 
+otherwise, you may use the tracker by refering [here](https://josephanimate2021.github.io/twwr-ap-tracker).
 
 ## Build Instructions
 
