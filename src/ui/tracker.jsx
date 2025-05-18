@@ -77,6 +77,11 @@ class Tracker extends React.PureComponent {
     this.updatePreferences = this.updatePreferences.bind(this);
   }
 
+  handleError(msg) {
+    toast.error(msg);
+    this.apClient.socket.disconnect();
+  }
+
   async initialize() {
     await Images.importImages();
 
@@ -138,18 +143,21 @@ class Tracker extends React.PureComponent {
     }
 
     if (this.isAP) {
+      let successfulConnection = false;
       this.apClient.login(this.queryInfo.host, this.queryInfo.user, 'The Wind Waker', {
         password: this.queryInfo.pass || '',
         tags: ['Tracker'],
+      }).then(() => {
+        successfulConnection = true;
+        toast.success('Connected to AP');
       }).catch(toast.error);
       this.apClient.messages.on('message', toast);
       this.apClient.socket.on('disconnected', () => toast.info('Disconnected from AP'));
       this.apClient.socket.on('connectionRefused', (g) => {
-        toast.error(`AP Refused connection due to the following errors: ${g.errors.join(', ')}`);
-        this.apClient.socket.disconnect();
+        successfulConnection = true;
+        this.handleError(`AP Refused connection due to the following errors: ${g.errors.join(', ')}`);
       });
       this.apClient.socket.on('connected', (e) => {
-        toast.success('Connected to AP');
         const interval = setInterval(() => {
           if (this.apClient.authenticated) {
             clearInterval(interval);
@@ -164,6 +172,9 @@ class Tracker extends React.PureComponent {
           }
         }, 1);
       });
+      setTimeout(() => {
+        if (!successfulConnection) this.handleError('AP Connection Timed Out');
+      }, 34321);
     } else load();
   }
 
