@@ -150,6 +150,7 @@ export default class Launcher extends React.PureComponent {
             submitBtn.attr('disabled', '');
             const info = Object.fromEntries(new URLSearchParams(jQuery(event.target).serialize()));
             Object.keys(info).forEach((i) => jQuery(event.target).find(`input[name="${i}"]`).attr('readonly', ''));
+            const APClient = new Client();
             function handleError(e) {
               toast.error(e);
               submitBtn.removeAttr('disabled');
@@ -157,7 +158,6 @@ export default class Launcher extends React.PureComponent {
               Object.keys(info).forEach((i) => jQuery(event.target).find(`input[name="${i}"]`).removeAttr('readonly'));
               APClient.socket.disconnect();
             }
-            const APClient = new Client();
             APClient.socket.on('connected', (e) => {
               const allDropdownOptions = Permalink.DROPDOWN_OPTIONS;
               const { setOptionValue } = this;
@@ -208,7 +208,7 @@ export default class Launcher extends React.PureComponent {
               jQuery('.settings').find('div[data-ap="true"]').show();
             }).catch(toast.error);
             setTimeout(() => {
-              if (!successfulConnection) handleError('AP Connection Timed Out')
+              if (!successfulConnection) handleError('AP Connection Timed Out');
             }, 34321);
           }}
           id="apConfig"
