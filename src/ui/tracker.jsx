@@ -72,10 +72,10 @@ class Tracker extends React.PureComponent {
                 isDungeon: true,
               });
             }
-          } else if (stageInfo.isCave || stageInfo.isFairyFountain || stageInfo.isInnerCave || stageInfo.isBoss) {
+          } else if (stageInfo.isCave || stageInfo.isFairyFountain || stageInfo.isInnerCave || stageInfo.isBoss || stageInfo.isMiniboss) {
             this.updateOpenedLocation({
               locationName: stageInfo.entranceZoneName,
-              isDungeon: stageInfo.isBoss === true,
+              isDungeon: stageInfo.isBoss === true || stageInfo.isMiniboss === true,
             });
           }
         }
