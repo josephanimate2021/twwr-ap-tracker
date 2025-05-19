@@ -19,6 +19,7 @@ import Statistics from './statistics';
 import Storage from './storage';
 
 import 'react-toastify/dist/ReactToastify.css';
+import Locations from '../services/locations';
 
 class Tracker extends React.PureComponent {
   constructor(props) {
@@ -180,26 +181,18 @@ class Tracker extends React.PureComponent {
 
   recievedItems(itemsArray) {
     itemsArray.forEach((j) => {
-      const gL = j.locationName.split('-')[0].slice(0, -1);
-      const generalLocation = Object.keys(
-        this.state.trackerState.locationsChecked,
-      ).find((i) => gL.includes(i));
-      if (generalLocation) {
-        const dL = j.locationName.substring(gL.length + 3);
-        const detailedLocation = Object.keys(
-          this.state.trackerState.locationsChecked[
-            generalLocation
-          ],
-        ).find((i) => dL.includes(i));
-        if (detailedLocation) {
-          this.state.trackerState.locationsChecked[generalLocation][detailedLocation] = true;
-          this.setState({
-            lastLocation: {
-              generalLocation,
-              detailedLocation,
-            },
-          });
-        }
+      if (j.locationName != "Server") {
+        const {
+          generalLocation,
+          detailedLocation
+        } = Locations.splitLocationName(j.locationName);
+        this.state.trackerState.locationsChecked[generalLocation][detailedLocation] = true;
+        this.setState({
+          lastLocation: {
+            generalLocation,
+            detailedLocation,
+          },
+        });
       }
       const correctItem = Object.keys(
         this.state.trackerState.items,
