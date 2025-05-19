@@ -30,6 +30,17 @@ If you prefer to use the older style tracker than the newest style one, you may 
 Please keep in mind that the older style tracker supports up to version 1.9.0 of The Wind Waker Randomizer, meaning that the older style tracker may not understand how the WWR logic works in AP.
 but it's support still works nonetheless. (Only downside is that you won't be able to copy permalinks from the applied AP Settings as the code for the older tracker has no idea how to create new permalinks.)
 
+## Do you have a way to prove that this tracker actually works?
+
+I have a run posted on my [YouTube channel](https://youtu.be/WJswDZkelgs) which demostrates this tracker in action. Despite 3 locations not getting checked on their own, It still shows that this tracker at the very least works. I have since then fixed this bug and you don't have to worry about any locations not getting checked. I have not tested all locations yet as I haven't set the settings to max settings and as YouTube uploads are limited to 12 hours long (even with your account verified), I will not make any videos of me doing long runs like that. I may only do the long runs as a way of testing this tracker to it's maximum to see how much it can handle AP.
+
+## If this tracker does not suit my needs, are there any alternatives?
+
+Yes, there are alternatives to this tracker that you can use. I completely understand if this tracker does not fit your needs. Below is a bulletpoint list which has all of The Wind Waker Archipelago Randomizer.
+
+* <strong>PopTracker Pack</strong> (Recommended Alternative) - If you have [PopTracker](https://github.com/black-sliver/PopTracker), then you may install this [Wind Waker Archipelago Randomizer PopTracker Pack](https://github.com/Mysteryem/ww-poptracker/archive/refs/tags/v1.1.0.zip) by downloading the zip file, extracting it after download, and then zip the contents of the v1.1.0 folder inside the extracted zip file to the packs folder of the downloaded PopTracker application.
+* <strong>Normal Wind Waker Randomizer Tracker</strong> (Alternative <strong>NOT RECOMMENDED</strong>) - This method does not come with AP support meaning that you will be stuck with checking items and locations manually on the tracker. You may either use the normal mode on my tracker or [Woofercfg's WWR Tracker](https://www.wooferzfg.me/tww-rando-tracker/) where both will not provide you the same functionality.
+
 ## Documentation
 
 Code documentation is available [here](https://josephanimate2021.github.io/twwr-ap-tracker/docs).
