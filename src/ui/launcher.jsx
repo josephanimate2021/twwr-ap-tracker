@@ -34,7 +34,7 @@ export default class Launcher extends React.PureComponent {
   }
 
   static trackerLink(route, query = {}) {
-    return `${window.location.origin}${window.location.pathname}?${new URLSearchParams(query).toString()}#/tracker${route}`
+    return `${window.location.origin}${window.location.pathname}?${new URLSearchParams(query).toString()}#/tracker${route}`;
   }
 
   static openTrackerWindow(route, query = {}) {
@@ -493,7 +493,7 @@ export default class Launcher extends React.PureComponent {
     const { permalink } = this.state;
 
     navigator.clipboard.writeText(Launcher.trackerLink(`/${pathType}/${encodeURIComponent(permalink)}`, query));
-    toast.success('Copied the tracker link to the clipboard.')
+    toast.success('Copied the tracker link to the clipboard.');
   }
 
   async loadFromFile(query = {}) {
@@ -536,7 +536,7 @@ export default class Launcher extends React.PureComponent {
           title="Useful for recording a run with OBS +  Sharing the tracker in general"
           onClick={() => {
             const loadOrNew = window.confirm('Are you planning on loading your existing tracker progress?\r\n\r\n[Ok] - Yes, i am planning on loading my existing tracker progress.\r\n[Cancel] - No, I am just going to make myself a new tracker instead.');
-            this.copyTrackerLink(loadOrNew ? 'load' : 'new', ap ? ({ archipelago: true, ...Object.fromEntries(new URLSearchParams(jQuery('#apConfig').serialize())) }) : {})
+            this.copyTrackerLink(loadOrNew ? 'load' : 'new', ap ? ({ archipelago: true, ...Object.fromEntries(new URLSearchParams(jQuery('#apConfig').serialize())) }) : {});
           }}
         >
           Copy Tracker Link

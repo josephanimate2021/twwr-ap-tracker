@@ -6,6 +6,10 @@ import React from 'react';
 import { Oval } from 'react-loader-spinner';
 import { ToastContainer, toast } from 'react-toastify';
 
+import dungeonEntrances from '../data/dungeon-entrances.json';
+import islandEntrances from '../data/island-entrances.json';
+import stageNames from '../data/stage_names.yaml';
+import Locations from '../services/locations';
 import LogicHelper from '../services/logic-helper';
 import TrackerController from '../services/tracker-controller';
 
@@ -19,8 +23,6 @@ import Statistics from './statistics';
 import Storage from './storage';
 
 import 'react-toastify/dist/ReactToastify.css';
-import Locations from '../services/locations';
-import stageNames from '../data/stage_names.yaml'
 
 class Tracker extends React.PureComponent {
   constructor(props) {
@@ -56,11 +58,29 @@ class Tracker extends React.PureComponent {
     this.apClient.items.on('itemsReceived', (k) => {
       if (this.state.trackerState) this.recievedItems(k);
     });
-    this.apClient.socket.on("bounced", (d) => {
+    this.apClient.socket.on('bounced', (d) => {
       if (d.data?.tww_stage_name) {
-        //const stageName = stageNames[d.data.tww_stage_name]
+        const stageName = stageNames[d.data.tww_stage_name];
+        const allEntrances = [...dungeonEntrances, ...islandEntrances];
+        const stageInfo = allEntrances.find((i) => stageName.includes(i.internalName) || stageName.includes(i.entranceZoneName));
+        if (this.state.openedLocation) this.clearOpenedMenus();
+        if (stageInfo) {
+          if (stageInfo.isDungeon) {
+            if (!stageName.endsWith('Entrance')) {
+              this.updateOpenedLocation({
+                locationName: stageInfo.internalName,
+                isDungeon: true,
+              });
+            }
+          } else if (stageInfo.isCave || stageInfo.isFairyFountain || stageInfo.isInnerCave || stageInfo.isBoss) {
+            this.updateOpenedLocation({
+              locationName: stageInfo.entranceZoneName,
+              isDungeon: stageInfo.isBoss === true,
+            });
+          }
+        }
       }
-    })
+    });
     this.clearAllLocations = this.clearAllLocations.bind(this);
     this.clearOpenedMenus = this.clearOpenedMenus.bind(this);
     this.decrementItem = this.decrementItem.bind(this);
@@ -187,10 +207,10 @@ class Tracker extends React.PureComponent {
 
   recievedItems(itemsArray) {
     itemsArray.forEach((j) => {
-      if (j.locationName !== "Server") {
+      if (j.locationName !== 'Server') {
         const {
           generalLocation,
-          detailedLocation
+          detailedLocation,
         } = Locations.splitLocationName(j.locationName);
         this.state.trackerState.locationsChecked[generalLocation][detailedLocation] = true;
         this.setState({
@@ -203,8 +223,8 @@ class Tracker extends React.PureComponent {
       const correctItem = Object.keys(
         this.state.trackerState.items,
       ).find((i) => {
-        if (j.name.endsWith("Capacity Upgrade") && i.startsWith("Progressive")) return j.name === `${i.substring(12)} Capacity Upgrade`;
-        return j.name.includes(i)
+        if (j.name.endsWith('Capacity Upgrade') && i.startsWith('Progressive')) return j.name === `${i.substring(12)} Capacity Upgrade`;
+        return j.name.includes(i);
       });
       if (correctItem) {
         let newItemCount = 1 + this.state.trackerState.getItemValue(correctItem);
