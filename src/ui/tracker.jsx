@@ -20,6 +20,7 @@ import Storage from './storage';
 
 import 'react-toastify/dist/ReactToastify.css';
 import Locations from '../services/locations';
+import stageNames from '../data/stage_names.yaml'
 
 class Tracker extends React.PureComponent {
   constructor(props) {
@@ -55,6 +56,11 @@ class Tracker extends React.PureComponent {
     this.apClient.items.on('itemsReceived', (k) => {
       if (this.state.trackerState) this.recievedItems(k);
     });
+    this.apClient.socket.on("bounced", (d) => {
+      if (d.data?.tww_stage_name) {
+        //const stageName = stageNames[d.data.tww_stage_name]
+      }
+    })
     this.clearAllLocations = this.clearAllLocations.bind(this);
     this.clearOpenedMenus = this.clearOpenedMenus.bind(this);
     this.decrementItem = this.decrementItem.bind(this);

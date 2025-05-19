@@ -71,10 +71,12 @@ module.exports = (env, argv) => {
       rules: [
         {
           test: /\.jsx?$/,
-          use: [
-            'babel-loader',
-          ],
+          use: 'babel-loader',
           exclude: '/node_modules',
+        },
+        {
+          test: /\.ya?ml$/,
+          use: 'yaml-loader',
         },
         {
           test: /\.(s*)css$/,
