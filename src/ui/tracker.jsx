@@ -181,7 +181,7 @@ class Tracker extends React.PureComponent {
 
   recievedItems(itemsArray) {
     itemsArray.forEach((j) => {
-      if (j.locationName != "Server") {
+      if (j.locationName !== "Server") {
         const {
           generalLocation,
           detailedLocation
