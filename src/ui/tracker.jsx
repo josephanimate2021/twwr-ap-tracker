@@ -80,7 +80,7 @@ class Tracker extends React.PureComponent {
           const locationName = Object.keys(this.state.trackerState.locationsChecked).find((i) => stageName.includes(i));
           if (locationName) this.updateOpenedLocation({
             locationName,
-            isDungeon: locationName == "Ganon's Tower",
+            isDungeon: locationName === "Ganon's Tower",
           });
         }
       }
