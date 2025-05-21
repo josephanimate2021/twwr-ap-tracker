@@ -64,11 +64,16 @@ class Tracker extends React.PureComponent {
         const allEntrances = [...dungeonEntrances, ...islandEntrances];
         const stageInfo = allEntrances.find((i) => stageName.includes(i.internalName) || stageName.includes(i.entranceZoneName));
         if (this.state.openedLocation) this.clearOpenedMenus();
-        if (stageInfo) this.updateOpenedLocation({
-          locationName: stageInfo.entranceZoneName,
-          isDungeon: stageInfo.isBoss === true || stageInfo.isMiniboss === true || stageInfo.isDungeon === true,
-        });
-        else if (this.state.trackerState) {
+        if (stageInfo) {
+          if (stageInfo.isDungeon) this.updateOpenedLocation({
+            locationName: stageInfo.internalName,
+            isDungeon: true,
+          });
+          else this.updateOpenedLocation({
+            locationName: stageInfo.entranceZoneName,
+            isDungeon: stageInfo.isBoss === true || stageInfo.isMiniboss === true,
+          });
+        } else if (this.state.trackerState) {
           const generalLocations = Object.keys(this.state.trackerState.locationsChecked);
           const generalLocationName = Object.keys(this.state.trackerState.locationsChecked).find((i) => stageName.includes(i));
           if (generalLocationName) this.showGeneralLocation(generalLocationName, false)
