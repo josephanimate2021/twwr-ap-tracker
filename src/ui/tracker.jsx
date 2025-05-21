@@ -110,6 +110,11 @@ class Tracker extends React.PureComponent {
     this.updatePreferences = this.updatePreferences.bind(this);
   }
 
+  handleError(msg) {
+    toast.error(msg);
+    this.apClient.socket.disconnect();
+  }
+
   showGeneralLocation(generalLocationName) {
     switch (generalLocationName) {
       case "The Great Sea": break;
@@ -120,10 +125,6 @@ class Tracker extends React.PureComponent {
     }
   }
 
-  handleError(msg) {
-    toast.error(msg);
-    this.apClient.socket.disconnect();
-  }
 
   async initialize() {
     await Images.importImages();
