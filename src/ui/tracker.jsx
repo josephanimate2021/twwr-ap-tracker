@@ -81,7 +81,7 @@ class Tracker extends React.PureComponent {
           const generalLocationName = Object.keys(this.state.trackerState.locationsChecked).find((i) => stageName.includes(i));
           if (generalLocationName) this.showGeneralLocation(generalLocationName, false)
           else generalLocations.forEach((j) => {
-            const detailedLocationName = Object.keys(this.state.trackerState.locationsChecked[j]).find((i) => stageName.includes(i));
+            const detailedLocationName = Object.keys(this.state.trackerState.locationsChecked[j]).find((i) => stageName.includes(i) || i.includes(stageName));
             if (detailedLocationName) this.showGeneralLocation(j, true)
           });
         }
