@@ -66,13 +66,20 @@ class Tracker extends React.PureComponent {
         if (this.state.openedLocation) this.clearOpenedMenus();
         if (stageInfo) {
           if (stageInfo.isDungeon) {
-            if (stageName.endsWith("Entrance")) switch (stageInfo.entranceZoneName) {
-              case "Dragon Roost Island": return;
-              default: break
+            let locationName;
+            switch (stageName) {
+              case "Forest Haven Interior":
+              case "Dragon Roost Cavern Entrance": {
+                locationName = stageInfo.entranceZoneName;
+                break;
+              } default: {
+                locationName = stageInfo.internalName;
+                break;
+              }
             }
             this.updateOpenedLocation({
-              locationName: stageInfo.internalName,
-              isDungeon: true,
+              locationName,
+              isDungeon: locationName == stageInfo.internalName,
             });
           } else this.updateOpenedLocation({
             locationName: stageInfo.entranceZoneName,
