@@ -78,10 +78,13 @@ class Tracker extends React.PureComponent {
           });
         } else if (this.state.trackerState) {
           const locationName = Object.keys(this.state.trackerState.locationsChecked).find((i) => stageName.includes(i));
-          if (locationName) this.updateOpenedLocation({
-            locationName,
-            isDungeon: locationName === "Ganon's Tower",
-          });
+          if (locationName) switch (locationName) {
+            case "The Great Sea": break;
+            default: this.updateOpenedLocation({
+              locationName,
+              isDungeon: locationName === "Ganon's Tower",
+            });
+          }
         }
       }
     });
