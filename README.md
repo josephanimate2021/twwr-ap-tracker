@@ -39,7 +39,6 @@ I have a run posted on my [YouTube channel](https://youtu.be/WJswDZkelgs) which 
 Yes, there are alternatives to this tracker that you can use. I completely understand if this tracker does not fit your needs. Below is a bulletpoint list which has all of The Wind Waker Archipelago Randomizer trackers that you can use.
 
 * <strong>PopTracker Pack</strong> (Recommended Alternative) - If you have [PopTracker](https://github.com/black-sliver/PopTracker), then you may install this [Wind Waker Archipelago Randomizer PopTracker Pack](https://github.com/Mysteryem/ww-poptracker/archive/refs/tags/v1.1.0.zip) by downloading the zip file, extracting it after download, and then zip the contents of the v1.1.0 folder inside the extracted zip file into the packs folder of the downloaded PopTracker application.
-* <strong>Normal Wind Waker Randomizer Tracker</strong> (Alternative <strong>NOT RECOMMENDED</strong>) - This method does not come with AP support meaning that you will be stuck with checking items and locations manually on the tracker. You may either use the normal mode on my tracker or [Woofercfg's WWR Tracker](https://www.wooferzfg.me/tww-rando-tracker/) where both will not provide you the same functionality.
 
 ## Documentation
 
