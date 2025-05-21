@@ -79,10 +79,10 @@ class Tracker extends React.PureComponent {
         } else if (this.state.trackerState) {
           const generalLocations = Object.keys(this.state.trackerState.locationsChecked);
           const generalLocationName = Object.keys(this.state.trackerState.locationsChecked).find((i) => stageName.includes(i));
-          if (generalLocationName) this.showGeneralLocation(generalLocationName)
+          if (generalLocationName) this.showGeneralLocation(generalLocationName, false)
           else generalLocations.forEach((j) => {
             const detailedLocationName = Object.keys(this.state.trackerState.locationsChecked[j]).find((i) => stageName.includes(i));
-            if (detailedLocationName) this.showGeneralLocation(j)
+            if (detailedLocationName) this.showGeneralLocation(j, true)
           });
         }
       }
@@ -115,10 +115,11 @@ class Tracker extends React.PureComponent {
     this.apClient.socket.disconnect();
   }
 
-  showGeneralLocation(generalLocationName) {
+  showGeneralLocation(generalLocationName, IamLookingforaDetailedLocation = false) {
     switch (generalLocationName) {
-      case "The Great Sea": break;
-      default: this.updateOpenedLocation({
+      case "The Great Sea": {
+        if (!IamLookingforaDetailedLocation) break;
+      } default: this.updateOpenedLocation({
         locationName: generalLocationName,
         isDungeon: generalLocationName === "Ganon's Tower",
       });
