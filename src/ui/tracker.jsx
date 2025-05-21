@@ -118,8 +118,8 @@ class Tracker extends React.PureComponent {
   showGeneralLocation(generalLocationName, IamLookingforaDetailedLocation = false) {
     function locationUpdate($this) {
       $this.updateOpenedLocation({
-        locationName,
-        isDungeon: locationName === "Ganon's Tower",
+        locationName: generalLocationName,
+        isDungeon: generalLocationName === "Ganon's Tower",
       });
     }
     if (!IamLookingforaDetailedLocation) switch (generalLocationName) {
