@@ -77,14 +77,22 @@ class Tracker extends React.PureComponent {
             isDungeon: stageInfo.isBoss === true || stageInfo.isMiniboss === true,
           });
         } else if (this.state.trackerState) {
-          const locationName = Object.keys(this.state.trackerState.locationsChecked).find((i) => stageName.includes(i));
-          if (locationName) switch (locationName) {
-            case "The Great Sea": break;
-            default: this.updateOpenedLocation({
-              locationName,
-              isDungeon: locationName === "Ganon's Tower",
-            });
+          const generalLocations = Object.keys(this.state.trackerState.locationsChecked);
+          const generalLocationName = Object.keys(this.state.trackerState.locationsChecked).find((i) => stageName.includes(i));
+          function showGeneralLocation() {
+            switch (generalLocationName) {
+              case "The Great Sea": break;
+              default: this.updateOpenedLocation({
+                locationName,
+                isDungeon: generalLocationName === "Ganon's Tower",
+              });
+            }
           }
+          if (generalLocationName) showGeneralLocation()
+          else generalLocations.forEach((j) => {
+            const detailedLocationName = Object.keys(this.state.trackerState.locationsChecked[j]).find((i) => stageName.includes(i));
+            if (detailedLocationName) showGeneralLocation()
+          });
         }
       }
     });
