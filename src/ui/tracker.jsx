@@ -116,14 +116,16 @@ class Tracker extends React.PureComponent {
   }
 
   showGeneralLocation(generalLocationName, IamLookingforaDetailedLocation = false) {
-    switch (generalLocationName) {
-      case "The Great Sea": {
-        if (!IamLookingforaDetailedLocation) break;
-      } default: this.updateOpenedLocation({
+    function locationUpdate() {
+      this.updateOpenedLocation({
         locationName: generalLocationName,
         isDungeon: generalLocationName === "Ganon's Tower",
       });
     }
+    if (!IamLookingforaDetailedLocation) switch (generalLocationName) {
+      case "The Great Sea": break;
+      default: locationUpdate()
+    } else locationUpdate()
   }
 
 
