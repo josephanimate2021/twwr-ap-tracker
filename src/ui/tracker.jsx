@@ -83,7 +83,7 @@ class Tracker extends React.PureComponent {
             switch (generalLocationName) {
               case "The Great Sea": break;
               default: this.updateOpenedLocation({
-                locationName,
+                locationName: generalLocationName,
                 isDungeon: generalLocationName === "Ganon's Tower",
               });
             }
