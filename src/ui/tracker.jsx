@@ -18,6 +18,7 @@ import Images from './images';
 import ItemsTable from './items-table';
 import LocationsTable from './locations-table';
 import SettingsWindow from './settings-window';
+import Settings from '../services/settings';
 import SphereTracking from './sphere-tracking';
 import Statistics from './statistics';
 import Storage from './storage';
@@ -61,6 +62,7 @@ class Tracker extends React.PureComponent {
     this.apClient.socket.on('bounced', (d) => {
       if (d.data?.tww_stage_name) {
         const stageName = stageNames[d.data.tww_stage_name];
+        const { options: settings } = Settings.readAll();
         const allEntrances = [...dungeonEntrances, ...islandEntrances];
         const stageInfo = allEntrances.find((i) => stageName.includes(i.internalName) || stageName.includes(i.entranceZoneName));
         if (this.state.openedLocation) this.clearOpenedMenus();
@@ -81,10 +83,17 @@ class Tracker extends React.PureComponent {
               locationName,
               isDungeon: locationName === stageInfo.internalName,
             });
-          } else this.updateOpenedLocation({
-            locationName: stageInfo.entranceZoneName,
-            isDungeon: stageInfo.isBoss === true || stageInfo.isMiniboss === true,
-          });
+            if (settings.randomize_dungeon_entrances) {
+              if (
+                !stageName.endsWith("Entrance")
+              ) this.incrementItem(stageInfo.entryName, true);
+            }
+          } else {
+            this.updateOpenedLocation({
+              locationName: stageInfo.entranceZoneName,
+              isDungeon: stageInfo.isBoss === true || stageInfo.isMiniboss === true,
+            });
+          }
         } else if (this.state.trackerState) {
           const generalLocations = Object.keys(this.state.trackerState.locationsChecked);
           const generalLocationName = Object.keys(this.state.trackerState.locationsChecked).find((i) => stageName.includes(i));
