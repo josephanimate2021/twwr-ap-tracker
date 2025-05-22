@@ -86,7 +86,7 @@ class Tracker extends React.PureComponent {
             if (settings.randomize_dungeon_entrances) {
               if (stageName.endsWith("Entrance")) {
                 this.APEntrance = stageInfo;
-              } else if (this.APEntrance && this.state.trackerState.items[stageInfo.entryName] !== 1) {
+              } else if (this.APEntrance) {
                 this.updateExitForEntrance(this.APEntrance.entranceName, stageInfo.exitName);
                 this.APEntrance = stageInfo;
               }
