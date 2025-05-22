@@ -41,7 +41,14 @@ Yes, there are alternatives to this tracker that you can use. I completely under
 * <strong>PopTracker Pack</strong> (Recommended Alternative) - If you have [PopTracker](https://github.com/black-sliver/PopTracker), then you may install this [Wind Waker Archipelago Randomizer PopTracker Pack](https://github.com/Mysteryem/ww-poptracker/archive/refs/tags/v1.1.0.zip) by downloading the zip file, extracting it after download, and then zip the contents of the v1.1.0 folder inside the extracted zip file into the packs folder of the downloaded PopTracker application. It's source code is located [here](https://github.com/Mysteryem/ww-poptracker)
 
 ## I am playing The Wind Waker Archipelago Randomizer with Shuffled Entrances turned on. Is there a way for AP to tell the tracker what entrance I went through?
-Tracking Entrances with AP is currently in beta right now. In the tracker's current state, exits are not currently functioning with AP right now.
+I was able to get that working with only dungeon, miniboss, and boss entrances (mainly because they're given info from a dungeon entrance or dungeon that the user is in as of right now).
+There are instances where AP will not check these dungeons despite you being near their entrances (don't worry, this will be getting fixed)
+* Forbidden Woods
+* Tower Of The Gods
+Everything else should check out fine though. Please report an issue in the Issues Panel of this GitHub repository if you happen to encounter one.
+or submit a pull request in the Pull Requests panel of this GitHub Repository if you have any code changes that you think should fix any problems you or a user is experiencing.
+I encourage you to test your work first before submitting a pull request. To prove that you did test your work, because send in video evidence pointing to this tracker and how your work is supposed
+to change some tracker functionality. I will still review code and test things out myself as this is good practice for me, but I want to make sure that your work will truely not affect production use of this tracker. 
 
 ## Documentation
 
