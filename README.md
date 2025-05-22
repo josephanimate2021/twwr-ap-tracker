@@ -45,7 +45,7 @@ I was able to get that working with only dungeon, miniboss, and boss entrances (
 There are instances where AP will not check these dungeons despite you being near their entrances (don't worry, this will be getting fixed)
 * Forbidden Woods
 * Tower Of The Gods
-<p>Everything else should check out fine though. Please report an issue in the Issues Panel of this GitHub repository if you happen to encounter one.
+<p>Everything else should check out fine though. Please be aware that with this bug happening, Whenever you have miniboss and boss entrances randomized, some of their entrances may not get checked by AP, meaning that you may still have to check off some boss and miniboss entrances manually (I am quite shcoked to tell you that this is less entrances you would have to manually check off than every entrance a user would have to manually check off before).  Please report an issue in the Issues Panel of this GitHub repository if you happen to encounter one.
 or submit a pull request in the Pull Requests panel of this GitHub Repository if you have any code changes that you think should fix any problems you or a user is experiencing.
 I encourage you to test your work first before submitting a pull request. To prove that you did test your work, because send in video evidence pointing to this tracker and how your work is supposed
 to change some tracker functionality. I will still review code and test things out myself as this is good practice for me, but I want to make sure that your work will truely not affect production use of this tracker.</p> 
