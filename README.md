@@ -51,4 +51,4 @@ Code documentation is available [here](https://josephanimate2021.github.io/twwr-
 
 * Wooferzfg - For mataining the current tracker that is used for The Wind Waker randomizer runs. Source code is [here](https://github.com/wooferzfg/tww-rando-tracker/).
 * BigDunka - For making the current tracker most of us use for our Wind Waker Randomizer runs. If it wern't for this person, then this tracker wouldn't exist today.
-* mpql - Credited because I was inspired by this person's attempt of creating an [AP Version of The Wind Waker Randomizer Tracker](https://github.com/mpql/AP_tww-rando-tracker) which does not actually include fully working AP Functionality. The commits and code should prove otherwise.
+* mpql - Credited because this project was inspired by this person's attempt of creating an [AP Version of The Wind Waker Randomizer Tracker](https://github.com/mpql/AP_tww-rando-tracker) which does not actually include fully working AP Functionality. The commits and code should prove otherwise.
