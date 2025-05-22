@@ -97,18 +97,16 @@ class Tracker extends React.PureComponent {
               isDungeon: stageInfo.isBoss === true || stageInfo.isMiniboss === true,
             });
             if (
-              (
-                (stageInfo.isBoss && settings.randomize_boss_entrances)
-                /*|| (stageInfo.isCave && settings.randomize_secret_cave_entrances)
-                To be honest, I have no idea on how I will tell AP how the user entered some
-                caves/fairy fountains without previous stage info. 
-                Am I going to have to assume that the user entered a cave/fairy fountain
-                via an outside vanilla location? I'm just leaving these
-                here in case anyone has an idea on how this problem can be solved.
-                || (stageInfo.isFairyFountain && settings.randomize_fairy_fountain_entrances)
-                || (stageInfo.isInnerCave && settings.randomize_secret_cave_inner_entrances)*/
-                || (stageInfo.isMiniboss && settings.randomize_miniboss_entrances)
-              )
+              (stageInfo.isBoss && settings.randomize_boss_entrances)
+              /*
+              To be honest, I have no idea on how I will tell AP the caves/fairy fountains a user entered without previous stage info. 
+              Am I going to have to assume that the user entered a cave/fairy fountain via an outside vanilla location? 
+              I am just going to leave these values that give out a true or false statement here in case anyone has an idea on how this problem can be solved.
+              || (stageInfo.isCave && settings.randomize_secret_cave_entrances)
+              || (stageInfo.isFairyFountain && settings.randomize_fairy_fountain_entrances)
+              || (stageInfo.isInnerCave && settings.randomize_secret_cave_inner_entrances)
+              */
+              || (stageInfo.isMiniboss && settings.randomize_miniboss_entrances)
             ) this.updateExitForEntrance(this.APEntrance.entranceName, stageInfo.exitName);
           }
         } else if (this.state.trackerState) {
