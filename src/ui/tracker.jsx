@@ -92,10 +92,6 @@ class Tracker extends React.PureComponent {
               isDungeon: locationName === stageInfo.internalName,
             });
           } else {
-            this.updateOpenedLocation({
-              locationName: stageInfo.entranceZoneName,
-              isDungeon: stageInfo.isBoss === true || stageInfo.isMiniboss === true,
-            });
             if (
               (
                 (stageInfo.isBoss && settings.randomize_boss_entrances)
@@ -110,6 +106,10 @@ class Tracker extends React.PureComponent {
                 || (stageInfo.isMiniboss && settings.randomize_miniboss_entrances)
               ) && this.APEntrance
             ) this.updateExitForEntrance(this.APEntrance.entranceName, stageInfo.exitName);
+            this.updateOpenedLocation({
+              locationName: stageInfo.entranceZoneName,
+              isDungeon: stageInfo.isBoss === true || stageInfo.isMiniboss === true,
+            });
           }
         } else if (this.state.trackerState) {
           const generalLocations = Object.keys(this.state.trackerState.locationsChecked);
