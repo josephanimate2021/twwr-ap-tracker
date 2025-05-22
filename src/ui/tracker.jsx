@@ -79,7 +79,7 @@ class Tracker extends React.PureComponent {
             }
             this.updateOpenedLocation({
               locationName,
-              isDungeon: locationName == stageInfo.internalName,
+              isDungeon: locationName === stageInfo.internalName,
             });
           } else this.updateOpenedLocation({
             locationName: stageInfo.entranceZoneName,
