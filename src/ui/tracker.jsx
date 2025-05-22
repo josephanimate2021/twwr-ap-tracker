@@ -79,10 +79,6 @@ class Tracker extends React.PureComponent {
                 break;
               }
             }
-            this.updateOpenedLocation({
-              locationName,
-              isDungeon: locationName === stageInfo.internalName,
-            });
             if (settings.randomize_dungeon_entrances) {
               if (stageName.endsWith("Entrance")) {
                 this.APEntrance = stageInfo;
@@ -91,6 +87,10 @@ class Tracker extends React.PureComponent {
                 this.APEntrance = stageInfo;
               }
             }
+            this.updateOpenedLocation({
+              locationName,
+              isDungeon: locationName === stageInfo.internalName,
+            });
           } else {
             this.updateOpenedLocation({
               locationName: stageInfo.entranceZoneName,
