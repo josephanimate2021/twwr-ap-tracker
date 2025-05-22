@@ -93,6 +93,13 @@ class Tracker extends React.PureComponent {
               locationName: stageInfo.entranceZoneName,
               isDungeon: stageInfo.isBoss === true || stageInfo.isMiniboss === true,
             });
+            if (
+              (stageInfo.isBoss && settings.randomize_boss_entrances)
+              || (stageInfo.isCave && settings.randomize_secret_cave_entrances)
+              || (stageInfo.isFairyFountain && settings.randomize_fairy_fountain_entrances)
+              || (stageInfo.isInnerCave && settings.randomize_secret_cave_inner_entrances)
+              || (stageInfo.isMiniboss && settings.randomize_miniboss_entrances)
+            ) this.incrementItem(stageInfo.entryName, true)
           }
         } else if (this.state.trackerState) {
           const generalLocations = Object.keys(this.state.trackerState.locationsChecked);
