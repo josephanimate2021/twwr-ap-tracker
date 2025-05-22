@@ -41,8 +41,7 @@ Yes, there are alternatives to this tracker that you can use. I completely under
 * <strong>PopTracker Pack</strong> (Recommended Alternative) - If you have [PopTracker](https://github.com/black-sliver/PopTracker), then you may install this [Wind Waker Archipelago Randomizer PopTracker Pack](https://github.com/Mysteryem/ww-poptracker/archive/refs/tags/v1.1.0.zip) by downloading the zip file, extracting it after download, and then zip the contents of the v1.1.0 folder inside the extracted zip file into the packs folder of the downloaded PopTracker application. It's source code is located [here](https://github.com/Mysteryem/ww-poptracker)
 
 ## I am playing The Wind Waker Archipelago Randomizer with Shuffled Entrances turned on. Is there a way for AP to tell the tracker what entrance I went through?
-Currently, That isn't a thing at the moment, In the tracker's current state, AP will not be able to tell the tracker what entrance/exit the user went through without user input. 
-This means that you will have to check off entracnes/exits yourself if you were playing WWR with Shuffled Entrances turned on.
+Tracking Entrances with AP is currently in beta right now. In the tracker's current state, exits are not currently functioning with AP right now.
 
 ## Documentation
 
@@ -52,4 +51,4 @@ Code documentation is available [here](https://josephanimate2021.github.io/twwr-
 
 * Wooferzfg - For mataining the current tracker that is used for The Wind Waker randomizer runs. Source code is [here](https://github.com/wooferzfg/tww-rando-tracker/).
 * BigDunka - For making the current tracker most of us use for our Wind Waker Randomizer runs. If it wern't for this person, then this tracker wouldn't exist today.
-* mpql - Credited because I was inspired by this person's attempt of creating an [AP Version of The Wind Waker Randomizer Tracker](https://github.com/mpql/AP_tww-rando-tracker) which does not actually include fully working AP Functionality. The commits and code should prove otherwise.
+* mpql - Credited because this project was inspired by this person's attempt of creating an [AP Version of The Wind Waker Randomizer Tracker](https://github.com/mpql/AP_tww-rando-tracker) which does not actually include fully working AP Functionality. The commits and code should prove otherwise.
