@@ -64,7 +64,20 @@ class Tracker extends React.PureComponent {
         const stageName = stageNames[d.data.tww_stage_name];
         const { options: settings } = Settings.readAll();
         const allEntrances = [...dungeonEntrances, ...islandEntrances];
-        const stageInfo = allEntrances.find((i) => stageName.includes(i.internalName) || stageName.includes(i.entranceZoneName));
+        const stageInfo = allEntrances.find((i) => {
+          const defaultValue = stageName.includes(i.internalName) || stageName.includes(i.entranceZoneName);
+          if (
+            (
+              settings.randomize_boss_entrances && stageName.endsWith(" Boss Room")
+            )
+          ) return defaultValue && i.internalName.endsWith("Boss Arena")
+          if (
+            (
+              settings.randomize_miniboss_entrances && stageName.endsWith(" Miniboss Room")
+            )
+          ) return defaultValue && i.internalName.endsWith("Miniboss Arena")
+          return defaultValue;
+        });
         if (this.state.openedLocation) this.clearOpenedMenus();
         if (stageInfo) {
           if (stageInfo.isDungeon) {
@@ -80,10 +93,12 @@ class Tracker extends React.PureComponent {
               }
             }
             if (settings.randomize_dungeon_entrances) {
-              if (stageName.endsWith("Entrance")) {
-                this.APEntrance = stageInfo;
-              } else if (this.APEntrance && !this.state.trackerState.entrances[this.APEntrance.entranceName]) {
-                this.updateExitForEntrance(this.APEntrance.entranceName, stageInfo.exitName);
+              if (stageName.endsWith("Entrance")) this.APEntrance = stageInfo;
+              else if (
+                this.APEntrance 
+                && !this.state.trackerState.entrances[this.APEntrance.internalName]
+              ) {
+                this.updateExitForEntrance(this.APEntrance.internalName, stageInfo.exitName);
                 this.APEntrance = stageInfo;
               }
             }
@@ -92,20 +107,17 @@ class Tracker extends React.PureComponent {
               isDungeon: locationName === stageInfo.internalName,
             });
           } else {
-            if (
-              (
-                (stageInfo.isBoss && settings.randomize_boss_entrances)
-                /*
-                To be honest, I have no idea on how I will tell AP the caves/fairy fountains a user entered without previous stage info. 
-                Am I going to have to assume that the user entered a cave/fairy fountain via an outside vanilla location? 
-                I am just going to leave these values that give out a true or false statement here in case anyone has an idea on how this problem can be solved.
-                || (stageInfo.isCave && settings.randomize_secret_cave_entrances)
-                || (stageInfo.isFairyFountain && settings.randomize_fairy_fountain_entrances)
-                || (stageInfo.isInnerCave && settings.randomize_secret_cave_inner_entrances)
-                */
-                || (stageInfo.isMiniboss && settings.randomize_miniboss_entrances)
-              ) && this.APEntrance && !this.state.trackerState.entrances[this.APEntrance.entranceName]
-            ) this.updateExitForEntrance(this.APEntrance.entranceName, stageInfo.exitName);
+            if (this.APEntrance) {
+              const info = allEntrances.find((i) => {
+                if (
+                  settings.randomize_boss_entrances && stageInfo.isBoss
+                ) return i.entranceMacroName === `Boss Entrance in ${this.APEntrance.internalName}`
+                if (
+                  settings.randomize_miniboss_entrances && stageInfo.isMiniboss
+                ) return i.entranceMacroName === `Miniboss Entrance in ${this.APEntrance.internalName}`
+              })
+              if (info) this.updateExitForEntrance(info.internalName, stageInfo.exitName);
+            }
             this.updateOpenedLocation({
               locationName: stageInfo.entranceZoneName,
               isDungeon: stageInfo.isBoss === true || stageInfo.isMiniboss === true,
@@ -120,6 +132,7 @@ class Tracker extends React.PureComponent {
             if (detailedLocationName) this.showGeneralLocation(j, true)
           });
         }
+        if (this.APEntrance && !stageInfo) delete this.APEntrance;
       }
     });
     this.clearAllLocations = this.clearAllLocations.bind(this);
