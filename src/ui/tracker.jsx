@@ -98,7 +98,7 @@ class Tracker extends React.PureComponent {
                 this.APEntrance 
                 && !this.state.trackerState.entrances[this.APEntrance.internalName]
               ) {
-                this.updateExitForEntrance(this.APEntrance.internalName, stageInfo.exitName);
+                this.updateExitForEntrance(this.APEntrance.internalName, stageInfo.internalName);
                 this.APEntrance = stageInfo;
               }
             }
@@ -116,7 +116,7 @@ class Tracker extends React.PureComponent {
                   settings.randomize_miniboss_entrances && stageInfo.isMiniboss
                 ) return i.entranceMacroName === `Miniboss Entrance in ${this.APEntrance.internalName}`
               })
-              if (info) this.updateExitForEntrance(info.internalName, stageInfo.exitName);
+              if (info) this.updateExitForEntrance(info.internalName, stageInfo.internalName);
             }
             this.updateOpenedLocation({
               locationName: stageInfo.entranceZoneName,
