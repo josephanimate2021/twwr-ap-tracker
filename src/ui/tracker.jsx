@@ -82,7 +82,7 @@ class Tracker extends React.PureComponent {
             if (settings.randomize_dungeon_entrances) {
               if (stageName.endsWith("Entrance")) {
                 this.APEntrance = stageInfo;
-              } else if (this.APEntrance) {
+              } else if (this.APEntrance && !this.state.trackerState.entrances[this.APEntrance.entranceName]) {
                 this.updateExitForEntrance(this.APEntrance.entranceName, stageInfo.exitName);
                 this.APEntrance = stageInfo;
               }
@@ -104,7 +104,7 @@ class Tracker extends React.PureComponent {
                 || (stageInfo.isInnerCave && settings.randomize_secret_cave_inner_entrances)
                 */
                 || (stageInfo.isMiniboss && settings.randomize_miniboss_entrances)
-              ) && this.APEntrance
+              ) && this.APEntrance && !this.state.trackerState.entrances[this.APEntrance.entranceName]
             ) this.updateExitForEntrance(this.APEntrance.entranceName, stageInfo.exitName);
             this.updateOpenedLocation({
               locationName: stageInfo.entranceZoneName,
