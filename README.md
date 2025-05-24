@@ -42,7 +42,7 @@ Yes, there are alternatives to this tracker that you can use. I completely under
 
 ## I am playing The Wind Waker Archipelago Randomizer with Shuffled Entrances turned on. Is there a way for AP to tell the tracker what entrance I went through?
 I was able to get that working with only dungeon, miniboss, and boss entrances (mainly because they're given info from a dungeon entrance or dungeon that the user is in (The only method of knowing as of right now)).
-There are instances where AP will not check these dungeons despite you being near their entrances (don't worry, this will be getting fixed)
+There are instances where AP will not check these dungeon entrances despite you being near them (don't worry, this will be getting fixed)
 * Forbidden Woods
 * Tower Of The Gods
 <p>Everything else should check out fine though. Please be aware that with this bug happening, Whenever you have miniboss and boss entrances randomized, some of their entrances may not get checked by AP, meaning that you may still have to check off some boss and miniboss entrances manually (I am quite shcoked to tell you that this is less entrances you would have to manually check off than every entrance a user would have to manually check off before). Please report an issue in the Issues Panel of this GitHub repository if you happen to encounter one or submit a pull request in the Pull Requests panel of this GitHub Repository if you have any code changes that you think should fix any problems you or a user is experiencing.
