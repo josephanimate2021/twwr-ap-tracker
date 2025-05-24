@@ -92,15 +92,10 @@ class Tracker extends React.PureComponent {
                 break;
               }
             }
-            if (settings.randomize_dungeon_entrances) {
-              if (stageName.endsWith("Entrance")) this.APEntrance = stageInfo;
-              else if (
-                this.APEntrance 
-                && !this.state.trackerState.entrances[this.APEntrance.internalName]
-              ) {
-                this.updateExitForEntrance(this.APEntrance.internalName, stageInfo.internalName);
-                this.APEntrance = stageInfo;
-              }
+            if (stageName.endsWith("Entrance")) this.APEntrance = stageInfo;
+            else if (this.APEntrance && !this.state.trackerState.entrances[this.APEntrance.internalName] && settings.randomize_dungeon_entrances) {
+              this.updateExitForEntrance(this.APEntrance.internalName, stageInfo.internalName);
+              this.APEntrance = stageInfo;
             }
             this.updateOpenedLocation({
               locationName,
@@ -116,7 +111,7 @@ class Tracker extends React.PureComponent {
                   settings.randomize_miniboss_entrances && stageInfo.isMiniboss
                 ) return i.entranceMacroName === `Miniboss Entrance in ${this.APEntrance.internalName}`
               })
-              if (info) this.updateExitForEntrance(info.internalName, stageInfo.internalName);
+              if (info && !this.state.trackerState.entrances[info.internalName]) this.updateExitForEntrance(info.internalName, stageInfo.internalName);
             }
             this.updateOpenedLocation({
               locationName: stageInfo.entranceZoneName,
