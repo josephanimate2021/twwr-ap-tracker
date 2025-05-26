@@ -80,6 +80,7 @@ class Tracker extends React.PureComponent {
         });
         if (this.state.openedLocation) this.clearOpenedMenus();
         if (stageInfo) {
+          this.APEntrance ||= {};
           if (stageInfo.isDungeon) {
             let locationName;
             switch (stageName) {
@@ -92,24 +93,30 @@ class Tracker extends React.PureComponent {
                 break;
               }
             }
-            if (stageName.endsWith("Entrance")) this.APEntrance = stageInfo;
-            else if (this.APEntrance && !this.state.trackerState.entrances[this.APEntrance.internalName] && settings.randomize_dungeon_entrances) {
-              this.updateExitForEntrance(this.APEntrance.internalName, stageInfo.internalName);
-              this.APEntrance = stageInfo;
+            if (
+              stageName.endsWith("Entrance") 
+              && settings.randomize_dungeon_entrances
+            ) this.APEntrance.outsideDungeon = stageInfo
+            else if (
+              this.APEntrance.outsideDungeon 
+              && !this.state.trackerState.entrances[this.APEntrance.outsideDungeon.internalName] 
+            ) {
+              this.updateExitForEntrance(this.APEntrance.outsideDungeon.internalName, stageInfo.internalName);
+              this.APEntrance.insideDungeon = stageInfo;
             }
             this.updateOpenedLocation({
               locationName,
               isDungeon: locationName === stageInfo.internalName,
             });
           } else {
-            if (this.APEntrance) {
+            if (this.APEntrance.insideDungeon) {
               const info = allEntrances.find((i) => {
                 if (
                   settings.randomize_boss_entrances && stageInfo.isBoss
-                ) return i.entranceMacroName === `Boss Entrance in ${this.APEntrance.internalName}`
+                ) return i.entranceMacroName === `Boss Entrance in ${this.APEntrance.insideDungeon.internalName}`
                 if (
                   settings.randomize_miniboss_entrances && stageInfo.isMiniboss
-                ) return i.entranceMacroName === `Miniboss Entrance in ${this.APEntrance.internalName}`
+                ) return i.entranceMacroName === `Miniboss Entrance in ${this.APEntrance.insideDungeon.internalName}`
               })
               if (info && !this.state.trackerState.entrances[info.internalName]) this.updateExitForEntrance(info.internalName, stageInfo.internalName);
             }
