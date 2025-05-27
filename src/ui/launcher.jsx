@@ -3,6 +3,7 @@ import jQuery from 'jquery';
 import _ from 'lodash';
 import React from 'react';
 import { ToastContainer, toast } from 'react-toastify';
+import { dump } from 'js-yaml';
 
 import HEADER_IMAGE from '../images/header.png';
 import Permalink from '../services/permalink';
@@ -11,6 +12,7 @@ import DropdownOptionInput from './dropdown-option-input';
 import OptionsTable from './options-table';
 import Storage from './storage';
 import ToggleOptionInput from './toggle-option-input';
+import APSettings from '../data/settings_ap.yaml';
 
 import 'react-toastify/dist/ReactToastify.css';
 import 'react-toggle/style.css';
@@ -273,6 +275,54 @@ export default class Launcher extends React.PureComponent {
     );
   }
 
+  APSettings2blob() {
+    if (this.state.options) return new Blob([dump(this.permalinkSettings2APSettings())]);
+  }
+
+  permalinkSettings2APSettings() {
+    if (this.state.options) {
+      const settings = APSettings['The Wind Waker'];
+      settings.start_inventory_from_pool = {};
+      Object.keys(settings).forEach((j) => {
+        if (this.state.options[j] != undefined) {
+          switch (j) {
+            case "sword_mode": 
+            case "mix_entrances": {
+              const options = {
+                "Separate Dungeons From Caves and Fountains": "separate_pools",
+                "Mix Dungeons and Caves and Fountains": "mix_pools",
+                "Start with Hero's Sword": "start_with_sword",
+                "No Starting Sword": "no_starting_sword"
+              }
+              settings[j] = options[
+                this.state.options[j]
+              ] || this.state.options[j].split(" ").map((j) => j.toLowerCase()).join("_");
+              break;
+            } default: settings[j] = this.state.options[j];
+          }
+        }
+      })
+      Object.keys(this.state.options).forEach((j) => {
+        switch (j) {
+          case "num_starting_triforce_shards": {
+            for (let i = 0; i < this.state.options.num_starting_triforce_shards; i++) {
+              settings.start_inventory_from_pool[`Triforce Shard ${i + 1}`] = 1;
+            }
+            break;
+          } case "starting_gear": {
+            Object.keys(this.state.options.starting_gear).forEach((k) => {
+              if (
+                this.state.options.starting_gear[k] > 0
+              ) settings.start_inventory_from_pool[k] = this.state.options.starting_gear[k]
+            })
+            break;
+          }
+        }
+      })
+      return APSettings;
+    }
+  }
+
   progressItemLocationsTable() {
     return (
       <OptionsTable
@@ -502,6 +552,13 @@ export default class Launcher extends React.PureComponent {
     this.openTracker('load', query);
   }
 
+  getSettingsInAP() {
+    const btn = document.createElement('a');
+    btn.href = URL.createObjectURL(this.APSettings2blob());
+    btn.download = 'settings_ap.yaml';
+    btn.click();
+  }
+
   launchButtonContainer(ap = true) {
     return (
       <div className="launcher-button-container" style={ap ? { display: 'none' } : {}} data-ap={ap}>
@@ -522,6 +579,13 @@ export default class Launcher extends React.PureComponent {
           onClick={() => this.openTracker('load', ap ? ({ archipelago: true, ...Object.fromEntries(new URLSearchParams(jQuery('#apConfig').serialize())) }) : {})}
         >
           Load From Autosave
+        </button>
+        <button
+          className="launcher-button" 
+          type="button" 
+          onClick={() => this.getSettingsInAP()}
+        >
+          Download Settings for AP
         </button>
         <button
           className="launcher-button"

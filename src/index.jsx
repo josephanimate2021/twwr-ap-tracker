@@ -12,5 +12,5 @@ if (process.env.NODE_ENV === 'production') {
 }
 
 createRoot(
-  document.getElementById('base'),
+  document.getElementById('app'),
 ).render(<App />);
