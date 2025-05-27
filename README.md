@@ -40,6 +40,15 @@ Yes, there are alternatives to this tracker that you can use. I completely under
 
 * <strong>PopTracker Pack</strong> (Recommended Alternative) - If you have [PopTracker](https://github.com/black-sliver/PopTracker), then you may install this [Wind Waker Archipelago Randomizer PopTracker Pack](https://github.com/Mysteryem/ww-poptracker/archive/refs/tags/v1.1.0.zip) by downloading the zip file, extracting it after download, and then zip the contents of the v1.1.0 folder inside the extracted zip file into the packs folder of the downloaded PopTracker application. It's source code is located [here](https://github.com/Mysteryem/ww-poptracker)
 
+## I am playing The Wind Waker Archipelago Randomizer with Shuffled Entrances turned on. Is there a way for AP to tell the tracker what entrance I went through?
+I was able to get that working with only dungeon, miniboss, and boss entrances (mainly because they're given info from a dungeon entrance or dungeon that the user is in (The only method of knowing as of right now)).
+There are instances where AP will not check these dungeon entrances despite you being near them (don't worry, this will be getting fixed)
+* Forbidden Woods
+* Tower Of The Gods
+<p>Everything else should check out fine though. Please be aware that with this bug happening, Whenever you have miniboss and boss entrances randomized, some of their entrances may not get checked by AP, meaning that you may still have to check off some boss and miniboss entrances manually (I am quite shcoked to tell you that this is less entrances you would have to manually check off than every entrance a user would have to manually check off before). Please report an issue in the Issues Panel of this GitHub repository if you happen to encounter one or submit a pull request in the Pull Requests panel of this GitHub Repository if you have any code changes that you think should fix any problems you or a user is experiencing.
+I encourage you to test your work first before submitting a pull request. To prove that you did test your work, please send in video evidence pointing to this tracker and how your work is supposed
+to change some tracker functionality. I will still review code and test things out myself as this is good practice for me, but I want to make sure that your work will truely not affect production use of this tracker.</p> 
+
 ## Documentation
 
 Code documentation is available [here](https://josephanimate2021.github.io/twwr-ap-tracker/docs).
@@ -48,4 +57,4 @@ Code documentation is available [here](https://josephanimate2021.github.io/twwr-
 
 * Wooferzfg - For mataining the current tracker that is used for The Wind Waker randomizer runs. Source code is [here](https://github.com/wooferzfg/tww-rando-tracker/).
 * BigDunka - For making the current tracker most of us use for our Wind Waker Randomizer runs. If it wern't for this person, then this tracker wouldn't exist today.
-* mpql - Credited because I was inspired by this person's attempt of creating an [AP Version of The Wind Waker Randomizer Tracker](https://github.com/mpql/AP_tww-rando-tracker) which does not actually include fully working AP Functionality. The commits and code should prove otherwise.
+* mpql - Credited because this project was inspired by this person's attempt of creating an [AP Version of The Wind Waker Randomizer Tracker](https://github.com/mpql/AP_tww-rando-tracker) which does not actually include fully working AP Functionality. The commits and code should prove otherwise.

@@ -18,6 +18,7 @@ import Images from './images';
 import ItemsTable from './items-table';
 import LocationsTable from './locations-table';
 import SettingsWindow from './settings-window';
+import Settings from '../services/settings';
 import SphereTracking from './sphere-tracking';
 import Statistics from './statistics';
 import Storage from './storage';
@@ -61,10 +62,25 @@ class Tracker extends React.PureComponent {
     this.apClient.socket.on('bounced', (d) => {
       if (d.data?.tww_stage_name) {
         const stageName = stageNames[d.data.tww_stage_name];
+        const { options: settings } = Settings.readAll();
         const allEntrances = [...dungeonEntrances, ...islandEntrances];
-        const stageInfo = allEntrances.find((i) => stageName.includes(i.internalName) || stageName.includes(i.entranceZoneName));
+        const stageInfo = allEntrances.find((i) => {
+          const defaultValue = stageName.includes(i.internalName) || stageName.includes(i.entranceZoneName);
+          if (
+            (
+              settings.randomize_boss_entrances && stageName.endsWith(" Boss Room")
+            )
+          ) return defaultValue && i.internalName.endsWith("Boss Arena")
+          if (
+            (
+              settings.randomize_miniboss_entrances && stageName.endsWith(" Miniboss Room")
+            )
+          ) return defaultValue && i.internalName.endsWith("Miniboss Arena")
+          return defaultValue;
+        });
         if (this.state.openedLocation) this.clearOpenedMenus();
         if (stageInfo) {
+          this.APEntrance ||= {};
           if (stageInfo.isDungeon) {
             let locationName;
             switch (stageName) {
@@ -77,23 +93,48 @@ class Tracker extends React.PureComponent {
                 break;
               }
             }
+            if (
+              stageName.endsWith("Entrance") 
+              && settings.randomize_dungeon_entrances
+            ) this.APEntrance.outsideDungeon = stageInfo
+            else if (
+              this.APEntrance.outsideDungeon 
+              && !this.state.trackerState.entrances[this.APEntrance.outsideDungeon.internalName] 
+            ) {
+              this.updateExitForEntrance(this.APEntrance.outsideDungeon.internalName, stageInfo.internalName);
+              this.APEntrance.insideDungeon = stageInfo;
+            }
             this.updateOpenedLocation({
               locationName,
               isDungeon: locationName === stageInfo.internalName,
             });
-          } else this.updateOpenedLocation({
-            locationName: stageInfo.entranceZoneName,
-            isDungeon: stageInfo.isBoss === true || stageInfo.isMiniboss === true,
-          });
+          } else {
+            if (this.APEntrance.insideDungeon) {
+              const info = allEntrances.find((i) => {
+                if (
+                  settings.randomize_boss_entrances && stageInfo.isBoss
+                ) return i.entranceMacroName === `Boss Entrance in ${this.APEntrance.insideDungeon.internalName}`
+                if (
+                  settings.randomize_miniboss_entrances && stageInfo.isMiniboss
+                ) return i.entranceMacroName === `Miniboss Entrance in ${this.APEntrance.insideDungeon.internalName}`
+              })
+              if (info && !this.state.trackerState.entrances[info.internalName]) this.updateExitForEntrance(info.internalName, stageInfo.internalName);
+            }
+            this.updateOpenedLocation({
+              locationName: stageInfo.entranceZoneName,
+              isDungeon: stageInfo.isBoss === true || stageInfo.isMiniboss === true,
+            });
+          }
         } else if (this.state.trackerState) {
           const generalLocations = Object.keys(this.state.trackerState.locationsChecked);
-          const generalLocationName = Object.keys(this.state.trackerState.locationsChecked).find((i) => stageName.includes(i));
+          const generalLocationName = generalLocations.find((i) => stageName.includes(i) || i.includes(stageName));
           if (generalLocationName) this.showGeneralLocation(generalLocationName, false)
           else generalLocations.forEach((j) => {
             const detailedLocationName = Object.keys(this.state.trackerState.locationsChecked[j]).find((i) => stageName.includes(i) || i.includes(stageName));
             if (detailedLocationName) this.showGeneralLocation(j, true)
           });
         }
+        if (this.APEntrance && !stageInfo) delete this.APEntrance;
       }
     });
     this.clearAllLocations = this.clearAllLocations.bind(this);
