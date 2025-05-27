@@ -1,0 +1,114 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <title>JSDoc: Home</title>
+
+    <script src="scripts/prettify/prettify.js"> </script>
+    <script src="scripts/prettify/lang-css.js"> </script>
+    <!--[if lt IE 9]>
+      <script src="//html5shiv.googlecode.com/svn/trunk/html5.js"></script>
+    <![endif]-->
+    <link type="text/css" rel="stylesheet" href="styles/prettify-tomorrow.css">
+    <link type="text/css" rel="stylesheet" href="styles/jsdoc-default.css">
+</head>
+
+<body>
+
+<div id="main">
+
+    <h1 class="page-title">Home</h1>
+
+    
+
+
+
+    
+
+
+    <h3> </h3>
+
+
+
+
+
+
+
+
+
+
+    
+
+
+
+
+    <section>
+        <article><h1>TWW AP Randomizer Tracker</h1>
+<p>This is a tracker for <a href="https://archipelago.gg/games/The%20Wind%20Waker/info/en">The Wind Waker Archipelago Randomizer</a>. If you want to run the tracker locally,
+please follow the steps in the <strong>Build Instructions</strong> section in order to get started.
+otherwise, you may use the tracker by refering <a href="https://josephanimate2021.github.io/twwr-ap-tracker">here</a>.</p>
+<h2>Build Instructions</h2>
+<p>Building and running the tracker locally requires you to install <a href="https://nodejs.org/en/download/">Node.JS Version 20 or newer</a> and <a href="https://git-scm.com/downloads">Git</a>.</p>
+<p>Clone the repository by running the following in a command prompt:</p>
+<pre class="prettyprint source lang-bash"><code>git clone https://github.com/josephanimate2021/twwr-ap-tracker.git
+</code></pre>
+<p>Navigate to the <code>twwr-ap-tracker</code> folder and install dependencies:</p>
+<pre class="prettyprint source lang-bash"><code>cd twwr-ap-tracker && npm install
+</code></pre>
+<p>You can then build and serve the tracker application:</p>
+<pre class="prettyprint source lang-bash"><code>npm start
+</code></pre>
+<p>After the server starts, you can go to <a href="http://localhost:8080/">localhost:8080</a> to open the tracker.</p>
+<h2>I heard that this source code contains the old branch which has working AP Support and the older styled tracker. is that true?</h2>
+<p>Yes, there is an older style tracker that you may use if you wish. Both trackers work in a simmilar structure, but with different code.
+If you prefer to use the older style tracker than the newest style one, you may click <a href="https://josephanimate2021.github.io/twwr-ap-tracker/old">here</a> to get started.
+Please keep in mind that the older style tracker supports up to version 1.9.0 of The Wind Waker Randomizer, meaning that the older style tracker may not understand how the WWR logic works in AP.
+but it's support still works nonetheless. (Only downside is that you won't be able to copy permalinks from the applied AP Settings as the code for the older tracker has no idea how to create new permalinks.)</p>
+<h2>Do you have a way to prove that this tracker actually works?</h2>
+<p>I have a run posted on my <a href="https://youtu.be/WJswDZkelgs">YouTube channel</a> which demostrates this tracker in action. Despite 3 locations not getting checked on their own, It still shows that this tracker at the very least works. I have since then fixed this bug and you don't have to worry about any locations not getting checked. I have not tested all locations yet as I haven't set the settings to max settings and as YouTube uploads are limited to 12 hours long (even with your account verified), I will not make any videos of me doing long runs like that. I may only do the long runs as a way of testing this tracker to it's maximum to see how much it can handle AP.</p>
+<h2>If this tracker does not suit my needs, are there any alternatives?</h2>
+<p>Yes, there are alternatives to this tracker that you can use. I completely understand if this tracker does not fit your needs. Below is a bulletpoint list which has all of The Wind Waker Archipelago Randomizer trackers that you can use.</p>
+<ul>
+<li><strong>PopTracker Pack</strong> (Recommended Alternative) - If you have <a href="https://github.com/black-sliver/PopTracker">PopTracker</a>, then you may install this <a href="https://github.com/Mysteryem/ww-poptracker/archive/refs/tags/v1.1.0.zip">Wind Waker Archipelago Randomizer PopTracker Pack</a> by downloading the zip file, extracting it after download, and then zip the contents of the v1.1.0 folder inside the extracted zip file into the packs folder of the downloaded PopTracker application. It's source code is located <a href="https://github.com/Mysteryem/ww-poptracker">here</a></li>
+</ul>
+<h2>I am playing The Wind Waker Archipelago Randomizer with Shuffled Entrances turned on. Is there a way for AP to tell the tracker what entrance I went through?</h2>
+<p>I was able to get that working with only dungeon, miniboss, and boss entrances (mainly because they're given info from a dungeon entrance or dungeon that the user is in (The only method of knowing as of right now)).
+There are instances where AP will not check these dungeon entrances despite you being near them (don't worry, this will be getting fixed)</p>
+<ul>
+<li>Forbidden Woods</li>
+<li>Tower Of The Gods</li>
+</ul>
+<p>Everything else should check out fine though. Please be aware that with this bug happening, Whenever you have miniboss and boss entrances randomized, some of their entrances may not get checked by AP, meaning that you may still have to check off some boss and miniboss entrances manually (I am quite shcoked to tell you that this is less entrances you would have to manually check off than every entrance a user would have to manually check off before). Please report an issue in the Issues Panel of this GitHub repository if you happen to encounter one or submit a pull request in the Pull Requests panel of this GitHub Repository if you have any code changes that you think should fix any problems you or a user is experiencing.
+I encourage you to test your work first before submitting a pull request. To prove that you did test your work, please send in video evidence pointing to this tracker and how your work is supposed
+to change some tracker functionality. I will still review code and test things out myself as this is good practice for me, but I want to make sure that your work will truely not affect production use of this tracker.</p> 
+<h2>Documentation</h2>
+<p>Code documentation is available <a href="https://josephanimate2021.github.io/twwr-ap-tracker/docs">here</a>.</p>
+<h2>Credits</h2>
+<ul>
+<li>Wooferzfg - For mataining the current tracker that is used for The Wind Waker randomizer runs. Source code is <a href="https://github.com/wooferzfg/tww-rando-tracker/">here</a>.</li>
+<li>BigDunka - For making the current tracker most of us use for our Wind Waker Randomizer runs. If it wern't for this person, then this tracker wouldn't exist today.</li>
+<li>mpql - Credited because this project was inspired by this person's attempt of creating an <a href="https://github.com/mpql/AP_tww-rando-tracker">AP Version of The Wind Waker Randomizer Tracker</a> which does not actually include fully working AP Functionality. The commits and code should prove otherwise.</li>
+</ul></article>
+    </section>
+
+
+
+
+
+
+</div>
+
+<nav>
+    <h2><a href="index.html">Home</a></h2><h3>Classes</h3><ul><li><a href="BooleanExpression.html">BooleanExpression</a></li><li><a href="Constants.html">Constants</a></li><li><a href="LogicTweaks.html">LogicTweaks</a></li><li><a href="Memoizer.html">Memoizer</a></li></ul>
+</nav>
+
+<br class="clear">
+
+<footer>
+    Documentation generated by <a href="https://github.com/jsdoc/jsdoc">JSDoc 4.0.2</a> on Tue May 27 2025 19:06:54 GMT+0000 (Coordinated Universal Time)
+</footer>
+
+<script> prettyPrint(); </script>
+<script src="scripts/linenumber.js"> </script>
+</body>
+</html>
