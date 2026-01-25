@@ -1,0 +1,357 @@
+var macros; // contents of macros.txt
+var itemLocations; // contents of itemLocationsAP.yaml
+var macrosLoaded = false;
+var itemLocationsLoaded = false;
+var dataHasChanged = false;
+var connectionSuccessful = false;
+var roomInfo, itemRecievedCounts = {};
+
+/**
+ * Finds an HTML element of an item using the provided item id from AP
+ * @param {string} itemId
+ * @returns {HTMLElement}
+ */
+function findAPItemElement(itemId) {
+  function lookInElements(elemArray) {
+    for (let i = 0; i < elemArray.length; i++) {
+      const elem = elemArray[i];
+      if (!elem.getAttribute("data-itemids")) continue;
+      const itemIds = JSON.parse(elem.getAttribute("data-itemids"));
+      if (!itemIds.find(i => i == itemId)) continue;
+      return elem;
+    }
+    return undefined;
+  }
+  let elem = lookInElements([document.getElementById("triforce"),document.getElementById("shield")]);
+  elem ||= lookInElements(document.getElementsByClassName("treasure-chart"));
+  elem ||= lookInElements(document.getElementsByClassName("small-key"));
+  elem ||= lookInElements(document.getElementsByClassName("boss-key"));
+  elem ||= lookInElements($("#tracker").find("img"));
+  return elem;
+}
+
+$(document).ready(function () { // loads the tracker with AP when the page has loaded.
+  if (location.pathname.includes("/ap")) {
+    if (APHost) {
+      const connector = new WebSocket(`${APHost.startsWith("localhost") || APHost.startsWith("127.0.0.1") ? 'ws' : 'wss'}://${APHost}`);
+      connector.addEventListener("error", () => {
+        connectionSuccessful = true;
+        displayMessage('Connection to AP has failed.', '', {
+          className: 'error'
+        })
+      });
+      connector.addEventListener("message", async e => {
+        const array = JSON.parse(e.data);
+        for (const info2 of array) {
+          switch (info2.cmd) {
+            case "RoomInfo": {
+              info2.cmd = "GetDataPackage";
+              roomInfo = info2;
+              break;
+            } case "DataPackage": {
+              const games = info2.data.games;
+
+              /**
+               * generates a v4 UUID for archipelago
+               * @returns {string}
+               */
+              function uuidGenV4() {
+                const G = [];
+                for (let Q = 0; Q < 36; Q++) G.push(Math.floor(Math.random() * 16));
+                return G[14] = 4, G[19] = G[19] &= -5, G[19] = G[19] |= 8, G[8] = G[13] = G[18] = G[23] = "-", G.map((Q) => Q.toString(16)).join("")
+              }
+
+              for (const game in games) {
+                if (game == "Archipelago") continue;
+                Object.assign(info2, {
+                  cmd: "Connect",
+                  password: APPass,
+                  name: APUser,
+                  game,
+                  slot_data: true,
+                  items_handling: 7,
+                  uuid: uuidGenV4(),
+                  tags: ["Tracker"],
+                  version: roomInfo.version,
+                });
+                const itemLocations = await loadItemLocations();
+                for (const location in games[game].location_name_to_id) {
+                  if (itemLocations[location]) itemLocations[location].id = games[game].location_name_to_id[location];
+                }
+                for (const item in games[game].item_name_to_id) {
+                  let itemElem = $("#tracker").find(`img[name="${item}"]`)[0];
+                  if (!itemElem) {
+                    if (item.endsWith("Tingle Statue")) itemElem = $("#tracker").find(`img[name="Tingle Statue"]`)[0];
+                    else if (item.startsWith("Triforce Shard")) itemElem = $("#tracker").find(`img[name="Triforce Shard"]`)[0];
+                    else if (item.endsWith("Capacity Upgrade")) itemElem = $("#tracker").find(`img[name="Progressive ${item.split("Capacity Upgrade")[0].slice(0, -1)}"]`)[0];
+                    else if (item.startsWith("Progressive")) switch (item.substring(12)) {
+                      case "Magic Meter": {
+                        itemElem = $("#tracker").find(`img[name="Magic Meter Upgrade"]`)[0];
+                        break;
+                      } case "Shield": {
+                        itemElem = $("#tracker").find(`img[name="Hero's Shield"]`)[0];
+                        break;
+                      }
+                    } else if (item.endsWith("Small Key") || item.endsWith("Big Key")) {
+                      const allElements = document.getElementsByClassName(item.endsWith('Big Key') ? 'boss-key' : 'small-key');
+                      for (const elem of allElements) {
+                        if (elem.innerText != item) continue;
+                        itemElem = elem;
+                      }
+                    } else if (item.startsWith("Treasure Chart") || item.startsWith("Triforce Chart")) itemElem = document.getElementById(`chart${charts.findIndex(i => i == item)}`)
+                  }
+                  if (!itemElem) continue;
+                  const itemIds = itemElem.getAttribute("data-itemIds") ? JSON.parse(itemElem.getAttribute("data-itemIds")) : [];
+                  itemIds.push(games[game].item_name_to_id[item]);
+                  itemElem.setAttribute("data-itemIds", JSON.stringify(itemIds));
+                }
+              }
+              break;
+            } case "Connected": {
+              displayMessage('Successfuly connected to AP!')
+              connectionSuccessful = true;
+              loadMacros();
+              break;
+            } case "ReceivedItems": {
+              const interval = setInterval(() => {
+                if (macrosLoaded && itemLocationsLoaded) {
+                  clearInterval(interval);
+                  
+                  /**
+                   * Gets the index number of an item using the supplied element id;
+                   * @param {string} elemId
+                   * @returns {number}
+                   */
+                  function getAPItemIndex(elemId) {
+                    let num = '';
+                    for (let i = 0; i < elemId.length; i++) {
+                      const letter = elemId.substring(i, i + 1);
+                      if (isNaN(parseInt(letter))) continue;
+                      num += letter;
+                    }
+                    return parseInt(num);
+                  }
+                  
+                  for (const APItemInfo of info2.items) {
+                    const elem = findAPItemElement(APItemInfo.item);
+                    if (elem) {
+                      const itemIndex = getAPItemIndex(elem.id);
+                      itemRecievedCounts[elem.name] = (itemRecievedCounts[elem.name] || 0) + 1;
+                      if (elem.name == "Magic Meter Upgrade" && itemRecievedCounts[elem.name] != 2) continue;
+                      const todo = JSON.parse(elem.getAttribute("data-whenApItemRecieved"));
+                      if (APFunctions.itemsRecieved[todo.functionCall.name]) {
+                        if (todo.functionCall.addParamInfoFromIndex && todo.functionCall.addHtmlParam) {
+                          if (todo.functionCall.param != undefined) APFunctions.itemsRecieved[todo.functionCall.name](elem, todo.functionCall.param, itemIndex);
+                          else APFunctions.itemsRecieved[todo.functionCall.name](elem, itemIndex);
+                        } else if (todo.functionCall.addHtmlParam) {
+                          if (todo.functionCall.param != undefined) APFunctions.itemsRecieved[todo.functionCall.name](elem, todo.functionCall.param);
+                          else APFunctions.itemsRecieved[todo.functionCall.name](elem);
+                        } else if (todo.functionCall.addParamInfoFromIndex) {
+                          if (todo.functionCall.param != undefined) APFunctions.itemsRecieved[todo.functionCall.name](todo.functionCall.param, itemIndex);
+                          else APFunctions.itemsRecieved[todo.functionCall.name](itemIndex);
+                        } else {
+                          if (todo.functionCall.param != undefined) APFunctions.itemsRecieved[todo.functionCall.name](todo.functionCall.param);
+                          else APFunctions.itemsRecieved[todo.functionCall.name]();
+                        }
+                      }
+                    }
+                    if (APItemInfo.location != -2) toggleLocationAP(APItemInfo.location)
+                    else dataChanged()
+                  }
+                }
+              }, 1);
+              break;
+            }
+          }
+        }
+        if (!connectionSuccessful) connector.send(JSON.stringify(array));
+      })
+      setTimeout(() => {
+        if (!connectionSuccessful) {
+          displayMessage("Connection to AP was timed out.", '', {
+            className: "error"
+          });
+          connector.close();
+        }
+      }, 35042);
+    } else displayMessage('Please provide a host for AP Server Connection.', '', {
+      className: 'error'
+    });
+  } else {
+    loadItemLocations(false);
+    loadMacros();
+  }
+  afterLoad(location.pathname.includes("/ap"))
+});
+
+function loadMacros() {
+  $.ajax(
+    {
+      url: getLogicFilesUrl() + 'macros.txt',
+      success: function (data) {
+        macros = jsyaml.load(data);
+        macrosLoaded = true;
+      },
+      error: function () {
+        showLoadingError();
+      }
+    }
+  )
+}
+
+function loadItemLocations(ap = true) {
+  return new Promise((res, rej) => {
+    $.ajax({
+      url: ap ? `${location.origin + location.pathname.slice(0, -1)}/../itemLocationsAP.yaml` : getLogicFilesUrl() + 'item_locations.txt',
+      success: function (data) {
+        itemLocations = jsyaml.load(data);
+        itemLocationsLoaded = true;
+        res(itemLocations);
+      },
+      error: function () {
+        rej(showLoadingError);
+      }
+    });
+  });
+}
+
+function getLogicFilesUrl() {
+  return 'https://raw.githubusercontent.com/LagoLunatic/wwrando/' + versionParam + '/logic/';
+}
+
+function afterLoad(ap = true) {
+  const interval = setInterval(() => {
+    if (macrosLoaded && itemLocationsLoaded) {
+      clearInterval(interval);
+      updateLocations();
+      initializeLocationsChecked();
+      loadProgress();
+      loadFlags();
+      loadStartingItems(ap);
+      updateMacros();
+      setLocationsAreProgress();
+      dataChanged();
+      $(".loading-spinner").hide();
+      $(".tracker-container").show();
+    }
+  }, 1)
+}
+
+// tracker should call this after changing 'items', 'keys', or 'locationsChecked'
+function dataChanged() {
+  setLocationsAreAvailable();
+  refreshAllImagesAndCounts();
+  refreshLocationColors();
+  refreshEntranceColors();
+  recreateTooltips();
+  updateStatistics();
+  saveProgress();
+}
+
+function loadStartingItems(ap = true) {
+  if (!ap) {
+    startingItems["Hero's Shield"] = 1;
+    startingItems['Wind Waker'] = 1;
+    startingItems["Wind's Requiem"] = 1;
+    startingItems['Ballad of Gales'] = 1;
+    startingItems['Song of Passing'] = 1;
+  }
+  if (options.startWithSwiftSail) startingItems["Boat's Sail"] = 1;
+  if (options.sword_mode == 'Swordless') {
+    impossibleItems.push('Progressive Sword x1');
+    impossibleItems.push('Progressive Sword x2');
+    impossibleItems.push('Progressive Sword x3');
+    impossibleItems.push('Progressive Sword x4');
+    impossibleItems.push('Hurricane Spin');
+  }
+  if (!loadingProgress) {
+    Object.keys(startingItems).forEach(function (item) {
+      items[item] = startingItems[item];
+    });
+  }
+}
+
+function isMainDungeon(dungeonName) {
+  if (dungeonName == 'Forsaken Fortress' || dungeonName == "Ganon's Tower") {
+    return false;
+  }
+  return dungeons.includes(dungeonName);
+}
+
+function getNameForItem(itemName) {
+  if (isProgressiveRequirement(itemName)) {
+    var item = getProgressiveItemName(itemName);
+    var numRequired = getProgressiveNumRequired(itemName);
+    if (item == 'Progressive Sword') {
+      if (numRequired <= 1) {
+        return "Hero's Sword";
+      }
+      if (numRequired == 2) {
+        return 'Master Sword';
+      }
+      if (numRequired == 3) {
+        return 'Master Sword (Half Power)';
+      }
+      if (numRequired == 4) {
+        return 'Master Sword (Full Power)';
+      }
+    } else if (item == 'Progressive Bow') {
+      if (numRequired <= 1) {
+        return "Hero's Bow";
+      }
+      if (numRequired == 2) {
+        return "Hero's Bow (Fire & Ice Arrows)";
+      }
+      if (numRequired == 3) {
+        return "Hero's Bow (All Arrows)";
+      }
+    } else if (item == 'Progressive Picto Box') {
+      if (numRequired <= 1) {
+        return 'Picto Box';
+      }
+      if (numRequired == 2) {
+        return 'Deluxe Picto Box';
+      }
+    } else if (item == 'Progressive Wallet') {
+      if (numRequired <= 1) {
+        return 'Wallet (1000 Rupees)';
+      }
+      if (numRequired == 2) {
+        return 'Wallet (5000 Rupees)';
+      }
+    } else if (item == 'Progressive Quiver') {
+      if (numRequired <= 1) {
+        return 'Quiver (60 Arrows)'
+      }
+      if (numRequired == 2) {
+        return 'Quiver (99 Arrows)';
+      }
+    } else if (item == 'Progressive Bomb Bag') {
+      if (numRequired <= 1) {
+        return 'Bomb Bag (60 Bombs)'
+      }
+      if (numRequired == 2) {
+        return 'Bomb Bag (99 Bombs)';
+      }
+    } else if (item == 'Triforce Shard') {
+      return 'Triforce of Courage';
+    }
+  } else if (itemName == "Boat's Sail") {
+    return 'Swift Sail';
+  } else if (options.randomize_charts && (itemName.startsWith('Triforce Chart') || itemName.startsWith('Treasure Chart'))) {
+    var islandIndex = charts.indexOf(itemName);
+    return 'Chart for ' + islands[islandIndex];
+  }
+  return itemName;
+}
+
+function incrementShield() {
+  if (items["Hero's Shield"] == 0) {
+    items["Hero's Shield"] = 1;
+  } else if (items['Mirror Shield'] == 0) {
+    items['Mirror Shield'] = 1;
+  } else {
+    items["Hero's Shield"] = 0;
+    items['Mirror Shield'] = 0;
+  }
+}

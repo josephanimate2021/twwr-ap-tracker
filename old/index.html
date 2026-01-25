@@ -1,0 +1,88 @@
+<html>
+  <head>
+    <meta http-equiv="cache-control" content="no-cache, must-revalidate, post-check=0, pre-check=0" />
+    <meta http-equiv="cache-control" content="max-age=0" />
+    <meta http-equiv="expires" content="0" />
+    <meta http-equiv="expires" content="Tue, 01 Jan 1980 1:00:00 GMT" />
+    <meta http-equiv="pragma" content="no-cache" />
+    <link rel="icon" href="./images/icon.ico" />
+    <title>TWW AP Randomizer Tracker</title>
+    <link href="https://fonts.googleapis.com/css?family=Fira+Sans" rel="stylesheet">
+    <link rel="stylesheet" href="./styles/styles.css">
+    <script src="https://cdn.jsdelivr.net/es5.shim/4.4.1/es5-shim.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/js-yaml/3.12.0/js-yaml.min.js"></script>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/gh/jpillora/notifyjs/dist/notify.js"></script>
+    <script src="./scripts/launcher.js"></script>
+    <script src="./scripts/variables.js"></script>
+  </head>
+  <body>
+    <div class="full-container">
+      <div class="launcher-container">
+        <div class="header" style="margin-left: -240px;">
+          <img src="./images/header.png">
+          <img src="./images/apLogo.min.svg" style="width: 200px; height: 18px; margin-left: -444px;">
+        </div>
+        <div class="settings">
+          <form id="apConfig" action="javascript:;" onsubmit="applyAPSettings(this)">
+            <div class="permalink-container">
+              <div class="permalink-label">AP Server Address:</div>
+              <div class="permalink-input">
+                <input type="text" required name="host"/>
+              </div>
+            </div>
+            <div class="permalink-container">
+              <div class="permalink-label">Username:</div>
+              <div class="permalink-input">
+                <input type="text" required name="user"/>
+              </div>
+            </div>
+            <div class="permalink-container">
+              <div class="permalink-label">Password:</div>
+              <div class="permalink-input">
+                <input type="password" name="pass"/>
+              </div>
+            </div>
+            <div class="permalink-container">
+              <div>
+                <button type="submit">Apply AP Settings</button>
+              </div>
+            </div>
+          </form>
+          <form id="gameSettings"></form>
+          <input type="file" id="load-progress" accept=".json"/>
+          <div class="launcher-button-container" id="APLauncherButtons" style="display: none;">
+            <button class="launcher-button" type="button" onclick="open(
+              trackerLink(), '', 'width=1327,height=550,titlebar=0,menubar=0,toolbar=0'
+            )">Launch AP Tracker</button>
+            <button class="launcher-button" type="button" onclick="open(
+              trackerLink(true), '', 'width=1327,height=550,titlebar=0,menubar=0,toolbar=0'
+            )">Load From Autosave</button>
+            <button class="launcher-button" type="button" onclick="navigator.clipboard.writeText(trackerLink()), displayMessage(
+              'Successfuly copied the link to the clipboard! TIP: To load tracker progress, replace p=0 with p=1 in the tracker URL.'
+            )" title="Useful for recording a run with OBS +  Sharing the tracker in general depending on the AP host (Can't be localhost or 127.0.0.1)">Copy Tracker Link</button>
+          </div>
+          <div class="launcher-button-container" id="manualLauncherButtons">
+            <button class="launcher-button" type="button" onclick="open(
+              trackerLink(false, false), '', 'width=1327,height=550,titlebar=0,menubar=0,toolbar=0'
+            )">Launch New Tracker</button>
+            <button class="launcher-button" type="button" onclick="open(
+              trackerLink(true, false), '', 'width=1327,height=550,titlebar=0,menubar=0,toolbar=0'
+            )">Load From Autosave</button>
+            <button class="launcher-button" type="button" onclick="navigator.clipboard.writeText(trackerLink(false, false)), displayMessage(
+              'Successfuly copied the link to the clipboard! TIP: To load tracker progress, replace p=0 with p=1 in the tracker URL.'
+            )" title="Useful for recording a run with OBS +  Sharing the tracker in general">Copy Tracker Link</button>
+          </div>
+          <div class="launcher-button-container" id="manualLauncherButtons">
+            <button class="launcher-button" type="button" onclick="loadFromFile()">Load From File</button>
+          </div>
+        </div>
+        <div class="attribution">
+          AP Tracker is made by josephanimate2021. Current tracker is maintained by wooferzfg.<br>
+          <a href="https://github.com/josephanimate2021/twwr-ap-tracker/tree/old">AP Tracker Source Code</a><br>
+          <a href="https://github.com/wooferzfg/tww-rando-tracker">Current Tracker Source Code</a>
+        </div>
+      </div>
+    </div>
+  </body>
+</html>
